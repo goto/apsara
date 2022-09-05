@@ -1,17 +1,22 @@
-import { Meta, Preview, Canvas, Story, ArgsTable, IconGallery, IconItem } from "@storybook/addon-docs/blocks";
-import Input from "./Input";
-import Icon from "../Icon";
+import React, { useState } from 'react';
 
-export const sizes = [11, 12, 14, 15, 16, 18, 20, 22, 25, 28, 32, 36, 40, 50, 60];
+import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-<Meta
-    title="General/Input"
-    argTypes={{
+import Input from './Input';
+
+export default {
+    /* 👇 The title prop is optional.
+    * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
+    * to learn how to generate automatic titles
+    */
+    title: 'General/Input',
+    component: Input,
+    argTypes: {
         placeholder: {
             control: { type: "text" },
             table: {
                 type: { summary: "string" },
-                defaultValue: { summary: "Disabled with Placeholder" },
+                defaultValue: { summary: "" },
             },
         },
         value: {
@@ -69,46 +74,28 @@ export const sizes = [11, 12, 14, 15, 16, 18, 20, 22, 25, 28, 32, 36, 40, 50, 60
                 },
             },
         },
-    }}
-/>
+    }
+} as ComponentMeta<typeof Input>;
 
-# Inputs
+export const Placeholder: ComponentStory<typeof Input> = (args) =>
+    <Input
+        {...args}
+        placeholder="Sample Placeholder"
+    />
 
-<Canvas>
-    <Story
-        name="with placeholder"
-        args={{
-            placeholder: "Disabled with Placeholder",
-            disabled: false,
-        }}
-    >
-        {(args) => <Input {...args} />}
-    </Story>
-    <Story
-        name="with disabled"
-        args={{
-            placeholder: "Disabled with Placeholder",
-            disabled: true,
-        }}
-    >
-        {(args) => <Input {...args} />}
-    </Story>
-</Canvas>
+export const Disabled: ComponentStory<typeof Input> = (args) =>
+    <Input
+        {...args}
+        placeholder="Sample Placeholder"
+        disabled={true}
+    />
 
-<Preview>
-    <Story
-        name="Playground"
-        args={{
-            placeholder: "Disabled with Placeholder",
-            value: "",
-            disabled: false,
-            size: "middle",
-            allowClear: false,
-            suffix: "_imt",
-        }}
-    >
-        {(args) => <Input {...args} />}
-    </Story>
-</Preview>
-
-<ArgsTable story="Playground" />
+export const Playground: ComponentStory<typeof Input> = (args) => {
+    const [value, setValue] = useState('')
+    
+    return <Input
+        {...args}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+    />
+}

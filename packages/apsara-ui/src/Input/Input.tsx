@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import StyledWrapper, { TextAreaWrapper } from "./Input.styles";
 
 type InputProps = {
@@ -6,11 +6,11 @@ type InputProps = {
     allowClear?: boolean;
     suffix?: React.ReactNode;
     prefix?: React.ReactNode;
-} & Omit<React.HTMLProps<HTMLInputElement>, "size" | "prefix">;
+} & Omit<JSX.IntrinsicElements["input"], "size" | "prefix">;
 
 type TextAreaProps = {
     size?: "small" | "middle" | "large";
-} & Omit<React.HTMLProps<HTMLTextAreaElement>, "size">;
+} & Omit<JSX.IntrinsicElements["textarea"], "size">;
 
 const Input = ({
     suffix,
@@ -24,24 +24,29 @@ const Input = ({
     ...props
 }: InputProps) => {
     const [val, setVal] = useState(value);
-    const [ref, setRef] = useState<HTMLInputElement | null>(null);
+
+    const inputRef = useRef<HTMLInputElement>(null)
 
     useEffect(() => {
         setVal(value);
     }, [value]);
 
-    const onValueChange = (e: any) => {
+    const onValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         onChange ? onChange(e) : setVal(e.target.value);
     };
+
+    const clearValue = () => {
+        setVal("");
+        onValueChange({ target: { value: '' }} as React.ChangeEvent<HTMLInputElement>)
+        inputRef.current?.focus();
+    }
 
     return (
         <StyledWrapper size={size} disabled={props.disabled} style={props.style} className={props.className}>
             {prefix != "" && prefix != null && <span className="input_suffix_prefix">{prefix}</span>}
             <div className="input_close_icon_wrapper">
                 <input
-                    ref={(input) => {
-                        setRef(input);
-                    }}
+                    ref={inputRef}
                     onChange={onValueChange}
                     value={val}
                     type={type ? type : "text"}
@@ -51,11 +56,7 @@ const Input = ({
                 />
                 {val && allowClear && !props.disabled && (
                     <span
-                        onClick={() => {
-                            setVal("");
-                            onValueChange({ target: { value: "" } });
-                            ref?.focus();
-                        }}
+                        onClick={clearValue}
                         className="input_close_icon"
                     >
                         x
