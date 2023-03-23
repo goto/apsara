@@ -92,7 +92,7 @@ const Filters = ({ filteredFieldData, label = "Filters", disabled = false, ...pr
                 </span>
             </PopoverTrigger>
             <PopoverPrimitive.Portal>
-                <StyledContent side="bottom" align="end" className="testClass">
+                <StyledContent side="bottom" align="end">
                     {renderFilterList({ filteredFieldData, filteredFieldDataLength, ...props })}
                     <StyledArrow />
                 </StyledContent>
