@@ -112,8 +112,9 @@ export const StyledTooltip = styled("span")<{
         color: white;
         padding: 4px 8px;
         width: max-content;
+        max-width: 250px;
         border-radius: 2px;
-        text-align: center;
+        text-align: left;
         background-color: var(--tooltip-color);
     }
 
