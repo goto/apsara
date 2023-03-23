@@ -26,7 +26,7 @@ const renderFilterList = ({
     onApplyClick,
 }: any) => {
     return (
-        <FilterPopup className="filterPopup">
+        <FilterPopup>
             <FilterBody>
                 {filterFieldList.map((group: any) =>
                     renderFilterBodyColumn({ group, filteredFieldData, onGroupFilter }),
