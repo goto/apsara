@@ -1,39 +1,34 @@
 import React, { HTMLAttributes } from "react";
-import { StyledTooltip } from "./Tooltip.styles";
+import * as RadixTooltip from "@radix-ui/react-tooltip";
+import { TooltipContentWrapper } from "./Tooltip.styles";
 
 type RenderFunction = () => React.ReactNode;
 
+export type TooltipPlacement = "left" | "right" | "top" | "bottom";
+
 export type TooltipProps = {
     title?: React.ReactNode | RenderFunction | string;
-    placement?:
-        | "left"
-        | "right"
-        | "top"
-        | "bottom"
-        | "rightTop"
-        | "rightBottom"
-        | "leftTop"
-        | "leftBottom"
-        | "topLeft"
-        | "topRight"
-        | "bottomLeft"
-        | "bottomRight";
+    placement?: TooltipPlacement;
     color?: string;
-    arrowSize?: string;
 } & HTMLAttributes<HTMLDivElement>;
 
-const Tooltip = ({
-    title = "",
-    placement = "top",
-    color = "#333",
-    children,
-    arrowSize = "5px",
-    ...props
-}: TooltipProps) => {
+const Tooltip = ({ title = "", placement = "right", color = "#333", children, ...props }: TooltipProps) => {
     return (
-        <StyledTooltip data-tooltip={title} placement={placement} color={color} arrowSize={arrowSize} {...props}>
-            {children}
-        </StyledTooltip>
+        <RadixTooltip.Provider delayDuration={100}>
+            <RadixTooltip.Root>
+                <RadixTooltip.Trigger asChild>
+                    <span>{children}</span>
+                </RadixTooltip.Trigger>
+                <RadixTooltip.Portal>
+                    <TooltipContentWrapper color={color}>
+                        <RadixTooltip.Content className="TooltipContent" sideOffset={5} side={placement} {...props}>
+                            {title}
+                            <RadixTooltip.Arrow className="TooltipArrow" />
+                        </RadixTooltip.Content>
+                    </TooltipContentWrapper>
+                </RadixTooltip.Portal>
+            </RadixTooltip.Root>
+        </RadixTooltip.Provider>
     );
 };
 
