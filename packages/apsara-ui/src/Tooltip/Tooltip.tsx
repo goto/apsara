@@ -9,10 +9,16 @@ export type TooltipPlacement = "left" | "right" | "top" | "bottom";
 export type TooltipProps = {
     title?: React.ReactNode | RenderFunction | string;
     placement?: TooltipPlacement;
-    color?: string;
+    style?: React.CSSProperties;
 } & HTMLAttributes<HTMLDivElement>;
 
-const Tooltip = ({ title = "", placement = "right", color = "#333", children, ...props }: TooltipProps) => {
+const Tooltip = ({
+    title = "",
+    placement = "right",
+    style = { backgroundColor: "#333", color: "white" },
+    children,
+    ...props
+}: TooltipProps) => {
     return (
         <RadixTooltip.Provider delayDuration={100}>
             <RadixTooltip.Root>
@@ -20,7 +26,7 @@ const Tooltip = ({ title = "", placement = "right", color = "#333", children, ..
                     <span>{children}</span>
                 </RadixTooltip.Trigger>
                 <RadixTooltip.Portal>
-                    <TooltipContentWrapper color={color}>
+                    <TooltipContentWrapper style={style}>
                         <RadixTooltip.Content className="TooltipContent" sideOffset={5} side={placement} {...props}>
                             {title}
                             <RadixTooltip.Arrow className="TooltipArrow" />
