@@ -46,6 +46,7 @@ const Button = ({
         <StyledButton role="button" type={type} size={size} block={block} shape={shape}>
             {!href && (
                 <button
+                    type="button"
                     disabled={disabled}
                     onClick={(e) => {
                         onClick(e);
