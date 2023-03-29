@@ -27,6 +27,7 @@ const Button = ({
     shape = "round",
     onClick = () => null,
     href = "",
+    htmlType = "button",
     ...props
 }: CustomButtonProps) => {
     const IconComponent = () => {
@@ -46,7 +47,7 @@ const Button = ({
         <StyledButton role="button" type={type} size={size} block={block} shape={shape}>
             {!href && (
                 <button
-                    type="button"
+                    type={htmlType || "button"}
                     disabled={disabled}
                     onClick={(e) => {
                         onClick(e);
