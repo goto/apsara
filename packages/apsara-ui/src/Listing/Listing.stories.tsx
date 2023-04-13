@@ -22,7 +22,7 @@ export const listing = () => (
     <Listing
         loading={false}
         sortable
-        prefilledSearchTerm="name 1"
+        defaultSearchTerm="name 1"
         list={new Array(100).fill(0).map((_, index) => {
             return {
                 id: index,

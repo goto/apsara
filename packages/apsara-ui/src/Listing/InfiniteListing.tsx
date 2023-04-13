@@ -34,7 +34,7 @@ interface InfiniteListingProps {
     onSearch?: (data: ILoadMoreProps) => void | null;
     onFilter?: (data: ILoadMoreProps) => void | null;
     onApply?: (data: ILoadMoreProps) => void | null;
-    prefilledSearchTerm?: string;
+    defaultSearchTerm?: string;
 }
 
 const InfiniteListing = ({
@@ -54,7 +54,7 @@ const InfiniteListing = ({
     loadMore = () => null,
     onSearch = () => null,
     onFilter = () => null,
-    prefilledSearchTerm = "",
+    defaultSearchTerm = "",
 }: InfiniteListingProps) => {
     const { getColumnList = () => [], handleRowClick = () => ({}), selectedRowId, ...extraTableProps } = tableProps;
     const { filterFieldList = [] } = filterProps;
@@ -67,7 +67,7 @@ const InfiniteListing = ({
         setSortedInfo,
         onGroupFilter,
         onClearGroupFilter,
-    } = useSearchFilterState(prefilledSearchTerm);
+    } = useSearchFilterState(defaultSearchTerm);
     const { disabled = false, searchPlaceholder, ...extraSearchProps } = searchProps || {};
     const currFilterState = { nextPage: page + 1, search: searchTerm, filters: filteredFieldData };
 

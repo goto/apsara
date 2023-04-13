@@ -21,7 +21,7 @@ const Listing = ({
     calculateColumnWidth,
     rowClick,
     sortable = false,
-    prefilledSearchTerm = "",
+    defaultSearchTerm = "",
 }: ListingProps) => {
     const { getColumnList = () => [], selectedRowId, ...extraTableProps } = tableProps;
     const { searchFields = [], disabled = false, searchPlaceholder, ...extraSearchProps } = searchProps;
@@ -34,7 +34,7 @@ const Listing = ({
         onClearGroupFilter,
         filteredList,
         filteredFieldData,
-    } = useSearchFilter({ list, searchFields, prefilledSearchTerm });
+    } = useSearchFilter({ list, searchFields, defaultSearchTerm });
     const columns = getColumnList(resourcePath, sortedInfo);
     if (!renderHeader) {
         renderHeader = (

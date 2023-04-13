@@ -29,9 +29,14 @@ const renderFilterList = ({
     return (
         <FilterPopup>
             <FilterBody>
-                {filterFieldList.map((group: any) =>
-                    renderFilterBodyColumn({ group, filteredFieldData, onGroupFilter, open }),
-                )}
+                {filterFieldList.map((group: any) => (
+                    <RenderFilterBodyColumn
+                        group={group}
+                        filteredFieldData={filteredFieldData}
+                        onGroupFilter={onGroupFilter}
+                        open={open}
+                    />
+                ))}
             </FilterBody>
             <FilterFooter>
                 <span onClick={onClearGroupFilter} className={`clear-btn ${filteredFieldDataLength ? "" : "disabled"}`}>
@@ -47,7 +52,7 @@ const renderFilterList = ({
     );
 };
 
-const renderFilterBodyColumn = ({ group, filteredFieldData, onGroupFilter, open }: any) => {
+const RenderFilterBodyColumn = ({ group, filteredFieldData, onGroupFilter, open }: any) => {
     const [filterSearch, setFilterSearch] = useState("");
 
     useEffect(() => {
