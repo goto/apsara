@@ -25,6 +25,7 @@ export interface ListingProps {
     calculateColumnWidth?: any;
     rowClick?: (props: any) => any;
     sortable?: boolean;
+    prefilledSearchTerm?: string;
 }
 
 export interface IGroupOptions {

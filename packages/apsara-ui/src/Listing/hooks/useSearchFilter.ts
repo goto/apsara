@@ -3,9 +3,9 @@ import { getFilterList } from "../helpers";
 import * as R from "ramda";
 import { IGroupOptions } from "../Listing.types";
 
-export const useSearchFilterState = () => {
+export const useSearchFilterState = (prefilledSearchTerm: string) => {
     const [filteredFieldData, setFilteredFieldData] = useState({});
-    const [searchTerm, setSearchTerm] = useState("");
+    const [searchTerm, setSearchTerm] = useState(prefilledSearchTerm);
     const [sortedInfo, setSortedInfo] = useState({});
 
     const onGroupFilter = (group: IGroupOptions, filteredArr: any) => {
@@ -29,7 +29,7 @@ export const useSearchFilterState = () => {
     };
 };
 
-export default function useSearchFilter({ list, searchFields = [] }: any) {
+export default function useSearchFilter({ list, searchFields = [], prefilledSearchTerm }: any) {
     const {
         sortedInfo,
         searchTerm,
@@ -38,7 +38,7 @@ export default function useSearchFilter({ list, searchFields = [] }: any) {
         setSortedInfo,
         onGroupFilter,
         onClearGroupFilter,
-    } = useSearchFilterState();
+    } = useSearchFilterState(prefilledSearchTerm);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const filteredList = useCallback(getFilterList(list, filteredFieldData, searchTerm, searchFields), [

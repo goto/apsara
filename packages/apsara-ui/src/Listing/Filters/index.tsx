@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CaretDownIcon, CaretUpIcon } from "@radix-ui/react-icons";
 import Checkbox from "../../Checkbox";
 import { PopoverTrigger, StyledArrow, StyledContent, StyledPopover } from "../../Popover/Popover.styles";
@@ -24,12 +24,13 @@ const renderFilterList = ({
     onGroupFilter,
     onClearGroupFilter,
     onApplyClick,
+    open,
 }: any) => {
     return (
         <FilterPopup>
             <FilterBody>
                 {filterFieldList.map((group: any) =>
-                    renderFilterBodyColumn({ group, filteredFieldData, onGroupFilter }),
+                    renderFilterBodyColumn({ group, filteredFieldData, onGroupFilter, open }),
                 )}
             </FilterBody>
             <FilterFooter>
@@ -46,8 +47,13 @@ const renderFilterList = ({
     );
 };
 
-const renderFilterBodyColumn = ({ group, filteredFieldData, onGroupFilter }: any) => {
+const renderFilterBodyColumn = ({ group, filteredFieldData, onGroupFilter, open }: any) => {
     const [filterSearch, setFilterSearch] = useState("");
+
+    useEffect(() => {
+        setFilterSearch("");
+    }, [open]);
+
     return (
         <FilterColumn key={group.name}>
             <FilterTitle>{group.name}</FilterTitle>
@@ -93,7 +99,7 @@ const Filters = ({ filteredFieldData, label = "Filters", disabled = false, ...pr
             </PopoverTrigger>
             <PopoverPrimitive.Portal>
                 <StyledContent side="bottom" align="end">
-                    {renderFilterList({ filteredFieldData, filteredFieldDataLength, ...props })}
+                    {renderFilterList({ filteredFieldData, filteredFieldDataLength, open, ...props })}
                     <StyledArrow />
                 </StyledContent>
             </PopoverPrimitive.Portal>
