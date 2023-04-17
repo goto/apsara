@@ -22,7 +22,7 @@ const Listing = ({
     rowClick,
     sortable = false,
     defaultSearchTerm = "",
-    setUrlState,
+    onChangeCallback,
 }: ListingProps) => {
     const { getColumnList = () => [], selectedRowId, ...extraTableProps } = tableProps;
     const { searchFields = [], disabled = false, searchPlaceholder, ...extraSearchProps } = searchProps;
@@ -41,7 +41,7 @@ const Listing = ({
         renderHeader = (
             <ListingSearch
                 onChange={({ target: { value } }: any) => {
-                    setUrlState && setUrlState({ q: value });
+                    onChangeCallback && onChangeCallback(value);
                     return setSearchTerm(value);
                 }}
                 value={searchTerm}

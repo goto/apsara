@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { getFilterList } from "../helpers";
 import * as R from "ramda";
 import { IGroupOptions } from "../Listing.types";
@@ -7,6 +7,10 @@ export const useSearchFilterState = (defaultSearchTerm: string) => {
     const [filteredFieldData, setFilteredFieldData] = useState({});
     const [searchTerm, setSearchTerm] = useState(defaultSearchTerm);
     const [sortedInfo, setSortedInfo] = useState({});
+
+    useEffect(() => {
+        setSearchTerm(defaultSearchTerm);
+    }, [defaultSearchTerm]);
 
     const onGroupFilter = (group: IGroupOptions, filteredArr: any) => {
         const { slug, multi = true } = group;
