@@ -26,6 +26,7 @@ export interface ListingProps {
     rowClick?: (props: any) => any;
     sortable?: boolean;
     defaultSearchTerm?: string;
+    setUrlState?: any;
 }
 
 export interface IGroupOptions {
