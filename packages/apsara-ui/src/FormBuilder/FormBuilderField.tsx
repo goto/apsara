@@ -109,7 +109,7 @@ const FormBuilderField = ({
     return <Input type={widgetType} {...props} />;
 };
 
-const translateSwitchValue = (value: string|boolean) => {
+const translateSwitchValue = (value: string | boolean | 0 | 1) => {
     switch (typeof value) {
         case "string":
             return value === "true" ? true : false;
@@ -120,7 +120,7 @@ const translateSwitchValue = (value: string|boolean) => {
         default:
             return false;
     }
-}
+};
 
 FormBuilderField.defaultProps = {
     rows: 6,
