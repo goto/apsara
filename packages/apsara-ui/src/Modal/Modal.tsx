@@ -24,7 +24,7 @@ const Modal = ({
     maskStyle = { background: "rgba(0 0 0 / 0.5);" },
 }: ModalProps) => {
     return (
-        <Dialog.Root open={open} onOpenChange={closable ? onClose : () => {}}>
+        <Dialog.Root open={open} onOpenChange={closable ? onClose : () => ({})}>
             <Dialog.Portal>
                 <Overlay style={maskStyle}>
                     <Content style={{ width: `${width}` }}>

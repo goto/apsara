@@ -71,7 +71,7 @@ function VirtualisedTable({
         onSortingChange: setSorting,
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
-        debugTable: true,
+        debugTable: false,
     });
 
     const { rows } = table.getRowModel();
