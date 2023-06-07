@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { textStyles } from "../mixin";
 
 export const StyledTable = styled.div`
+    padding-bottom: 30px;
     table {
         background: transparent;
         background-color: ${({ theme }) => theme?.table?.bg};
