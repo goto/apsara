@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import StyledWrapper, { TextAreaWrapper } from "./Input.styles";
 
 export type InputProps = {
@@ -23,15 +23,11 @@ const Input = ({
     value,
     ...props
 }: InputProps) => {
-    const [val, setVal] = useState(value);
     const [ref, setRef] = useState<HTMLInputElement | null>(null);
-
-    useEffect(() => {
-        setVal(value);
-    }, [value]);
+    const renderClearButton = value && allowClear && !props.disabled;
 
     const onValueChange = (e: any) => {
-        onChange ? onChange(e) : setVal(e.target.value);
+        onChange && onChange(e);
     };
 
     return (
@@ -42,18 +38,17 @@ const Input = ({
                     ref={(input) => {
                         setRef(input);
                     }}
-                    onChange={onValueChange}
-                    value={val}
+                    onChange={(e) => onValueChange(e)}
+                    value={value}
                     type={type ? type : "text"}
                     placeholder={placeholder}
                     {...props}
                     className="input_main"
                 />
-                {val && allowClear && !props.disabled && (
+                {renderClearButton && (
                     <span
                         onClick={() => {
-                            setVal("");
-                            onValueChange({ target: { value: "" } });
+                            onValueChange({ currentTarget: { value: "" } });
                             ref?.focus();
                         }}
                         className="input_close_icon"
