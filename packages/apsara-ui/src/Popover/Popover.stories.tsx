@@ -12,8 +12,8 @@ export default {
 
 export const popoverContent = () => {
     const [val, setVal] = useState<string | number | readonly string[] | undefined>("");
-    const onChange: React.FormEventHandler<HTMLInputElement> = (event) => {
-        setVal(event.currentTarget.value);
+    const onChange: React.FormEventHandler<HTMLInputElement> = (event: any) => {
+        setVal(event.target.value);
     };
     return (
         <>
@@ -42,8 +42,8 @@ export const popoverContent = () => {
 export const popoverContentParam = () => {
     const [open, setOpen] = useState(false);
     const [val, setVal] = useState<string | number | readonly string[] | undefined>("");
-    const onChange: React.FormEventHandler<HTMLInputElement> = (event) => {
-        setVal(event.currentTarget.value);
+    const onChange: React.FormEventHandler<HTMLInputElement> = (event: any) => {
+        setVal(event.target.value);
     };
     return (
         <>

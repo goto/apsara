@@ -9,8 +9,8 @@ export default {
 
 export const withValue = () => {
     const [val, setVal] = useState<string>("12345");
-    const onChange: React.FormEventHandler<HTMLInputElement> = (event) => {
-        setVal(event.currentTarget.value);
+    const onChange: React.FormEventHandler<HTMLInputElement> = (event: any) => {
+        setVal(event.target.value);
     };
 
     const args: SearchProps = {
@@ -22,8 +22,8 @@ export const withValue = () => {
 
 export const withoutValue = () => {
     const [val, setVal] = useState<string>("");
-    const onChange: React.FormEventHandler<HTMLInputElement> = (event) => {
-        setVal(event.currentTarget.value);
+    const onChange: React.FormEventHandler<HTMLInputElement> = (event: any) => {
+        setVal(event.target.value);
     };
 
     const args: SearchProps = {

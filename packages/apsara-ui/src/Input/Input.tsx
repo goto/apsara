@@ -38,7 +38,7 @@ const Input = ({
                     ref={(input) => {
                         setRef(input);
                     }}
-                    onChange={(e) => onValueChange(e)}
+                    onChange={onValueChange}
                     value={value}
                     type={type ? type : "text"}
                     placeholder={placeholder}

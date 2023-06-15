@@ -9,8 +9,8 @@ export default {
 
 export const inputWithPlaceholder = () => {
     const [val, setVal] = useState<string | number | readonly string[] | undefined>("");
-    const onChange: React.FormEventHandler<HTMLInputElement> = (event) => {
-        setVal(event.currentTarget.value);
+    const onChange: React.FormEventHandler<HTMLInputElement> = (event: any) => {
+        setVal(event.target.value);
     };
 
     const args: InputProps = {
@@ -39,8 +39,8 @@ export const disabledWithPlaceholder = () => {
 
 export const inputWithSuffix = () => {
     const [val, setVal] = useState<string | number | readonly string[] | undefined>("");
-    const onChange: React.FormEventHandler<HTMLInputElement> = (event) => {
-        setVal(event.currentTarget.value);
+    const onChange: React.FormEventHandler<HTMLInputElement> = (event: any) => {
+        setVal(event.target.value);
     };
 
     const args: InputProps = {
