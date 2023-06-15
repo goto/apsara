@@ -24,8 +24,8 @@ export const inputWithPlaceholder = () => {
 
 export const disabledWithPlaceholder = () => {
     const [val, setVal] = useState<string | number | readonly string[] | undefined>("");
-    const onChange: React.FormEventHandler<HTMLInputElement> = (event) => {
-        setVal(event.currentTarget.value);
+    const onChange: React.FormEventHandler<HTMLInputElement> = (event: any) => {
+        setVal(event.target.value);
     };
 
     const args: InputProps = {

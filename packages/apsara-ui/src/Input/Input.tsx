@@ -48,7 +48,7 @@ const Input = ({
                 {renderClearButton && (
                     <span
                         onClick={() => {
-                            onValueChange({ currentTarget: { value: "" } });
+                            onValueChange({ target: { value: "" } });
                             ref?.focus();
                         }}
                         className="input_close_icon"
