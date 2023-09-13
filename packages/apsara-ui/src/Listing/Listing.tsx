@@ -6,7 +6,7 @@ import useSearchFilter from "./hooks/useSearchFilter";
 import { ListingProps } from "./Listing.types";
 import { ListingSearch, ListingWrapper } from "./Listing.styles";
 
-const Listing = ({
+function Listing<T> ({
     rowKey,
     className = "",
     list = [],
@@ -24,7 +24,7 @@ const Listing = ({
     defaultSearchTerm = "",
     onChangeCallback,
     loading = false,
-}: ListingProps) => {
+}: ListingProps<T>) {
     const { getColumnList = () => [], selectedRowId, ...extraTableProps } = tableProps;
     const { searchFields = [], disabled = false, searchPlaceholder, ...extraSearchProps } = searchProps;
     const { filterFieldList } = filterProps;

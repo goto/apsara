@@ -1,33 +1,43 @@
 import { IVirtualTable } from "../Table/VirtualisedTable";
-export interface ListingProps {
-    list?: any[];
+
+type Column<T> = {
+    title: string;
+    sorter?: (a: T, b: T) => number;
+    sortOrder?: any;
+    ellipsis?: boolean;
+    width?: number;
+    render?: React.ReactNode | null;
+  };
+
+  export interface ListingProps<T> {
+    list?: T[];
     loading?: boolean;
     resourceName?: string;
     resourcePath?: string;
     rowKey?: string;
     className?: string;
     tableProps?: {
-        getColumnList?: any;
-        handleRowClick?: (event: any, rowIndexData: any) => void;
-        selectedRowId?: number;
-        scroll?: any;
+      getColumnList?: (path: string, sortedInfo: any) => Column<T>[];
+      handleRowClick?: (event: any, rowIndexData: any) => void;
+      selectedRowId?: number;
+      scroll?: any;
     } & Omit<IVirtualTable, "columns" | "items">;
     filterProps?: { filterFieldList?: IGroupOptions[] };
     searchProps?: {
-        searchPlaceholder?: string;
-        searchFields?: any[];
-        disabled?: boolean;
+      searchPlaceholder?: string;
+      searchFields?: string[];
+      disabled?: boolean;
     };
-    renderExtraFilters?: any;
-    renderHeader?: any;
-    renderBody?: any;
-    calculateRowHeight?: any;
-    calculateColumnWidth?: any;
+    renderExtraFilters?: React.ReactNode | null;
+    renderHeader?: React.ReactNode | null;
+    renderBody?: React.ReactNode | null;
+    calculateRowHeight?: (data: T) => number;
+    calculateColumnWidth?: (data: T) => number;
     rowClick?: (props: any) => any;
     sortable?: boolean;
     defaultSearchTerm?: string;
     onChangeCallback?: (props: any) => void;
-}
+  }
 
 export interface IGroupOptions {
     name: string;
