@@ -31,7 +31,7 @@ interface ITableProps {
 export type Column<T> = {
     key: string;
     title: string;
-    dataIndex: number;
+    dataIndex: string;
     sorter?: (a: T, b: T) => number;
     sortOrder?: any;
     ellipsis?: boolean;

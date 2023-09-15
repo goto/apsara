@@ -1,6 +1,6 @@
 import { IVirtualTable } from "../Table/VirtualisedTable";
 import { Column } from "../TableV2/VirtualisedTable";
-  export interface ListingProps<T> {
+export interface ListingProps<T> {
     list?: T[];
     loading?: boolean;
     resourceName?: string;
@@ -8,15 +8,15 @@ import { Column } from "../TableV2/VirtualisedTable";
     rowKey?: string;
     className?: string;
     tableProps?: {
-      getColumnList?: (path: string, sortedInfo: any) => Column<T>[];
-      selectedRowId?: number;
-      scroll?: any;
+        getColumnList?: (path: string, sortedInfo: any) => Column<T>[];
+        selectedRowId?: number;
+        scroll?: any;
     } & Omit<IVirtualTable, "columns" | "items">;
     filterProps?: { filterFieldList?: IGroupOptions[] };
     searchProps?: {
-      searchPlaceholder?: string;
-      searchFields?: string[];
-      disabled?: boolean;
+        searchPlaceholder?: string;
+        searchFields?: string[];
+        disabled?: boolean;
     };
     renderExtraFilters?: React.ReactNode | null;
     renderHeader?: React.ReactNode | null;
@@ -25,7 +25,7 @@ import { Column } from "../TableV2/VirtualisedTable";
     sortable?: boolean;
     defaultSearchTerm?: string;
     onChangeCallback?: (props: any) => void;
-};
+}
 
 export interface IGroupOptions {
     name: string;

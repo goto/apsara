@@ -6,7 +6,7 @@ import useSearchFilter from "./hooks/useSearchFilter";
 import { ListingProps } from "./Listing.types";
 import { ListingSearch, ListingWrapper } from "./Listing.styles";
 
-function Listing<T> ({
+function Listing<T>({
     className = "",
     list = [],
     filterProps = {},
@@ -22,7 +22,7 @@ function Listing<T> ({
     onChangeCallback,
     loading = false,
 }: ListingProps<T>) {
-    const { getColumnList = () => [], selectedRowId } = tableProps;
+    const { getColumnList = () => [], selectedRowId, ...extraTableProps } = tableProps;
     const { searchFields = [], disabled = false, searchPlaceholder } = searchProps;
     const { filterFieldList } = filterProps;
     const {
@@ -68,6 +68,7 @@ function Listing<T> ({
                 selectedRowId={selectedRowId}
                 rowClick={rowClick}
                 sortable={sortable}
+                {...extraTableProps}
                 loading={loading}
             />
         );
@@ -78,6 +79,6 @@ function Listing<T> ({
             {renderBody}
         </ListingWrapper>
     );
-};
+}
 
 export default Listing;
