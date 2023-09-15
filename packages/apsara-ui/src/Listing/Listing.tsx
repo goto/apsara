@@ -7,7 +7,6 @@ import { ListingProps } from "./Listing.types";
 import { ListingSearch, ListingWrapper } from "./Listing.styles";
 
 function Listing<T> ({
-    rowKey,
     className = "",
     list = [],
     filterProps = {},
@@ -17,16 +16,14 @@ function Listing<T> ({
     renderBody = null,
     renderExtraFilters = null,
     resourcePath = "/",
-    calculateRowHeight,
-    calculateColumnWidth,
     rowClick,
     sortable = false,
     defaultSearchTerm = "",
     onChangeCallback,
     loading = false,
 }: ListingProps<T>) {
-    const { getColumnList = () => [], selectedRowId, ...extraTableProps } = tableProps;
-    const { searchFields = [], disabled = false, searchPlaceholder, ...extraSearchProps } = searchProps;
+    const { getColumnList = () => [], selectedRowId } = tableProps;
+    const { searchFields = [], disabled = false, searchPlaceholder } = searchProps;
     const { filterFieldList } = filterProps;
     const {
         searchTerm,
@@ -48,7 +45,6 @@ function Listing<T> ({
                 value={searchTerm}
                 placeholder={searchPlaceholder}
                 disabled={disabled}
-                {...extraSearchProps}
             >
                 {filterFieldList && (
                     <Filters
@@ -69,13 +65,9 @@ function Listing<T> ({
             <VirtualisedTable
                 items={filteredList}
                 columnsData={columns}
-                rowKey={rowKey}
                 selectedRowId={selectedRowId}
                 rowClick={rowClick}
-                calculateRowHeight={calculateRowHeight}
-                calculateColumnWidth={calculateColumnWidth}
                 sortable={sortable}
-                {...extraTableProps}
                 loading={loading}
             />
         );

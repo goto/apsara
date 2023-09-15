@@ -28,6 +28,17 @@ interface ITableProps {
     loading?: boolean;
 }
 
+export type Column<T> = {
+    key: string;
+    title: string;
+    dataIndex: number;
+    sorter?: (a: T, b: T) => number;
+    sortOrder?: any;
+    ellipsis?: boolean;
+    width?: number;
+    render?: React.ReactNode | null;
+};
+
 function VirtualisedTable({
     columnsData,
     sortable = false,
