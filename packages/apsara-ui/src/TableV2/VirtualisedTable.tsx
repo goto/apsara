@@ -13,6 +13,7 @@ import { StyledEmpty } from "../TableV2/Table.styles";
 import { useVirtual } from "react-virtual";
 import { ListSkeleton } from "../Skeleton";
 import Empty from "./Empty";
+import { SortOrder, SorterResult } from "../Table/TableProps";
 
 interface ITableProps {
     selectedRowId?: number | null;
@@ -28,15 +29,17 @@ interface ITableProps {
     loading?: boolean;
 }
 
+type RenderFunction<T, U = T> = (props: { row: { original: U } }) => any;
+
 export type Column<T> = {
-    key: string;
-    title: string;
-    dataIndex: string;
-    sorter?: (a: T, b: T) => number;
-    sortOrder?: any;
+    key?: string | undefined;
+    title?: string;
+    dataIndex?: string;
+    sorter?: (a: any, b: any) => number;
+    sortOrder?: (sortedInfo: SorterResult<T>, key: string | number) => SortOrder;
     ellipsis?: boolean;
     width?: number;
-    render?: React.ReactNode | null;
+    render?: RenderFunction<T>;
 };
 
 function VirtualisedTable({

@@ -16,6 +16,8 @@ function Listing<T>({
     renderBody = null,
     renderExtraFilters = null,
     resourcePath = "/",
+    calculateRowHeight,
+    calculateColumnWidth,
     rowClick,
     sortable = false,
     defaultSearchTerm = "",
@@ -67,6 +69,8 @@ function Listing<T>({
                 columnsData={columns}
                 selectedRowId={selectedRowId}
                 rowClick={rowClick}
+                calculateRowHeight={calculateRowHeight}
+                calculateColumnWidth={calculateColumnWidth}
                 sortable={sortable}
                 {...extraTableProps}
                 loading={loading}

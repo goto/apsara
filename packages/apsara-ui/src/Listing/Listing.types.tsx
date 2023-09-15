@@ -1,5 +1,9 @@
+import { SorterResult } from "../Table/TableProps";
 import { IVirtualTable } from "../Table/VirtualisedTable";
 import { Column } from "../TableV2/VirtualisedTable";
+
+export type ColumnRenderFunc<T> = (path: string, sortedInfo: SorterResult<T>) => Column<T>[];
+
 export interface ListingProps<T> {
     list?: T[];
     loading?: boolean;
@@ -8,7 +12,7 @@ export interface ListingProps<T> {
     rowKey?: string;
     className?: string;
     tableProps?: {
-        getColumnList?: (path: string, sortedInfo: any) => Column<T>[];
+        getColumnList?: ColumnRenderFunc<T> | undefined;
         selectedRowId?: number;
         scroll?: any;
     } & Omit<IVirtualTable, "columns" | "items">;
@@ -18,9 +22,11 @@ export interface ListingProps<T> {
         searchFields?: string[];
         disabled?: boolean;
     };
-    renderExtraFilters?: React.ReactNode | null;
-    renderHeader?: React.ReactNode | null;
-    renderBody?: React.ReactNode | null;
+    calculateRowHeight?: (index: number, defaultRowHeight: number) => number;
+    calculateColumnWidth?: (index: number, defaultColumnWidth: number) => number;
+    renderExtraFilters?: React.ReactNode;
+    renderHeader?: React.ReactNode;
+    renderBody?: React.ReactNode;
     rowClick?: (props: any) => any;
     sortable?: boolean;
     defaultSearchTerm?: string;
