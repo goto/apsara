@@ -12,7 +12,7 @@ export interface ListingProps<T> {
     rowKey?: string;
     className?: string;
     tableProps?: {
-        getColumnList?: ColumnRenderFunc<T> | undefined;
+        getColumnList?: ColumnRenderFunc<T>;
         selectedRowId?: number;
         scroll?: any;
     } & Omit<IVirtualTable, "columns" | "items">;
