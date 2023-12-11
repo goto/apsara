@@ -20,7 +20,7 @@ function getData(page = 1): User[] {
         return {
             key: index,
             name: `name ${index}`,
-            status: index%2 ? "active" : "inactive",
+            status: index % 2 ? "active" : "inactive",
             age: index,
             address: `A${index} Downing Street`,
         };
