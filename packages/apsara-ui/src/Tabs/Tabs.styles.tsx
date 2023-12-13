@@ -6,9 +6,10 @@ const StyledTabs = styled(TabsPrimitive.Root)`
     display: flex;
     flex-direction: column;
     width: 100%;
+    height: 80%;
     [role="tabpanel"] {
         overflow-y: auto;
-        height: calc(100% - 0px);
+        height: 100%
     }
 `;
 
