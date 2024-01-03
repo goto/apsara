@@ -27,59 +27,58 @@ function getData(page = 1): User[] {
     });
 }
 
-const data = getData(1);
-
 export const listing = () => (
-    <Listing<User>
-        loading={false}
-        sortable
-        defaultSearchTerm="name 1"
-        list={data}
-        tableProps={{
-            getColumnList: () => {
-                return [
-                    {
-                        title: "Name",
-                        key: "name",
-                        render: ({ row: { original } }) => original.name,
-                    },
-                    {
-                        title: "Status",
-                        key: "status",
-                        render: ({ row: { original } }) => original.status,
-                    },
-                    {
-                        title: "Age",
-                        key: "age",
-                        render: ({ row: { original } }) => original.age,
-                    },
-                    {
-                        title: "Address",
-                        key: "address",
-                        render: ({ row: { original } }) => original.address,
-                    },
-                ];
-            },
-            scroll: { y: 300, x: "100vw" },
-        }}
-        filterProps={{
-            filterFieldList: [
-                {
-                    name: "Status",
-                    data: [
-                        { label: "Active", value: "active" },
-                        { label: "Inactive", value: "inactive" },
-                    ],
-                    slug: "status",
-                    multi: true,
+    <div style={{ height: '720px' }}>
+        <h4>Listing</h4>
+        <Listing<User>
+            loading={false}
+            sortable
+            defaultSearchTerm="name 1"
+            list={getData(2)}
+            tableProps={{
+                getColumnList: () => {
+                    return [
+                        {
+                            title: "Name",
+                            key: "name",
+                            render: ({ row: { original } }) => original.name,
+                        },
+                        {
+                            title: "Status",
+                            key: "status",
+                            render: ({ row: { original } }) => original.status,
+                        },
+                        {
+                            title: "Age",
+                            key: "age",
+                            render: ({ row: { original } }) => original.age,
+                        },
+                        {
+                            title: "Address",
+                            key: "address",
+                            render: ({ row: { original } }) => original.address,
+                        },
+                    ];
                 },
-            ],
-        }}
-        searchProps={{
-            searchFields: ["name", "address"],
-        }}
-        resourcePath="/beast"
-    />
+            }}
+            filterProps={{
+                filterFieldList: [
+                    {
+                        name: "Status",
+                        data: [
+                            { label: "Active", value: "active" },
+                            { label: "Inactive", value: "inactive" },
+                        ],
+                        slug: "status",
+                        multi: true,
+                    },
+                ],
+            }}
+            searchProps={{
+                searchFields: ["name", "address"],
+            }}
+        />
+    </div>
 );
 
 export const infiniteListing = () => {
