@@ -35,15 +35,15 @@ export const NotificationProvider = ({ children }: any) => {
 
     const showNotification = useCallback(
         (toast: Notification) => {
-            setQueue((toasts) => [...toasts, { ...toast, id: uuid() }]);
+            setQueue((queue) => [...queue, { ...toast, id: uuid() }]);
         },
         [setQueue],
     );
 
     const showSuccess = useCallback(
         (title: string, content?: string) => {
-            setQueue((toasts) => [
-                ...toasts,
+            setQueue((queue) => [
+                ...queue,
                 {
                     title: title,
                     content: content,
@@ -57,8 +57,8 @@ export const NotificationProvider = ({ children }: any) => {
 
     const showError = useCallback(
         (title: string, content?: string) => {
-            setQueue((toasts) => [
-                ...toasts,
+            setQueue((queue) => [
+                ...queue,
                 {
                     title: title,
                     content: content,
