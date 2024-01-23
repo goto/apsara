@@ -35,15 +35,15 @@ export const NotificationProvider = ({ children }: any) => {
 
     const showNotification = useCallback(
         (notification: Notification) => {
-            setNotifications((notifications) => [...notifications, { ...notification, id: uuid() }]);
+            setNotifications((prevNotifications) => [...prevNotifications, { ...notification, id: uuid() }]);
         },
         [setNotifications],
     );
 
     const showSuccess = useCallback(
         (title: string, content?: string) => {
-            setNotifications((notifications) => [
-                ...notifications,
+            setNotifications((prevNotifications) => [
+                ...prevNotifications,
                 {
                     title: title,
                     content: content,
@@ -57,8 +57,8 @@ export const NotificationProvider = ({ children }: any) => {
 
     const showError = useCallback(
         (title: string, content?: string) => {
-            setNotifications((notifications) => [
-                ...notifications,
+            setNotifications((prevNotifications) => [
+                ...prevNotifications,
                 {
                     title: title,
                     content: content,
