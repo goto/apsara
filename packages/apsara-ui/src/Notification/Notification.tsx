@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useState } from "react";
+import React, { createContext, useCallback, useContext, useMemo, useState } from "react";
 
 import Icon from "../Icon";
 import {
@@ -32,43 +32,55 @@ export const useNotification = () => {
 
 export const NotificationProvider = ({ children }: any) => {
     const [toasts, setToasts] = useState<Notification[]>([]);
-    
-    const showNotification = useCallback((toast: Notification) => {
-        setToasts([...toasts, { ...toast, id: uuid() }]);
-    }, [toasts, setToasts]);
 
-    const showSuccess = useCallback((title: string, content?: string) => {
-        setToasts([
-            ...toasts,
-            {
-                title: title,
-                content: content,
-                id: uuid(),
-                icon: <Icon name="checkcircle" color="green" size={32} />,
-            },
-        ]);
-    }, [toasts, setToasts]);
+    const showNotification = useCallback(
+        (toast: Notification) => {
+            setToasts((toasts) => [...toasts, { ...toast, id: uuid() }]);
+        },
+        [setToasts],
+    );
 
-    const showError = useCallback((title: string, content?: string) => {
-        setToasts([
-            ...toasts,
-            {
-                title: title,
-                content: content,
-                id: uuid(),
-                icon: <Icon name="error" color="red" size={32} />,
-            },
-        ]);
-    }, [toasts, setToasts]);
+    const showSuccess = useCallback(
+        (title: string, content?: string) => {
+            setToasts((toasts) => [
+                ...toasts,
+                {
+                    title: title,
+                    content: content,
+                    id: uuid(),
+                    icon: <Icon name="checkcircle" color="green" size={32} />,
+                },
+            ]);
+        },
+        [setToasts],
+    );
+
+    const showError = useCallback(
+        (title: string, content?: string) => {
+            setToasts((toasts) => [
+                ...toasts,
+                {
+                    title: title,
+                    content: content,
+                    id: uuid(),
+                    icon: <Icon name="error" color="red" size={32} />,
+                },
+            ]);
+        },
+        [setToasts],
+    );
+
+    const contextValue = useMemo(
+        () => ({
+            showNotification,
+            showSuccess,
+            showError,
+        }),
+        [showNotification, showSuccess, showError],
+    );
 
     return (
-        <NotificationContext.Provider
-            value={{
-                showNotification,
-                showSuccess,
-                showError,
-            }}
-        >
+        <NotificationContext.Provider value={contextValue}>
             {children}
             <ToastProvider swipeDirection="right">
                 {toasts.map((toast) => {
