@@ -31,18 +31,18 @@ export const useNotification = () => {
 };
 
 export const NotificationProvider = ({ children }: any) => {
-    const [toasts, setToasts] = useState<Notification[]>([]);
+    const [queue, setQueue] = useState<Notification[]>([]);
 
     const showNotification = useCallback(
         (toast: Notification) => {
-            setToasts((toasts) => [...toasts, { ...toast, id: uuid() }]);
+            setQueue((toasts) => [...toasts, { ...toast, id: uuid() }]);
         },
-        [setToasts],
+        [setQueue],
     );
 
     const showSuccess = useCallback(
         (title: string, content?: string) => {
-            setToasts((toasts) => [
+            setQueue((toasts) => [
                 ...toasts,
                 {
                     title: title,
@@ -52,12 +52,12 @@ export const NotificationProvider = ({ children }: any) => {
                 },
             ]);
         },
-        [setToasts],
+        [setQueue],
     );
 
     const showError = useCallback(
         (title: string, content?: string) => {
-            setToasts((toasts) => [
+            setQueue((toasts) => [
                 ...toasts,
                 {
                     title: title,
@@ -67,7 +67,7 @@ export const NotificationProvider = ({ children }: any) => {
                 },
             ]);
         },
-        [setToasts],
+        [setQueue],
     );
 
     const contextValue = useMemo(
@@ -83,12 +83,12 @@ export const NotificationProvider = ({ children }: any) => {
         <NotificationContext.Provider value={contextValue}>
             {children}
             <ToastProvider swipeDirection="right">
-                {toasts.map((toast) => {
+                {queue.map((toast) => {
                     return (
                         <Toast
                             key={toast.id}
                             onOpenChange={() => {
-                                setToasts(toasts.filter((t) => t.id !== toast.id));
+                                setQueue(queue.filter((t) => t.id !== toast.id));
                             }}
                             duration={3000}
                         >
