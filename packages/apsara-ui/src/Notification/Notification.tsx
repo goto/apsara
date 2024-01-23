@@ -21,7 +21,7 @@ export interface Notification {
 }
 
 export interface Notifier {
-    showNotification: (toast: Notification) => void;
+    showNotification: (notification: Notification) => void;
     showSuccess: (title: string, content?: string) => void;
     showError: (title: string, content?: string) => void;
 }
@@ -31,19 +31,19 @@ export const useNotification = () => {
 };
 
 export const NotificationProvider = ({ children }: any) => {
-    const [queue, setQueue] = useState<Notification[]>([]);
+    const [notifications, setNotifications] = useState<Notification[]>([]);
 
     const showNotification = useCallback(
-        (toast: Notification) => {
-            setQueue((queue) => [...queue, { ...toast, id: uuid() }]);
+        (notification: Notification) => {
+            setNotifications((notifications) => [...notifications, { ...notification, id: uuid() }]);
         },
-        [setQueue],
+        [setNotifications],
     );
 
     const showSuccess = useCallback(
         (title: string, content?: string) => {
-            setQueue((queue) => [
-                ...queue,
+            setNotifications((notifications) => [
+                ...notifications,
                 {
                     title: title,
                     content: content,
@@ -52,13 +52,13 @@ export const NotificationProvider = ({ children }: any) => {
                 },
             ]);
         },
-        [setQueue],
+        [setNotifications],
     );
 
     const showError = useCallback(
         (title: string, content?: string) => {
-            setQueue((queue) => [
-                ...queue,
+            setNotifications((notifications) => [
+                ...notifications,
                 {
                     title: title,
                     content: content,
@@ -67,7 +67,7 @@ export const NotificationProvider = ({ children }: any) => {
                 },
             ]);
         },
-        [setQueue],
+        [setNotifications],
     );
 
     const contextValue = useMemo(
@@ -83,25 +83,25 @@ export const NotificationProvider = ({ children }: any) => {
         <NotificationContext.Provider value={contextValue}>
             {children}
             <ToastProvider swipeDirection="right">
-                {queue.map((toast) => {
+                {notifications.map((notification) => {
                     return (
                         <Toast
-                            key={toast.id}
+                            key={notification.id}
                             onOpenChange={() => {
-                                setQueue(queue.filter((t) => t.id !== toast.id));
+                                setNotifications(notifications.filter((t) => t.id !== notification.id));
                             }}
                             duration={3000}
                         >
                             <ToastTitle>
                                 <IconTitleWrapper>
-                                    {toast.icon || defaultIcon}
-                                    {toast.title}
+                                    {notification.icon || defaultIcon}
+                                    {notification.title}
                                 </IconTitleWrapper>
                             </ToastTitle>
                             <ToastDescription asChild>
                                 <DescriptionWrapper>
-                                    {toast.content}
-                                    {toast.footer}
+                                    {notification.content}
+                                    {notification.footer}
                                 </DescriptionWrapper>
                             </ToastDescription>
                             <ToastAction asChild altText="Goto schedule to undo">
@@ -117,7 +117,7 @@ export const NotificationProvider = ({ children }: any) => {
 };
 
 const NotificationContext = createContext<Notifier>({
-    showNotification: (_toast: Notification) => {},
+    showNotification: (_notification: Notification) => {},
     showSuccess: (_title: string, _content?: string) => {},
     showError: (_title: string, _content?: string) => {},
 });
