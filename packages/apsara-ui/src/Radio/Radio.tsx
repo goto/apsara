@@ -58,11 +58,11 @@ const Radio = ({ defaultValue, value, items, onChange, required, orientation, di
                             disabled={item.disabled}
                             required={item.required}
                             {...props.itemStyle}
-                            id={i.toString()}
+                            id={`${item.value}${i}`}
                         >
                             <StyledIndicator />
                         </StyledRadioItem>
-                        <Label dir={dir} htmlFor={i.toString()}>
+                        <Label dir={dir} htmlFor={`${item.value}${i}`}>
                             {item.label}
                         </Label>
                     </Flex>
