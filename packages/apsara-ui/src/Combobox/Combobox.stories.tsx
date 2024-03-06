@@ -1,6 +1,7 @@
-import React from "react";
-import Combobox from "./Combobox";
+import React, { useState } from "react";
 import { SelectProps } from "rc-select";
+
+import Combobox from "./Combobox";
 
 export default {
     title: "General/Combobox",
@@ -8,7 +9,9 @@ export default {
     argTypes: { mode: { control: "select", options: ["multiple", "tags", "combobox", undefined] } },
 };
 
-const options = [
+
+type SelectOptionType = SelectProps['options'];
+const options: SelectOptionType = [
     { value: "2", label: "pilotdata-integration:bq_smoke_test_json_insert_all_dataset - Bigquery Dataset" },
     { value: "3", label: "Ford Raptor" },
     { value: "4", label: "Ferrari Testarossa" },
@@ -25,7 +28,6 @@ const options = [
 const Template = (args: SelectProps) => <Combobox {...args} />;
 
 export const MultiSelectWithSearch = Template.bind({});
-
 MultiSelectWithSearch.args = {
     placeholder: "Please Select",
     options: options,
@@ -33,5 +35,38 @@ MultiSelectWithSearch.args = {
     showSearch: true,
     showArrow: true,
     mode: "multiple",
+    optionFilterProp: "label",
+};
+
+export const WithAsyncOptions = () => {
+    const [searchQuery, setSearchQuery] = useState<string>('');
+    const [isSearching, setIsSearching] = useState<boolean>(false);
+    const [opts, setOpts] = useState<SelectOptionType>();
+    
+    const search = (q: string) => {
+        setIsSearching(true);
+        setOpts(undefined);
+        setTimeout(() => {
+            setOpts(options.filter((o) => (o.label as string).includes(searchQuery)))
+            setIsSearching(false);
+        }, 1000);
+    }
+
+    return <Combobox
+        options={opts}
+        allowClear
+        optionFilterProp="label"
+        onSearch={search}
+        // searchValue={searchQuery}
+        loading={isSearching}
+    />
+};
+WithAsyncOptions.args = {
+    placeholder: "Type your query",
+    options: options,
+    allowClear: true,
+    showSearch: true,
+    showArrow: true,
+    mode: "single",
     optionFilterProp: "label",
 };
