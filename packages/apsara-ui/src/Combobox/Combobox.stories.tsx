@@ -39,7 +39,6 @@ MultiSelectWithSearch.args = {
 };
 
 export const WithAsyncOptions = () => {
-    const [searchQuery, setSearchQuery] = useState<string>('');
     const [isSearching, setIsSearching] = useState<boolean>(false);
     const [opts, setOpts] = useState<SelectOptionType>();
     
@@ -47,7 +46,7 @@ export const WithAsyncOptions = () => {
         setIsSearching(true);
         setOpts(undefined);
         setTimeout(() => {
-            setOpts(options.filter((o) => (o.label as string).includes(searchQuery)))
+            setOpts(options.filter((o) => (o.label as string).includes(q)))
             setIsSearching(false);
         }, 1000);
     }
@@ -57,16 +56,6 @@ export const WithAsyncOptions = () => {
         allowClear
         optionFilterProp="label"
         onSearch={search}
-        // searchValue={searchQuery}
         loading={isSearching}
     />
-};
-WithAsyncOptions.args = {
-    placeholder: "Type your query",
-    options: options,
-    allowClear: true,
-    showSearch: true,
-    showArrow: true,
-    mode: "single",
-    optionFilterProp: "label",
 };
