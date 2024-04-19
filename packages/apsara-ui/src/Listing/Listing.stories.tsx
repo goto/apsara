@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Listing from "./Listing";
 import InfiniteListing from "./InfiniteListing";
+import { ScrollableList, UserCard } from "./Listing.styles";
+import InfiniteScroll from "./InfiniteScroll";
 
 export default {
     title: "Data Display/Listing",
@@ -28,7 +30,7 @@ function getData(page = 1): User[] {
 }
 
 export const listing = () => (
-    <div style={{ height: '720px' }}>
+    <div style={{ height: "720px" }}>
         <h4>Listing</h4>
         <Listing<User>
             loading={false}
@@ -186,5 +188,54 @@ export const infiniteListingWithApply = () => {
             page={page}
             onApply={handleApply}
         />
+    );
+};
+
+export const infiniteListWithCustomComponent = () => {
+    const pageSize = 10;
+    const contentRef = useRef<HTMLDivElement>(null);
+    const fetchRecords = (page: number, pageSize: number) => {
+        return Array.from({ length: pageSize }, (_, i) => ({
+            name: `user ${page * pageSize + i}`,
+            index: page * pageSize + i,
+            age: Math.floor(Math.random() * 41) + 20, // Random age between 20 and 60
+        }));
+    };
+
+    const fetchMore = async (page: number, pageSize: number, filter: string) => {
+        console.log(filter);
+        const records = fetchRecords(page, pageSize);
+
+        return records;
+    };
+
+    const Card = ({ user }: { user: User }) => {
+        return (
+            <UserCard>
+                <div className="body">
+                    <div className="body-left">
+                        <div className="description">{user.name}</div>
+                    </div>
+                    <div className="body-right">
+                        <div>Age {user.age}</div>
+                    </div>
+                </div>
+            </UserCard>
+        );
+    };
+
+    return (
+        <div style={{ display: "flex", justifyContent: "center" }}>
+            <ScrollableList className="results-list" ref={contentRef}>
+                <InfiniteScroll
+                    fetchMoreData={fetchMore}
+                    pageSize={pageSize}
+                    contentRef={contentRef}
+                    renderItem={(user: User) => <Card user={user} />}
+                    loadingComponent={<div>Loading...</div>}
+                    noMoreDataComponent={<div>No more data to fetch!</div>}
+                ></InfiniteScroll>
+            </ScrollableList>
+        </div>
     );
 };

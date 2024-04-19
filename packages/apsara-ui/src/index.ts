@@ -1,6 +1,6 @@
 import Button from "./Button";
 import Icon, { IconImage } from "./Icon";
-import Listing, { useSearchFilter, InfiniteListing } from "./Listing";
+import Listing, { useSearchFilter, InfiniteListing, InfiniteScroll } from "./Listing";
 import Search from "./Search";
 import Table from "./Table";
 import VTable from "./Table/VirtualisedTable";
@@ -103,6 +103,7 @@ export {
     Slider,
     Themes,
     InfoModal,
+    InfiniteScroll,
     DiffTimeline,
     InputNumber,
     DatePicker,
