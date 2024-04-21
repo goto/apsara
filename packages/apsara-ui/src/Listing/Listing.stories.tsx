@@ -1,8 +1,9 @@
-import React, { useRef, useState } from "react";
+import React, { FormEvent, useRef, useState } from "react";
 import Listing from "./Listing";
 import InfiniteListing from "./InfiniteListing";
 import { ScrollableList, UserCard } from "./Listing.styles";
 import InfiniteScroll from "./InfiniteScroll";
+import Search from "../Search";
 
 export default {
     title: "Data Display/Listing",
@@ -194,18 +195,20 @@ export const infiniteListingWithApply = () => {
 export const infiniteListWithCustomComponent = () => {
     const pageSize = 10;
     const contentRef = useRef<HTMLDivElement>(null);
-    const fetchRecords = (page: number, pageSize: number) => {
-        return Array.from({ length: pageSize }, (_, i) => ({
-            name: `user ${page * pageSize + i}`,
-            index: page * pageSize + i,
-            age: Math.floor(Math.random() * 41) + 20, // Random age between 20 and 60
-        }));
-    };
+    const [searchTerm, setSearchTerm] = useState("");
+    const [filter, setFilter] = useState<string>();
+    const [page, setPage] = useState<number>(1);
 
     const fetchMore = async (page: number, pageSize: number, filter: string) => {
-        console.log(filter);
-        const records = fetchRecords(page, pageSize);
+        if (page === 4) return [];
 
+        let records = getData(page);
+        if (filter) {
+            records = records.filter((record) => record.name.toLowerCase().includes(filter.toLowerCase()));
+        }
+
+        setPage((prevPage) => prevPage + 1);
+        records = records.slice(0, pageSize);
         return records;
     };
 
@@ -224,11 +227,31 @@ export const infiniteListWithCustomComponent = () => {
         );
     };
 
+    const onSubmit = (e: FormEvent) => {
+        e.preventDefault();
+        setPage(1);
+        setFilter(searchTerm);
+    };
+
     return (
         <div style={{ display: "flex", justifyContent: "center" }}>
+            <form onSubmit={onSubmit}>
+                <Search
+                    style={{ width: "90vw", height: "100%" }}
+                    value={searchTerm}
+                    onChange={(e) => {
+                        return setSearchTerm(e.target.value);
+                    }}
+                    placeholder="Type your search query here.."
+                    // @ts-ignore
+                    secondary={true}
+                />
+            </form>
             <ScrollableList className="results-list" ref={contentRef}>
                 <InfiniteScroll
+                    page={page}
                     fetchMoreData={fetchMore}
+                    filters={filter}
                     pageSize={pageSize}
                     contentRef={contentRef}
                     renderItem={(user: User) => <Card user={user} />}

@@ -4,8 +4,10 @@ import React, { useState, useEffect } from "react";
 interface InfiniteScrollProps<T> {
     fetchMoreData: (page: number, pageSize: number, filters: any) => Promise<T[]>;
     contentRef: React.RefObject<HTMLDivElement>;
+    page: number;
     pageSize?: number;
     filters?: any;
+    threshold?: number;
     renderItem: (item: T) => React.ReactNode;
     loadingComponent?: React.ReactNode;
     noMoreDataComponent?: React.ReactNode;
@@ -14,26 +16,30 @@ interface InfiniteScrollProps<T> {
 const InfiniteScroll: React.FC<InfiniteScrollProps<any>> = ({
     fetchMoreData,
     contentRef,
+    page,
     pageSize = 10,
+    threshold = 0,
     filters,
     renderItem,
     loadingComponent,
     noMoreDataComponent,
 }) => {
     const [data, setData] = useState<any[]>([]);
-    const [page, setPage] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
     const [hasMoreData, setHasMoreData] = useState(true);
-    const [isFirstFetch, setIsFirstFetch] = useState(true);
 
-    const onBottomHit = debounce(async () => {
+    useEffect(() => {
+        setData([]);
+        setHasMoreData(true);
+    }, [filters]);
+
+    const fetchMore = debounce(async () => {
         if (!isLoading && hasMoreData && isBottom(contentRef)) {
             setIsLoading(true);
             try {
                 const newData = await fetchMoreData(page, pageSize, filters);
                 setData((prevData) => prevData.concat(newData));
-                setPage((prevPage) => prevPage + 1);
-                setHasMoreData(newData.length > 0);
+                setHasMoreData(newData.length < pageSize ? false : true);
             } finally {
                 setIsLoading(false);
             }
@@ -41,23 +47,17 @@ const InfiniteScroll: React.FC<InfiniteScrollProps<any>> = ({
     }, 200);
 
     useEffect(() => {
-        setPage(1);
-        setHasMoreData(true);
-        setData([]);
-    }, [filters]);
-
-    useEffect(() => {
-        if (isFirstFetch) {
-            onBottomHit();
+        if (page == 1 && !data.length) {
+            fetchMore();
         }
-        setIsFirstFetch(false);
 
         const onScroll = () => {
-            onBottomHit();
+            if (page != 1) {
+                fetchMore();
+            }
         };
 
         const currentContentRef = contentRef.current;
-
         if (currentContentRef) {
             currentContentRef.addEventListener("scroll", onScroll);
         }
@@ -67,19 +67,7 @@ const InfiniteScroll: React.FC<InfiniteScrollProps<any>> = ({
                 currentContentRef.removeEventListener("scroll", onScroll);
             }
         };
-    }, [
-        contentRef,
-        isLoading,
-        hasMoreData,
-        page,
-        filters,
-        fetchMoreData,
-        setData,
-        setPage,
-        setHasMoreData,
-        isFirstFetch,
-        onBottomHit,
-    ]);
+    }, [contentRef, fetchMore, page, filters]);
 
     const isBottom = (ref: React.RefObject<HTMLDivElement>) => {
         if (!ref.current) {
@@ -88,7 +76,7 @@ const InfiniteScroll: React.FC<InfiniteScrollProps<any>> = ({
 
         const { scrollTop, scrollHeight, clientHeight } = ref.current;
 
-        return scrollTop + clientHeight >= scrollHeight;
+        return scrollTop + clientHeight >= scrollHeight - threshold;
     };
 
     return (
