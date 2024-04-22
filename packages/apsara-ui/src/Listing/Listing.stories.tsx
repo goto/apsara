@@ -196,7 +196,7 @@ export const infiniteListWithCustomComponent = () => {
     const pageSize = 10;
     const contentRef = useRef<HTMLDivElement>(null);
     const [searchTerm, setSearchTerm] = useState("");
-    const [filter, setFilter] = useState<string>();
+    const [filter, setFilter] = useState<string>("");
     const [page, setPage] = useState<number>(1);
 
     const fetchMore = async (page: number, pageSize: number, filter: string) => {

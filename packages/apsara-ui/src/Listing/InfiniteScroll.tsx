@@ -1,5 +1,5 @@
 import { debounce } from "lodash";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 interface InfiniteScrollProps<T> {
     fetchMoreData: (page: number, pageSize: number, filters: any) => Promise<T[]>;
@@ -33,8 +33,18 @@ const InfiniteScroll: React.FC<InfiniteScrollProps<any>> = ({
         setHasMoreData(true);
     }, [filters]);
 
-    const fetchMore = debounce(async () => {
-        if (!isLoading && hasMoreData && isBottom(contentRef)) {
+    const isBottom = (ref: React.RefObject<HTMLDivElement>) => {
+        if (!ref.current) {
+            return false;
+        }
+
+        const { scrollTop, scrollHeight, clientHeight } = ref.current;
+
+        return scrollTop + clientHeight >= scrollHeight - threshold;
+    };
+
+    const fetchMore = useCallback(
+        debounce(async () => {
             setIsLoading(true);
             try {
                 const newData = await fetchMoreData(page, pageSize, filters);
@@ -43,16 +53,19 @@ const InfiniteScroll: React.FC<InfiniteScrollProps<any>> = ({
             } finally {
                 setIsLoading(false);
             }
-        }
-    }, 200);
+        }, 200),
+        [page, filters, isLoading],
+    );
 
     useEffect(() => {
-        if (page == 1 && !data.length) {
+        if (page === 1 && !data.length && !isLoading && filters !== undefined) {
+            console.log("fetchMore on initial fetch");
             fetchMore();
         }
 
         const onScroll = () => {
-            if (page != 1) {
+            if (!isLoading && hasMoreData && isBottom(contentRef)) {
+                console.log("fetchMore on scroll to bottom");
                 fetchMore();
             }
         };
@@ -67,17 +80,7 @@ const InfiniteScroll: React.FC<InfiniteScrollProps<any>> = ({
                 currentContentRef.removeEventListener("scroll", onScroll);
             }
         };
-    }, [contentRef, fetchMore, page, filters]);
-
-    const isBottom = (ref: React.RefObject<HTMLDivElement>) => {
-        if (!ref.current) {
-            return false;
-        }
-
-        const { scrollTop, scrollHeight, clientHeight } = ref.current;
-
-        return scrollTop + clientHeight >= scrollHeight - threshold;
-    };
+    }, [contentRef, fetchMore, filters, data, hasMoreData, isBottom, isLoading, page]);
 
     return (
         <div className="infinite-list">
