@@ -1,9 +1,9 @@
 import { debounce } from "lodash";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 
 interface InfiniteScrollProps<T> {
     fetchMoreData: (page: number, pageSize: number, filters: any) => Promise<T[]>;
-    contentRef: React.RefObject<HTMLDivElement>;
+    contentRef?: React.RefObject<HTMLDivElement>;
     page: number;
     pageSize?: number;
     filters?: any;
@@ -28,6 +28,8 @@ const InfiniteScroll: React.FC<InfiniteScrollProps<any>> = ({
     const [isLoading, setIsLoading] = useState(false);
     const [hasMoreData, setHasMoreData] = useState(true);
 
+    const defaultContentRef = useRef<HTMLDivElement>(null);
+    const refToUse = contentRef || defaultContentRef;
     useEffect(() => {
         setData([]);
         setHasMoreData(true);
@@ -59,18 +61,16 @@ const InfiniteScroll: React.FC<InfiniteScrollProps<any>> = ({
 
     useEffect(() => {
         if (page === 1 && !data.length && !isLoading && filters !== undefined) {
-            console.log("fetchMore on initial fetch");
             fetchMore();
         }
 
         const onScroll = () => {
-            if (!isLoading && hasMoreData && isBottom(contentRef)) {
-                console.log("fetchMore on scroll to bottom");
+            if (!isLoading && hasMoreData && isBottom(refToUse)) {
                 fetchMore();
             }
         };
 
-        const currentContentRef = contentRef.current;
+        const currentContentRef = refToUse.current;
         if (currentContentRef) {
             currentContentRef.addEventListener("scroll", onScroll);
         }
@@ -80,10 +80,14 @@ const InfiniteScroll: React.FC<InfiniteScrollProps<any>> = ({
                 currentContentRef.removeEventListener("scroll", onScroll);
             }
         };
-    }, [contentRef, fetchMore, filters, data, hasMoreData, isBottom, isLoading, page]);
+    }, [contentRef, defaultContentRef, fetchMore, filters, data, hasMoreData, isBottom, isLoading, page]);
 
     return (
-        <div className="infinite-list">
+        <div
+            className="infinite-list"
+            style={!contentRef ? { height: "100%", overflowY: "auto" } : {}}
+            ref={defaultContentRef}
+        >
             {data.map(renderItem)}
             {isLoading ? loadingComponent : null}
             {!hasMoreData && noMoreDataComponent}

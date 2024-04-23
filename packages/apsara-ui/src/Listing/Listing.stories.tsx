@@ -1,7 +1,7 @@
 import React, { FormEvent, useRef, useState } from "react";
 import Listing from "./Listing";
 import InfiniteListing from "./InfiniteListing";
-import { ScrollableList, UserCard } from "./Listing.styles";
+import { ListContainer, UserCard } from "./Listing.styles";
 import InfiniteScroll from "./InfiniteScroll";
 import Search from "../Search";
 
@@ -194,7 +194,6 @@ export const infiniteListingWithApply = () => {
 
 export const infiniteListWithCustomComponent = () => {
     const pageSize = 10;
-    const contentRef = useRef<HTMLDivElement>(null);
     const [searchTerm, setSearchTerm] = useState("");
     const [filter, setFilter] = useState<string>("");
     const [page, setPage] = useState<number>(1);
@@ -247,18 +246,17 @@ export const infiniteListWithCustomComponent = () => {
                     secondary={true}
                 />
             </form>
-            <ScrollableList className="results-list" ref={contentRef}>
+            <ListContainer className="results-list">
                 <InfiniteScroll
                     page={page}
                     fetchMoreData={fetchMore}
                     filters={filter}
                     pageSize={pageSize}
-                    contentRef={contentRef}
                     renderItem={(user: User) => <Card user={user} />}
                     loadingComponent={<div>Loading...</div>}
                     noMoreDataComponent={<div>No more data to fetch!</div>}
                 ></InfiniteScroll>
-            </ScrollableList>
+            </ListContainer>
         </div>
     );
 };

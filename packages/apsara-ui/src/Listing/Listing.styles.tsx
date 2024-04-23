@@ -20,7 +20,7 @@ export const FilterActions = styled.span`
     align-items: center;
 `;
 
-export const ScrollableList = styled.div`
+export const ListContainer = styled.div`
     position: absolute;
     top: 50%;
     left: 50%;
@@ -28,7 +28,7 @@ export const ScrollableList = styled.div`
     width: 90%;
     height: 70%;
     background-color: ${({ theme }) => theme.backgroundColor || "white"};
-    overflow-y: auto;
+    overflow: hidden;
     box-shadow: rgb(179 179 179 / 31%) 0px 1px 5px;
 `;
 
