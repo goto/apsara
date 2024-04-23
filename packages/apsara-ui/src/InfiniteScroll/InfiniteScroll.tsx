@@ -1,98 +1,81 @@
-import { debounce } from "lodash";
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useEffect, useRef } from "react";
+
+import { InfiniteScrollWrapper } from "./InfiniteScroll.styles";
 
 interface InfiniteScrollProps<T> {
-    fetchMoreData: (page: number, pageSize: number, filters: any) => Promise<T[]>;
-    contentRef?: React.RefObject<HTMLDivElement>;
-    page: number;
-    pageSize?: number;
-    filters?: any;
-    threshold?: number;
     renderItem: (item: T) => React.ReactNode;
+    onBottomScroll: () => void;
+    items: T[];
+    style?: React.CSSProperties;
+    isLoading?: boolean;
+    noMoreData?: boolean;
+    containerRef?: React.RefObject<HTMLElement>;
+    threshold?: number;
     loadingComponent?: React.ReactNode;
     noMoreDataComponent?: React.ReactNode;
 }
 
-const InfiniteScroll: React.FC<InfiniteScrollProps<any>> = ({
-    fetchMoreData,
-    contentRef,
-    page,
-    pageSize = 10,
-    threshold = 0,
-    filters,
+const InfiniteScroll = <T,>({
     renderItem,
+    onBottomScroll,
+    items,
+    style,
+    isLoading,
+    noMoreData,
+    containerRef,
+    threshold = 0,
     loadingComponent,
     noMoreDataComponent,
-}) => {
-    const [data, setData] = useState<any[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const [hasMoreData, setHasMoreData] = useState(true);
-
-    const defaultContentRef = useRef<HTMLDivElement>(null);
-    const refToUse = contentRef || defaultContentRef;
-    useEffect(() => {
-        setData([]);
-        setHasMoreData(true);
-    }, [filters]);
-
-    const isBottom = (ref: React.RefObject<HTMLDivElement>) => {
-        if (!ref.current) {
-            return false;
-        }
-
-        const { scrollTop, scrollHeight, clientHeight } = ref.current;
-
-        return scrollTop + clientHeight >= scrollHeight - threshold;
-    };
-
-    const fetchMore = useCallback(
-        debounce(async () => {
-            setIsLoading(true);
-            try {
-                const newData = await fetchMoreData(page, pageSize, filters);
-                setData((prevData) => prevData.concat(newData));
-                setHasMoreData(newData.length < pageSize ? false : true);
-            } finally {
-                setIsLoading(false);
-            }
-        }, 200),
-        [page, filters, isLoading],
-    );
+    ...props
+}: InfiniteScrollProps<T>) => {
+    const defaultContainerRef = useRef<HTMLDivElement>(null);
+    const containerElem = containerRef ? containerRef.current : defaultContainerRef.current;
 
     useEffect(() => {
-        if (page === 1 && !data.length && !isLoading && filters !== undefined) {
-            fetchMore();
-        }
+        if (!containerElem) return;
 
         const onScroll = () => {
-            if (!isLoading && hasMoreData && isBottom(refToUse)) {
-                fetchMore();
+            if (isBottom(containerElem, threshold)) {
+                onBottomScroll();
             }
-        };
-
-        const currentContentRef = refToUse.current;
-        if (currentContentRef) {
-            currentContentRef.addEventListener("scroll", onScroll);
         }
 
+        containerElem.addEventListener("scroll", onScroll);
+
         return () => {
-            if (currentContentRef) {
-                currentContentRef.removeEventListener("scroll", onScroll);
-            }
+            containerElem.removeEventListener("scroll", onScroll);
         };
-    }, [refToUse, contentRef, defaultContentRef, fetchMore, filters, data, hasMoreData, isBottom, isLoading, page]);
+    }, [containerElem, onBottomScroll, threshold]);
+
+    const loadingComp = loadingComponent ||  <DefaultLoading />;
 
     return (
-        <div
-            className="infinite-list"
-            style={!contentRef ? { height: "100%", overflowY: "auto" } : {}}
-            ref={defaultContentRef}
+        <InfiniteScrollWrapper
+            className="apsara-infinite-scroll-wrapper"
+            style={style}
+            ref={defaultContainerRef}
+            {...props}
         >
-            {data.map(renderItem)}
-            {isLoading ? loadingComponent : null}
-            {!hasMoreData && noMoreDataComponent}
-        </div>
+            {items?.map(renderItem)}
+            {isLoading && loadingComp}
+            {!noMoreData && noMoreDataComponent}
+        </InfiniteScrollWrapper>
     );
+};
+
+const DefaultLoading = () => <div>Loading...</div>;
+
+const isBottom = (elem: HTMLElement, threshold: number): boolean => {
+    if (!elem) return false;
+
+    const { scrollTop, scrollHeight, clientHeight } = elem;
+
+    const a = scrollTop + clientHeight;
+    const b = scrollHeight - threshold;
+
+    console.log(a);
+    console.log(b);
+    return a >= b;
 };
 
 export default InfiniteScroll;
