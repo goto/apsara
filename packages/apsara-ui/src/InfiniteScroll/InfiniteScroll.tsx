@@ -80,7 +80,7 @@ const InfiniteScroll: React.FC<InfiniteScrollProps<any>> = ({
                 currentContentRef.removeEventListener("scroll", onScroll);
             }
         };
-    }, [contentRef, defaultContentRef, fetchMore, filters, data, hasMoreData, isBottom, isLoading, page]);
+    }, [refToUse, contentRef, defaultContentRef, fetchMore, filters, data, hasMoreData, isBottom, isLoading, page]);
 
     return (
         <div

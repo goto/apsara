@@ -1,9 +1,6 @@
-import React, { FormEvent, useRef, useState } from "react";
+import React, { useState } from "react";
 import Listing from "./Listing";
 import InfiniteListing from "./InfiniteListing";
-import { ListContainer, UserCard } from "./Listing.styles";
-import InfiniteScroll from "./InfiniteScroll";
-import Search from "../Search";
 
 export default {
     title: "Data Display/Listing",
@@ -189,74 +186,5 @@ export const infiniteListingWithApply = () => {
             page={page}
             onApply={handleApply}
         />
-    );
-};
-
-export const infiniteListWithCustomComponent = () => {
-    const pageSize = 10;
-    const [searchTerm, setSearchTerm] = useState("");
-    const [filter, setFilter] = useState<string>("");
-    const [page, setPage] = useState<number>(1);
-
-    const fetchMore = async (page: number, pageSize: number, filter: string) => {
-        if (page === 4) return [];
-
-        let records = getData(page);
-        if (filter) {
-            records = records.filter((record) => record.name.toLowerCase().includes(filter.toLowerCase()));
-        }
-
-        setPage((prevPage) => prevPage + 1);
-        records = records.slice(0, pageSize);
-        return records;
-    };
-
-    const Card = ({ user }: { user: User }) => {
-        return (
-            <UserCard>
-                <div className="body">
-                    <div className="body-left">
-                        <div className="description">{user.name}</div>
-                    </div>
-                    <div className="body-right">
-                        <div>Age {user.age}</div>
-                    </div>
-                </div>
-            </UserCard>
-        );
-    };
-
-    const onSubmit = (e: FormEvent) => {
-        e.preventDefault();
-        setPage(1);
-        setFilter(searchTerm);
-    };
-
-    return (
-        <div style={{ display: "flex", justifyContent: "center" }}>
-            <form onSubmit={onSubmit}>
-                <Search
-                    style={{ width: "90vw", height: "100%" }}
-                    value={searchTerm}
-                    onChange={(e) => {
-                        return setSearchTerm(e.target.value);
-                    }}
-                    placeholder="Type your search query here.."
-                    // @ts-ignore
-                    secondary={true}
-                />
-            </form>
-            <ListContainer className="results-list">
-                <InfiniteScroll
-                    page={page}
-                    fetchMoreData={fetchMore}
-                    filters={filter}
-                    pageSize={pageSize}
-                    renderItem={(user: User) => <Card user={user} />}
-                    loadingComponent={<div>Loading...</div>}
-                    noMoreDataComponent={<div>No more data to fetch!</div>}
-                ></InfiniteScroll>
-            </ListContainer>
-        </div>
     );
 };
