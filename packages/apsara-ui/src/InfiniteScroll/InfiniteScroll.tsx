@@ -1,11 +1,10 @@
 import React, { useEffect, useRef } from "react";
 
-import { InfiniteScrollWrapper } from "./InfiniteScroll.styles";
-
 interface InfiniteScrollProps<T> {
     renderItem: (item: T) => React.ReactNode;
     onBottomScroll: () => void;
     items: T[];
+    height?: string;
     style?: React.CSSProperties;
     isLoading?: boolean;
     noMoreData?: boolean;
@@ -20,13 +19,13 @@ const InfiniteScroll = <T,>({
     onBottomScroll,
     items,
     style,
+    height,
     isLoading,
     noMoreData,
     containerRef,
-    threshold = 0,
+    threshold = 1,
     loadingComponent,
     noMoreDataComponent,
-    ...props
 }: InfiniteScrollProps<T>) => {
     const defaultContainerRef = useRef<HTMLDivElement>(null);
     const containerElem = containerRef ? containerRef.current : defaultContainerRef.current;
@@ -38,7 +37,7 @@ const InfiniteScroll = <T,>({
             if (isBottom(containerElem, threshold)) {
                 onBottomScroll();
             }
-        }
+        };
 
         containerElem.addEventListener("scroll", onScroll);
 
@@ -47,19 +46,23 @@ const InfiniteScroll = <T,>({
         };
     }, [containerElem, onBottomScroll, threshold]);
 
-    const loadingComp = loadingComponent ||  <DefaultLoading />;
+    const loadingComp = loadingComponent || <DefaultLoading />;
+
+    const scrollStyle: React.CSSProperties = !containerRef
+        ? {
+              height: height || "100%",
+              overflow: "scroll",
+              position: "relative",
+              ...style,
+          }
+        : {};
 
     return (
-        <InfiniteScrollWrapper
-            className="apsara-infinite-scroll-wrapper"
-            style={style}
-            ref={defaultContainerRef}
-            {...props}
-        >
+        <div className="apsara-infinite-scroll-wrapper" style={scrollStyle} ref={defaultContainerRef}>
             {items?.map(renderItem)}
             {isLoading && loadingComp}
             {!noMoreData && noMoreDataComponent}
-        </InfiniteScrollWrapper>
+        </div>
     );
 };
 
@@ -73,8 +76,6 @@ const isBottom = (elem: HTMLElement, threshold: number): boolean => {
     const a = scrollTop + clientHeight;
     const b = scrollHeight - threshold;
 
-    console.log(a);
-    console.log(b);
     return a >= b;
 };
 

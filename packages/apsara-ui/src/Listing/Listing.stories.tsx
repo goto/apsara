@@ -28,7 +28,7 @@ function getData(page = 1): User[] {
 }
 
 export const listing = () => (
-    <div style={{ height: "720px" }}>
+    <div style={{ height: '720px' }}>
         <h4>Listing</h4>
         <Listing<User>
             loading={false}
