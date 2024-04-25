@@ -28,9 +28,9 @@ const InfiniteScroll = <T,>({
     noMoreDataComponent,
 }: InfiniteScrollProps<T>) => {
     const defaultContainerRef = useRef<HTMLDivElement>(null);
-    const containerElem = containerRef ? containerRef.current : defaultContainerRef.current;
 
     useEffect(() => {
+        const containerElem = containerRef ? containerRef.current : defaultContainerRef.current;
         if (!containerElem) return;
 
         const onScroll = () => {
@@ -44,7 +44,7 @@ const InfiniteScroll = <T,>({
         return () => {
             containerElem.removeEventListener("scroll", onScroll);
         };
-    }, [containerElem, onBottomScroll, threshold]);
+    }, [containerRef, defaultContainerRef, onBottomScroll, threshold]);
 
     const loadingComp = loadingComponent || <DefaultLoading />;
 
