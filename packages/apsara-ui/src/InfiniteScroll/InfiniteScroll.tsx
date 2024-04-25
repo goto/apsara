@@ -50,7 +50,7 @@ const InfiniteScroll = <T,>({
 
     const scrollStyle: React.CSSProperties = !containerRef
         ? {
-              height: height || "100%",
+              height: height || "calc(100%-0px)",
               overflow: "scroll",
               position: "relative",
               ...style,
