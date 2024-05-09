@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from "react";
+import React, { HTMLAttributes, useEffect } from "react";
 import * as RadixTooltip from "@radix-ui/react-tooltip";
 import { TooltipContentWrapper } from "./Tooltip.styles";
 
@@ -11,6 +11,7 @@ export type TooltipProps = {
     placement?: TooltipPlacement;
     style?: React.CSSProperties;
     defaultOpen?: boolean;
+    tooltipOpen?: boolean;
 } & HTMLAttributes<HTMLDivElement>;
 
 const Tooltip = ({
@@ -19,11 +20,18 @@ const Tooltip = ({
     style = { backgroundColor: "#333", color: "white" },
     children,
     defaultOpen = false,
+    tooltipOpen = false,
     ...props
 }: TooltipProps) => {
+    const [open, setOpen] = React.useState(false);
+
+    useEffect(() => {
+        setOpen(tooltipOpen);
+    }, [tooltipOpen]);
+
     return (
         <RadixTooltip.Provider delayDuration={100}>
-            <RadixTooltip.Root defaultOpen={defaultOpen}>
+            <RadixTooltip.Root defaultOpen={defaultOpen} open={open} onOpenChange={setOpen}>
                 <RadixTooltip.Trigger asChild>
                     <span>{children}</span>
                 </RadixTooltip.Trigger>
