@@ -12,3 +12,13 @@ tooltip.args = {
     title: "tooltip",
     placement: "right",
 };
+
+export const ControlledTooltipWithOpenState = () => {
+    const [open, setOpen] = React.useState(true);
+
+    return (
+        <Tooltip title="tooltip" open={open} onOpenChange={setOpen}>
+            tooltip
+        </Tooltip>
+    );
+};
