@@ -21,6 +21,7 @@ export interface ListingProps<T> {
         searchPlaceholder?: string;
         searchFields?: string[];
         disabled?: boolean;
+        searchStyle?: React.CSSProperties;
     };
     calculateRowHeight?: (index: number, defaultRowHeight: number) => number;
     calculateColumnWidth?: (index: number, defaultColumnWidth: number) => number;

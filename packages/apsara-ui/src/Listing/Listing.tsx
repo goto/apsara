@@ -25,7 +25,7 @@ function Listing<T>({
     loading = false,
 }: ListingProps<T>) {
     const { getColumnList = () => [], ...extraTableProps } = tableProps;
-    const { searchFields = [], disabled = false, searchPlaceholder } = searchProps;
+    const { searchFields = [], disabled = false, searchPlaceholder, searchStyle } = searchProps;
     const { filterFieldList } = filterProps;
     const {
         searchTerm,
@@ -47,6 +47,7 @@ function Listing<T>({
                 value={searchTerm}
                 placeholder={searchPlaceholder}
                 disabled={disabled}
+                style={searchStyle}
             >
                 {filterFieldList && (
                     <Filters
