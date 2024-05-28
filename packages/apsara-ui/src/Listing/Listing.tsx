@@ -15,6 +15,7 @@ function Listing<T>({
     renderHeader = null,
     renderBody = null,
     renderExtraFilters = null,
+    renderExtraItems = null,
     resourcePath = "/",
     calculateRowHeight,
     calculateColumnWidth,
@@ -25,7 +26,7 @@ function Listing<T>({
     loading = false,
 }: ListingProps<T>) {
     const { getColumnList = () => [], ...extraTableProps } = tableProps;
-    const { searchFields = [], disabled = false, searchPlaceholder, searchStyle } = searchProps;
+    const { searchFields = [], disabled = false, searchPlaceholder } = searchProps;
     const { filterFieldList } = filterProps;
     const {
         searchTerm,
@@ -47,7 +48,6 @@ function Listing<T>({
                 value={searchTerm}
                 placeholder={searchPlaceholder}
                 disabled={disabled}
-                style={searchStyle}
             >
                 {filterFieldList && (
                     <Filters
@@ -59,6 +59,7 @@ function Listing<T>({
                     />
                 )}
                 {renderExtraFilters}
+                {renderExtraItems}
             </ListingSearch>
         );
     }

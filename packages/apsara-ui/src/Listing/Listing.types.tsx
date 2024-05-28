@@ -21,11 +21,11 @@ export interface ListingProps<T> {
         searchPlaceholder?: string;
         searchFields?: string[];
         disabled?: boolean;
-        searchStyle?: React.CSSProperties;
     };
     calculateRowHeight?: (index: number, defaultRowHeight: number) => number;
     calculateColumnWidth?: (index: number, defaultColumnWidth: number) => number;
     renderExtraFilters?: React.ReactNode;
+    renderExtraItems?: React.ReactNode;
     renderHeader?: React.ReactNode;
     renderBody?: React.ReactNode;
     rowClick?: (props: any) => any;
