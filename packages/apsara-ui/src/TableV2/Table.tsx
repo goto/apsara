@@ -60,7 +60,7 @@ function Table({
             columnHelper.accessor(item.key, {
                 cell: item.render ? item.render : (info) => info.getValue(),
                 header: item.title ?? item.dataIndex,
-                size: item.size,
+                size: item.width,
             }),
         );
     });
