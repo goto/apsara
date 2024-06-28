@@ -1,15 +1,13 @@
 import React, { ReactNode } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./Tabs.styles";
 import { TabsProps } from "@radix-ui/react-tabs";
-import Tag from "../Tag";
 // const { TabPane } = StyledTabs;
 
 type TabContentProps = {
     value: string;
     content?: ReactNode;
-    title?: string;
+    title?: string | ReactNode;
     disabled?: boolean;
-    isNew?: boolean;
 };
 
 type CustomTabsProps = {
@@ -45,16 +43,6 @@ function CustomTabs({
                     tabContent.map((content) => (
                         <TabsTrigger disabled={content.disabled} typ={type} key={content.value} value={content.value}>
                             {content.title}
-                            {content.isNew && (
-                                <Tag
-                                    size="small"
-                                    color="rgb(232, 239, 253)"
-                                    type="round"
-                                    style={{ display: "inline", marginLeft: "2px" }}
-                                >
-                                    New
-                                </Tag>
-                            )}
                         </TabsTrigger>
                     ))}
                 {tabExtraContentRight && <span className="right">{tabExtraContentRight}</span>}

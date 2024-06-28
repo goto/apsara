@@ -1,6 +1,7 @@
 import { Meta, Preview, Canvas, Story, ArgsTable, IconGallery, IconItem } from "@storybook/addon-docs/blocks";
 import Tabs from "./Tabs";
 import Button from "../Button";
+import Tag from "../Tag";
 
 <Meta
     title="Navigation/Tabs"
@@ -38,7 +39,23 @@ import Button from "../Button";
                     title: "Long Content",
                 },
                 { value: "tabs3", content: "Tabs3", title: "tabs3", disabled: true },
-                { value: "tabs4", content: "Tabs4", title: "tabs4", isNew: true },
+                {
+                    value: "tabs4",
+                    content: "Tabs4",
+                    title: (
+                        <div>
+                            tabs4
+                            <Tag
+                                size="small"
+                                color="rgb(232, 239, 253)"
+                                type="round"
+                                style={{ display: "inline", marginLeft: "2px" }}
+                            >
+                                New
+                            </Tag>
+                        </div>
+                    ),
+                },
             ],
         }}
     >
