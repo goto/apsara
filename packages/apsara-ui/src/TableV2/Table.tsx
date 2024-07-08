@@ -72,7 +72,6 @@ function Table({
         pageIndex: 1,
         pageSize: 100,
     });
-    const [rowSelection, setRowSelection] = React.useState({});
 
     const fetchDataOptions = {
         pageIndex,
@@ -105,7 +104,6 @@ function Table({
         state: {
             sorting,
             pagination,
-            rowSelection,
         },
         getSortedRowModel: getSortedRowModel(),
         onPaginationChange: setPagination,
@@ -113,7 +111,6 @@ function Table({
         manualPagination: true,
         debugTable: false,
         enableRowSelection: enableRowSelection,
-        onRowSelectionChange: enableRowSelection ? setRowSelection : undefined,
         enableMultiRowSelection: false,
     });
 
