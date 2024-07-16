@@ -17,6 +17,14 @@ import { StyledEmpty } from "../Table/Table.styles";
 import { ListSkeleton } from "../Skeleton";
 import Empty from "./Empty";
 
+type CellValue =
+    | any
+    | {
+          value: any;
+          rowSpan?: number;
+          isSpanned: boolean;
+      };
+
 interface ITableProps {
     selectedRowId?: number | null;
     alternate?: boolean;
@@ -28,7 +36,7 @@ interface ITableProps {
     paginate?: boolean;
     fullPagination?: boolean;
     showPageSizeChanger?: boolean;
-    items?: any[];
+    items?: CellValue[];
     totalItems?: number;
     setPage?: (page: number, pageSize: number) => any;
     dataFetchFunction?: (options: { pageIndex?: number; pageSize?: number }) => any;
@@ -36,6 +44,8 @@ interface ITableProps {
     isLoading?: boolean;
     height?: string;
     enableRowSelection?: boolean;
+    disableHover?: boolean;
+    borderStyle?: "default" | "contained";
 }
 
 function Table({
@@ -54,6 +64,8 @@ function Table({
     alternate = false,
     alternateHover = false,
     enableRowSelection = false,
+    disableHover = false,
+    borderStyle = "default",
 }: ITableProps) {
     const columns: any[] = [];
     const columnHelper = createColumnHelper();
@@ -153,6 +165,8 @@ function Table({
         <StyledTable
             className={`${alternate ? "alternate" : ""} ${alternateHover ? "alternate-hover" : ""}`}
             height={height}
+            disableHover={disableHover}
+            borderStyle={borderStyle}
         >
             <TableWrapper className="apsara-table-content">
                 <table>
@@ -219,17 +233,25 @@ function Table({
                                     }}
                                     className={row.getIsSelected() ? "selected" : ""}
                                 >
-                                    {row.getVisibleCells().map((cell) => (
-                                        <td
-                                            key={cell.id}
-                                            style={{
-                                                width:
-                                                    cell.column.getSize() !== 150 ? cell.column.getSize() : undefined,
-                                            }}
-                                        >
-                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                        </td>
-                                    ))}
+                                    {row.getVisibleCells().map((cell) => {
+                                        const value = (row.original as any)[cell.column.id] as any;
+                                        if (value?.isSpanned) return null;
+
+                                        return (
+                                            <td
+                                                key={cell.id}
+                                                style={{
+                                                    width:
+                                                        cell.column.getSize() !== 150
+                                                            ? cell.column.getSize()
+                                                            : undefined,
+                                                }}
+                                                rowSpan={value?.rowSpan || undefined}
+                                            >
+                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                            </td>
+                                        );
+                                    })}
                                 </tr>
                             ))}
                             {!table.getRowModel().rows.length && !isLoading && (

@@ -3,6 +3,8 @@ import { textStyles } from "../mixin";
 
 export const StyledTable = styled.div<{
     height?: string;
+    disableHover?: boolean;
+    borderStyle?: string;
 }>`
     ${({ height }) =>
         height &&
@@ -10,7 +12,7 @@ export const StyledTable = styled.div<{
         height: ${height};
     `}
     overflow-y: auto;
-    
+
     table {
         background: transparent;
         background-color: ${({ theme }) => theme?.table?.bg};
@@ -45,7 +47,7 @@ export const StyledTable = styled.div<{
         text-transform: capitalize;
     }
 
-    .virtual-table-cell{
+    .virtual-table-cell {
         align-items: center;
         height: 48px;
         white-space: nowrap;
@@ -129,8 +131,8 @@ export const StyledTable = styled.div<{
         word-break: break-word;
     }
 
-    tr.apsara-table-placeholder > td:first-child{
-        color: rgba(0,0,0,.25);
+    tr.apsara-table-placeholder > td:first-child {
+        color: rgba(0, 0, 0, 0.25);
     }
 
     tr > th,
@@ -146,9 +148,9 @@ export const StyledTable = styled.div<{
         a {
             display: block;
             color: unset;
-            text-decoration: none; 
-            &:only-child{
-                width:100%;
+            text-decoration: none;
+            &:only-child {
+                width: 100%;
             }
             white-space: nowrap;
             overflow: hidden;
@@ -159,22 +161,39 @@ export const StyledTable = styled.div<{
         }
     }
 
-    tr:hover {
-            td > a {
-                color: rgb(30, 122, 232) !important;
+    ${({ borderStyle, theme }) =>
+        borderStyle === "contained" &&
+        `
+        tr > td {
+            border: 1px solid ${theme?.table?.border};
+        }
+    `}
+
+    ${({ disableHover }) =>
+        !disableHover &&
+        `
+        tr:hover {
+                td > a {
+                    color: rgb(30, 122, 232) !important;
+                }
             }
         }
-    }
+    `}
 
     tbody {
         border-bottom: 1px solid lightgray;
+        vertical-align: top;
 
-        tr:not(.selected):hover > td {
-            background: ${({ theme }) => theme?.table?.highlight};
-        }
+        ${({ disableHover, theme }) =>
+            !disableHover &&
+            `
+            tr:not(.selected):hover > td {
+                background: ${theme?.table?.highlight};
+            }
+        `}
         tr.selected {
             background-color: ${({ theme }) => theme?.table?.selectedRowHighlight};
-      }
+        }
     }
 
     th {
