@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef, useImperativeHandle } from "react";
 import { StyledTable, PaginationWrapper, TableWrapper, EmptyHeader, EmptyText } from "./Table.styles";
 import {
     createColumnHelper,
@@ -17,7 +17,12 @@ import { StyledEmpty } from "../Table/Table.styles";
 import { ListSkeleton } from "../Skeleton";
 import Empty from "./Empty";
 
-interface ITableProps {
+interface PaginationParams {
+    pageIndex?: number;
+    pageSize?: number;
+}
+
+interface TableProps {
     selectedRowId?: number | null;
     alternate?: boolean;
     alternateHover?: boolean;
@@ -31,30 +36,35 @@ interface ITableProps {
     items?: any[];
     totalItems?: number;
     setPage?: (page: number, pageSize: number) => any;
-    dataFetchFunction?: (options: { pageIndex?: number; pageSize?: number }) => any;
+    dataFetchFunction?: (options: PaginationParams) => any;
     rowClick?: (props: any) => any;
     isLoading?: boolean;
     height?: string;
     enableRowSelection?: boolean;
 }
 
-function Table({
-    columnsData,
-    sortable = false,
-    paginate = true,
-    fullPagination = true,
-    showPageSizeChanger = true,
-    items,
-    totalItems,
-    setPage,
-    dataFetchFunction,
-    rowClick,
-    height,
-    isLoading = false,
-    alternate = false,
-    alternateHover = false,
-    enableRowSelection = false,
-}: ITableProps) {
+export interface TableRef {
+    updatePagination: (params: PaginationParams) => void;
+}
+
+const Table = forwardRef<TableRef, TableProps>((props, ref) => {
+    const {
+        columnsData,
+        sortable = false,
+        paginate = true,
+        fullPagination = true,
+        showPageSizeChanger = true,
+        items,
+        totalItems,
+        setPage,
+        dataFetchFunction,
+        rowClick,
+        height,
+        isLoading = false,
+        alternate = false,
+        alternateHover = false,
+        enableRowSelection = false,
+    } = props;
     const columns: any[] = [];
     const columnHelper = createColumnHelper();
     columnsData.map((item) => {
@@ -148,6 +158,18 @@ function Table({
         }
         return originalElement;
     };
+
+    useImperativeHandle(
+        ref,
+        () => {
+            return {
+                updatePagination: (params: PaginationParams) => {
+                    setPagination((prev) => ({ ...prev, ...params }));
+                },
+            };
+        },
+        [],
+    );
 
     return (
         <StyledTable
@@ -309,6 +331,6 @@ function Table({
             )}
         </StyledTable>
     );
-}
+});
 
 export default Table;
