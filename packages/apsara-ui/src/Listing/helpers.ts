@@ -9,7 +9,13 @@ export const getStringValue = (value: any) => {
     return value && typeof value !== "string" ? value.toString() : value;
 };
 
-export const getFilterList = (data: any, filterItemMap = {}, searchTerm: string, searchFields = []) => {
+export const getFilterList = (
+    data: any,
+    filterItemMap = {},
+    searchTerm: string,
+    searchFields = [],
+    filterFieldList = [],
+) => {
     const slugs = Object.keys(filterItemMap);
     const searchTermLowerCase = searchTerm && searchTerm.toLowerCase();
 
@@ -19,8 +25,14 @@ export const getFilterList = (data: any, filterItemMap = {}, searchTerm: string,
         return R.curry(R.pipe(R.pathOr(""), search))(R.split(".", s));
     };
 
-    const groupFilterByCategory = (category: string) => (item: any) =>
-        filterItemMap[category].length ? filterItemMap[category].includes(R.path(R.split(".", category), item)) : true;
+    const groupFilterByCategory = (category: string) => (item: any) => {
+        const customFilter = filterFieldList.find((prev) => prev.slug === category)?.customFilter;
+        return filterItemMap[category].length
+            ? customFilter
+                ? customFilter(item, filterItemMap[category])
+                : filterItemMap[category].includes(R.path(R.split(".", category), item))
+            : true;
+    };
 
     const groupFilter = slugs.length ? R.allPass(slugs.map(groupFilterByCategory)) : () => true;
     const searchFilter = searchFields.length ? R.anyPass(searchFields.map(safeSearch)) : () => true;

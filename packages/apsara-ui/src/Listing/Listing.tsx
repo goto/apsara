@@ -36,7 +36,7 @@ function Listing<T>({
         onClearGroupFilter,
         filteredList,
         filteredFieldData,
-    } = useSearchFilter({ list, searchFields, defaultSearchTerm });
+    } = useSearchFilter({ list, searchFields, defaultSearchTerm, filterFieldList });
     const columns = getColumnList(resourcePath, sortedInfo);
     if (!renderHeader) {
         renderHeader = (
