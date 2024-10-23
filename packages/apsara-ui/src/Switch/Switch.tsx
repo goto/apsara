@@ -17,6 +17,7 @@ export type SwitchProps = {
     color?: string;
     style?: React.CSSProperties;
     className?: string;
+    id?: string;
     thumbProps?: StyleProps;
 };
 
@@ -29,10 +30,12 @@ const Switch = ({
     name,
     value,
     color,
+    id,
     ...props
 }: SwitchProps) => {
     return (
         <StyledSwitch
+            id={id}
             defaultChecked={defaultChecked}
             checked={checked}
             onCheckedChange={onChange}

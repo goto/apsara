@@ -44,8 +44,6 @@ interface FormBuilderFieldProps {
 }
 
 const FormBuilderField = ({
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    id,
     widget,
     widgetType,
     component = null,
