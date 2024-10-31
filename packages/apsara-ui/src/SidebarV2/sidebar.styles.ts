@@ -24,7 +24,6 @@ export const SidebarNav = styled("nav")<{
     display: flex;
     flex-direction: column;
     position: relative;
-    z-index: 99;
     text-transform: capitalize;
     min-height: 100vh;
     width: ${({ width }) => `${width}px`};

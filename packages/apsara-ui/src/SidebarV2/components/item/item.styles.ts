@@ -9,6 +9,10 @@ export const SidebarMenuItemWrapper = styled("li")<{ selected: boolean }>`
     overflow: visible;
     position: relative;
 
+    .apsara-tooltip-trigger {
+        display: flex;
+    }
+
     .apsara-collapse-header {
         width: 100%;
         padding: 0 2px 0 0 !important;

@@ -16,7 +16,7 @@ const SidebarContent = (props: SidebarContentProps) => {
         <>
             {collapsed ? (
                 // @ts-expect-error Bad typing from Tooltip component, need update typing Tooltip component later
-                <Tooltip title={content} placement="right">
+                <Tooltip title={content} placement="right" sideOffset={14}>
                     {icon}
                 </Tooltip>
             ) : (
