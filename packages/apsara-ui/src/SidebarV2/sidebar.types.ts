@@ -1,22 +1,24 @@
 import { ReactNode } from "react";
 
+interface LinkLocation {
+    pathname: string;
+    search?: string;
+    state?: Record<string, unknown>;
+    hash?: string;
+    key?: string;
+}
+
 export interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
-    to?:
-        | string
-        | {
-              pathname?: string;
-              search?: string;
-              state?: string;
-              hash?: string;
-              key?: string;
-          };
-    children?: React.ReactNode;
+    to?: string | LinkLocation;
 }
 
 export interface NavigationSidebarList {
     state: string;
-    linkProps: LinkProps;
+    linkProps?: LinkProps;
+    content: ReactNode;
     icon?: ReactNode;
+    className?: string;
+    highlight?: ReactNode;
     child?: NavigationSidebarList[];
 }
 
@@ -27,8 +29,7 @@ export interface LinkRenderProps {
 
 export interface SiderMenuProps extends NavigationSidebarList {
     activeState: string;
-    onItemClick?: (state: string) => void;
-    linkRender: ({ children, props }: LinkRenderProps) => ReactNode;
+    linkRender?: ({ children, props }: LinkRenderProps) => ReactNode;
 }
 
 export interface collapsedProps {
@@ -48,6 +49,6 @@ export interface SidebarProps {
 }
 
 export interface SideBarHeaderProps {
-    name: string;
-    logo: ReactNode;
+    name?: string;
+    logo?: ReactNode;
 }

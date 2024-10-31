@@ -1,19 +1,27 @@
 import React, { useContext } from "react";
-import SidebarFooter from "./footer";
-import { SidebarMenu, StyledSider } from "./sidebar.styles";
+import { SidebarNav, SidebarFooter } from "./sidebar.styles";
 import { SidebarProps } from "./sidebar.types";
-import SidebarHeader from "./header";
-import SidebarItem from "./item";
 import { SidebarContext } from "./context";
+import SidebarItem from "./components/item";
+import SidebarHeader from "./components/header";
+import SidebarCollapsible from "./components/collapsible";
+import { SidebarMenu } from "./components/item/item.styles";
+import { PREFIX_CLS } from "./constants";
 
 const Sidebar = (props: SidebarProps) => {
     const { children, width = 200, collapsedWidth = 65 } = props;
     const { collapsed } = useContext(SidebarContext);
 
     return (
-        <StyledSider width={width} collapsedWidth={collapsedWidth} collapsed={collapsed} data-collapsed={collapsed}>
+        <SidebarNav
+            className={PREFIX_CLS}
+            width={width}
+            collapsedWidth={collapsedWidth}
+            collapsed={collapsed}
+            data-collapsed={collapsed}
+        >
             {children}
-        </StyledSider>
+        </SidebarNav>
     );
 };
 
@@ -21,5 +29,6 @@ Sidebar.Menu = SidebarMenu;
 Sidebar.Item = SidebarItem;
 Sidebar.Header = SidebarHeader;
 Sidebar.Footer = SidebarFooter;
+Sidebar.Collapsible = SidebarCollapsible;
 
 export default Sidebar;

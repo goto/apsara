@@ -16,96 +16,106 @@ export const iconComponent = () => {
             state: "explore",
             linkProps: {
                 to: "/",
-                children: "Explore",
             },
+            content: "Explore",
             icon: <Icon name="discovery" />,
         },
         {
             state: "dashboard",
             linkProps: {
                 to: "/dashboard",
-                children: "Dashboard",
             },
+            content: "Dashboard",
             icon: <Icon name="iam" />,
         },
         {
             state: "access",
             linkProps: {
                 to: "/access",
-                children: "Access",
             },
+            content: "Access",
             icon: <Icon name="access" />,
         },
         {
             state: "firehoses",
             linkProps: {
                 to: "/firehoses",
-                children: "Firehose",
             },
+            content: "Firehose",
             icon: <Icon name="firehose" />,
         },
         {
             state: "daggers",
             linkProps: {
                 to: "/daggers",
-                children: "Daggers",
             },
+            content: "Daggers",
             icon: <Icon name="dagger" />,
         },
         {
             state: "optimus",
             linkProps: {
                 to: "/optimus",
-                children: "Optimus",
             },
+            content: "Optimus",
             icon: <Icon name="optimus" />,
+            highlight: "New",
         },
         {
-            state: "metrics",
+            state: "google",
             linkProps: {
-                to: "/metrics",
-                children: "Metric",
+                to: "/google",
             },
-            icon: <Icon name="catalog" />,
+            content: "Google",
+            icon: <Icon name="areaChart" />,
         },
         {
             state: "experimentation",
             linkProps: {
-                children: "Experimentation",
+                to: "/metrics",
             },
+            content: "Experimentation",
             icon: <Icon name="catalog" />,
             child: [
                 {
                     state: "experimentation.facts",
                     linkProps: {
                         to: "/experimentation/metrics/facts",
-                        children: "Facts",
                     },
+                    content: "Facts",
                     icon: <Icon name="catalog" />,
                 },
                 {
                     state: "experimentation.metrics",
                     linkProps: {
                         to: "/experimentation/metrics",
-                        children: "Metrics",
                     },
+                    content: "Metrics",
                     icon: <Icon name="catalog" />,
                 },
                 {
                     state: "experimentation.clickstream",
                     linkProps: {
                         to: "/experimentation/metrics/clickstream-events",
-                        children: "Clickstreams",
                     },
+                    content: "Clickstreams",
                     icon: <Icon name="catalog" />,
                 },
             ],
+        },
+        {
+            state: "Opera",
+            linkProps: {
+                to: "/opera",
+            },
+            content: "opera",
+            icon: <Icon name="catalog" />,
         },
     ];
 
     return (
         <SidebarProvider>
-            <Sidebar>
+            <Sidebar width={220}>
                 <Sidebar.Header
                     logo={<Icon name="doc" size={32} styleOverride={{ color: Colors.light.primary[3] }} />}
                     name="Console"
@@ -114,14 +124,19 @@ export const iconComponent = () => {
                     {navList.map((item, idx) => (
                         <Sidebar.Item
                             activeState="explore"
-                            linkRender={({ children, props }) => <a {...props}>{children}</a>}
-                            linkProps={item.linkProps}
-                            state={item.state}
+                            linkRender={({ children, props }) => (
+                                <a {...props} href={props.to as string}>
+                                    {children}
+                                </a>
+                            )}
                             key={idx}
-                            child={item.child}
+                            {...item}
                         />
                     ))}
                 </Sidebar.Menu>
+                <Sidebar.Footer>
+                    <Sidebar.Collapsible />
+                </Sidebar.Footer>
             </Sidebar>
         </SidebarProvider>
     );

@@ -36,32 +36,29 @@ export const CollapseWrapper = styled.div`
         .apsara-collapse-content {
             background-color: transparent;
             border-top: 0;
-
-            &-hidden {
-                display: none;
-            }
+            overflow: hidden;
 
             &[data-state="open"] {
-                animation: slideDown 300ms cubic-bezier(0.87, 0, 0.13, 1);
+                animation: slideDown 300ms ease-out;
             }
             &[data-state="closed"] {
-                animation: slideUp 300ms cubic-bezier(0.87, 0, 0.13, 1);
+                animation: slideUp 300ms ease-out;
             }
 
             @keyframes slideDown {
-                0% {
+                from {
                     height: 0;
                 }
-                100% {
+                to {
                     height: var(--radix-collapsible-content-height);
                 }
             }
 
             @keyframes slideUp {
-                0% {
+                from {
                     height: var(--radix-collapsible-content-height);
                 }
-                100% {
+                to {
                     height: 0;
                 }
             }
@@ -78,15 +75,18 @@ export const CollapsibleHeader = styled.div`
     letter-spacing: 0.3px;
     display: flex;
     align-items: center;
+    .apsara-collapse-icon {
+        flex-shrink: 0;
+    }
 
     &[data-state="open"] {
-        svg {
+        .apsara-collapse-icon {
             transition: transform 300ms cubic-bezier(0.87, 0, 0.13, 1);
             transform: rotate(90deg);
         }
     }
     &[data-state="closed"] {
-        svg {
+        .apsara-collapse-icon {
             transition: transform 300ms cubic-bezier(0.87, 0, 0.13, 1);
             transform: rotate(0deg);
         }

@@ -31,9 +31,7 @@ const Tooltip = ({
     return (
         <RadixTooltip.Provider delayDuration={delayDuration}>
             <RadixTooltip.Root defaultOpen={defaultOpen} open={open} onOpenChange={onOpenChange}>
-                <RadixTooltip.Trigger asChild>
-                    <span>{children}</span>
-                </RadixTooltip.Trigger>
+                <RadixTooltip.Trigger asChild>{children}</RadixTooltip.Trigger>
                 <RadixTooltip.Portal>
                     <TooltipContent
                         className="TooltipContent"
