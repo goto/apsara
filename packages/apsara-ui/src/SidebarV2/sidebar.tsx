@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
+import React from "react";
 import { SidebarNav, SidebarFooter } from "./sidebar.styles";
 import { SidebarProps } from "./sidebar.types";
-import { SidebarContext } from "./context";
+import { SidebarProvider, useSidebarContext } from "./context";
 import SidebarItem from "./components/item";
 import SidebarHeader from "./components/header";
 import SidebarCollapsible from "./components/collapsible";
@@ -10,7 +10,7 @@ import { PREFIX_CLS } from "./constants";
 
 const Sidebar = (props: SidebarProps) => {
     const { children, width = 200, collapsedWidth = 65 } = props;
-    const { collapsed } = useContext(SidebarContext);
+    const { collapsed } = useSidebarContext();
 
     return (
         <SidebarNav
@@ -25,6 +25,8 @@ const Sidebar = (props: SidebarProps) => {
     );
 };
 
+Sidebar.Provider = SidebarProvider;
+Sidebar.Root = Sidebar;
 Sidebar.Menu = SidebarMenu;
 Sidebar.Item = SidebarItem;
 Sidebar.Header = SidebarHeader;

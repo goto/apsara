@@ -71,7 +71,10 @@ export const CollapseWrapper = styled.div`
     }
 `;
 
-export const CollapsibleHeader = styled.div`
+export const CollapsibleHeader = styled.button`
+    border: none;
+    background: none;
+    outline: none;
     letter-spacing: 0.3px;
     display: flex;
     align-items: center;

@@ -1,4 +1,4 @@
-import React, { createContext, PropsWithChildren, useState } from "react";
+import React, { createContext, PropsWithChildren, useContext, useState } from "react";
 
 import { noop } from "../../utils";
 
@@ -28,4 +28,14 @@ export const SidebarProvider = (props: PropsWithChildren<SidebarProviderProps>) 
     };
 
     return <SidebarContext.Provider value={{ collapsed, toggleCollapse }}>{children}</SidebarContext.Provider>;
+};
+
+export const useSidebarContext = () => {
+    const context = useContext(SidebarContext);
+
+    if (context === undefined) {
+        throw new Error("useSidebarContext must be used within a SidebarProvider");
+    }
+
+    return context;
 };

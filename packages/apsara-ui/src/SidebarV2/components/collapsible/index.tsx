@@ -1,14 +1,14 @@
-import React, { PropsWithChildren, useContext } from "react";
+import React, { PropsWithChildren } from "react";
 import { Icon } from "@goto-company/apsara";
 
 import { collapsedProps } from "../../sidebar.types";
-import { SidebarContext } from "../../context";
+import { useSidebarContext } from "../../context";
 import { PREFIX_CLS } from "../../constants";
 import { StyledSidebarCollapse } from "./collapsible.styles";
 
 const SidebarCollapse = (props: PropsWithChildren<collapsedProps>) => {
     const { onClick, children = "Collapse" } = props;
-    const { toggleCollapse, collapsed } = useContext(SidebarContext);
+    const { toggleCollapse, collapsed } = useSidebarContext();
 
     const handleClickCollapse = () => {
         toggleCollapse();

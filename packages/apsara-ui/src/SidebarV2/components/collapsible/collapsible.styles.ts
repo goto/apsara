@@ -5,6 +5,7 @@ import { ellipsis, textStyles } from "../../sidebar.styles";
 export const StyledSidebarCollapse = styled.button`
     background: none;
     border: none;
+    outline: none;
     padding: 0 16px;
     align-items: center;
     display: inline-flex;
@@ -12,6 +13,9 @@ export const StyledSidebarCollapse = styled.button`
     height: 100%;
     min-height: 48px;
     cursor: pointer;
+    &:focus-visible {
+        background-color: rgb(233, 233, 233);
+    }
 
     .apsara_icon {
         margin-right: 16px;

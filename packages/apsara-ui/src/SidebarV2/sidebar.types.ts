@@ -14,6 +14,7 @@ export interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement>
 
 export interface NavigationSidebarList {
     state: string;
+    defaultOpen?: boolean;
     linkProps?: LinkProps;
     content: ReactNode;
     icon?: ReactNode;

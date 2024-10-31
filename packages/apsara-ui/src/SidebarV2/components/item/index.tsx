@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { SiderMenuProps } from "../../sidebar.types";
-import { SidebarContext } from "../../context";
+import { useSidebarContext } from "../../context";
 import Collapse from "../../../Collapse";
 import SidebarContent from "./content";
 import { PREFIX_CLS } from "../../constants";
@@ -9,17 +9,27 @@ import { SidebarMenu, SidebarMenuItemWrapper, SidebarMenuSubItem } from "./item.
 import { noop } from "../../../utils";
 
 const SidebarMenuItem = (props: SiderMenuProps) => {
-    const { activeState, highlight, icon, state, linkProps, content, className, linkRender = noop, child } = props;
+    const {
+        activeState,
+        defaultOpen,
+        highlight,
+        icon,
+        state,
+        linkProps,
+        content,
+        className,
+        linkRender = noop,
+        child,
+    } = props;
 
-    const { collapsed } = useContext(SidebarContext);
+    const { collapsed } = useSidebarContext();
 
     return (
         <SidebarMenuItemWrapper className={className} selected={activeState === state}>
             {child ? (
                 <>
                     <Collapse
-                        headerStyle={{ padding: 0 }}
-                        defaultOpen={activeState?.includes(state)}
+                        defaultOpen={defaultOpen || activeState?.includes(state)}
                         header={
                             <SidebarMenuSubItem className={`${PREFIX_CLS}-nav-collapsible-item`}>
                                 <SidebarContent

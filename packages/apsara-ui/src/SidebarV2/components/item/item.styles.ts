@@ -15,11 +15,19 @@ export const SidebarMenuItemWrapper = styled("li")<{ selected: boolean }>`
 
     .apsara-collapse-header {
         width: 100%;
-        padding: 0 2px 0 0 !important;
+        padding: 0 6px 0 0 !important;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        height: 32px;
+        height: 36px;
+        border-radius: 4px;
+        ${({ selected }) =>
+            selected
+                ? ""
+                : `&:hover, &:focus-visible {
+                    background-color: rgb(233, 233, 233);
+                }
+        `}
 
         .apsara-collapse-content {
             width: 100%;
@@ -55,9 +63,17 @@ export const SidebarMenuItemWrapper = styled("li")<{ selected: boolean }>`
         align-items: center;
         height: 24px;
         gap: 6px;
-        height: 32px;
+        height: 36px;
         padding: 0 8px;
         user-select: none;
+        border-radius: 4px;
+        ${({ selected }) =>
+            selected
+                ? ""
+                : `&:hover, &:focus-visible {
+                    background-color: rgb(233, 233, 233);
+                }
+        `}
     }
 
     .${PREFIX_CLS}-highlight {
@@ -74,9 +90,7 @@ export const SidebarMenuItemWrapper = styled("li")<{ selected: boolean }>`
             ? `
       .${PREFIX_CLS}-nav-item {
         background: #1e7ae8;
-        border-radius: 4px;
       }
-      background-color: transparent;
       & .apsara_icon,
       & .${PREFIX_CLS}-nav-text {
         color: white !important;
@@ -85,11 +99,8 @@ export const SidebarMenuItemWrapper = styled("li")<{ selected: boolean }>`
             : ""}
 `;
 
-export const SidebarMenuSubItem = styled("button")`
+export const SidebarMenuSubItem = styled("div")`
     width: 100%;
-    background: none;
-    border: none;
-    backgorund
     height: 24px;
     user-select: none;
     padding: 0 8px;
@@ -106,6 +117,6 @@ export const SidebarMenu = styled.ul`
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
     padding: 0 12px;
 `;

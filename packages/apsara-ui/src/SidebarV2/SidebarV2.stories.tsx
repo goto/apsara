@@ -2,7 +2,6 @@ import React from "react";
 import Sidebar from "./sidebar";
 import Icon from "../Icon";
 import Colors from "../Colors";
-import { SidebarProvider } from "./context";
 import { NavigationSidebarList } from "./sidebar.types";
 
 export default {
@@ -114,8 +113,8 @@ export const iconComponent = () => {
     ];
 
     return (
-        <SidebarProvider>
-            <Sidebar width={220}>
+        <Sidebar.Provider>
+            <Sidebar.Root width={220}>
                 <Sidebar.Header
                     logo={<Icon name="doc" size={32} styleOverride={{ color: Colors.light.primary[3] }} />}
                     name="Console"
@@ -123,7 +122,7 @@ export const iconComponent = () => {
                 <Sidebar.Menu>
                     {navList.map((item, idx) => (
                         <Sidebar.Item
-                            activeState="explore"
+                            activeState="dashboard"
                             linkRender={({ children, props }) => (
                                 <a {...props} href={props.to as string}>
                                     {children}
@@ -137,7 +136,7 @@ export const iconComponent = () => {
                 <Sidebar.Footer>
                     <Sidebar.Collapsible />
                 </Sidebar.Footer>
-            </Sidebar>
-        </SidebarProvider>
+            </Sidebar.Root>
+        </Sidebar.Provider>
     );
 };
