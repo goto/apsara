@@ -1,16 +1,17 @@
 import React, { ReactNode } from "react";
 import Tooltip from "../../../Tooltip";
 import { PREFIX_CLS } from "../../constants";
+import { useSidebarContext } from "../../context";
 
 interface SidebarContentProps {
     content: ReactNode;
     icon?: ReactNode;
-    collapsed?: boolean;
     highlight?: ReactNode;
 }
 
 const SidebarContent = (props: SidebarContentProps) => {
-    const { collapsed, highlight, icon, content } = props;
+    const { highlight, icon, content } = props;
+    const { collapsed } = useSidebarContext();
 
     return (
         <>
