@@ -14,7 +14,7 @@ import Learn from "./Learn";
 import Markdown from "./Markdown";
 import ContentLayout from "./ContentLayout";
 import Sidebar from "./Sidebar";
-import SidebarV2 from "./SidebarV2";
+import { SidebarV2, useSidebarV2Context } from "./SidebarV2";
 import Drawer from "./Drawer";
 import Header from "./Header";
 import { ListSkeleton, EditorSkeleton, DetailsSkeleton } from "./Skeleton";
@@ -80,6 +80,7 @@ export {
     ContentLayout,
     Sidebar,
     SidebarV2,
+    useSidebarV2Context,
     Drawer,
     Header,
     ListSkeleton,
