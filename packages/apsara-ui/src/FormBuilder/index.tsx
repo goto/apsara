@@ -4,12 +4,13 @@ import InternalForm, { FormInstance, FormProps, useForm } from "./Form";
 import FormBuilderItems from "./FormBuilderItems";
 import Item from "./FormItem";
 import PropTypes from "prop-types";
-import { List, Field } from "rc-field-form";
+import { List, Field, useWatch } from "rc-field-form";
 
 type InternalFormType = typeof InternalForm;
 
 interface FormInterface extends InternalFormType {
     useForm: typeof useForm;
+    useWatch: typeof useWatch;
     Item: typeof Item;
     List: typeof List;
     Provider: typeof FormProvider;
@@ -20,6 +21,7 @@ const Form = InternalForm as FormInterface;
 Form.Item = Item;
 Form.List = List;
 Form.useForm = useForm;
+Form.useWatch = useWatch;
 Form.Provider = FormProvider;
 
 const validateMessages = {
@@ -58,7 +60,9 @@ CustomForm.propTypes = {
 
 CustomForm.Provider = Form.Provider;
 CustomForm.useForm = Form.useForm;
+CustomForm.useWatch = Form.useWatch;
 CustomForm.Items = FormBuilderItems;
+CustomForm.Item = Form.Item;
 
 CustomForm.useForceUpdate = () => {
     const [, updateState] = React.useState({});

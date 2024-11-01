@@ -5,7 +5,7 @@ import Tooltip from "../Tooltip";
 import Icon from "../Icon";
 // import * as AC from "./Button.styles";
 import { CustomButtonProps } from "./Button.types";
-import { StyledButton } from "./Button.styles";
+import { StyledButton, StyledButtonLink } from "./Button.styles";
 
 const defaultIconSize = 24;
 const Button = ({
@@ -44,32 +44,39 @@ const Button = ({
     };
 
     const button = (
-        <StyledButton role="button" type={type} size={size} block={block} shape={shape}>
-            {!href && (
-                <button
-                    type={htmlType || "button"}
+        <>
+            {href ? (
+                <StyledButtonLink
+                    href={href}
+                    className={`apsara-btn ${clsx(className, type)} ${disabled ? "disabled" : ""}`}
+                    block={block}
+                    shape={shape}
+                    size={size}
+                    variantType={type}
+                    {...props}
+                >
+                    <IconComponent />
+                    {children}
+                </StyledButtonLink>
+            ) : (
+                <StyledButton
+                    type={htmlType}
                     disabled={disabled}
-                    onClick={(e) => {
-                        onClick(e);
-                    }}
+                    onClick={onClick}
+                    block={block}
+                    shape={shape}
+                    size={size}
+                    variantType={type}
                     className={`apsara-btn ${clsx(className, type)}`}
                     {...props}
                 >
-                    <IconComponent />
-                    {children}
-                </button>
+                    <>
+                        <IconComponent />
+                        {children}
+                    </>
+                </StyledButton>
             )}
-            {href && (
-                <a
-                    href={href}
-                    className={`apsara-btn ${clsx(className, type)} ${disabled ? "disabled" : ""}`}
-                    {...props}
-                >
-                    <IconComponent />
-                    {children}
-                </a>
-            )}
-        </StyledButton>
+        </>
     );
 
     return tooltipProps?.message ? (

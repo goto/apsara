@@ -16,6 +16,7 @@ export type TooltipProps = {
     avoidCollisions?: boolean;
 } & HTMLAttributes<HTMLDivElement>;
 
+export const PREFIX_CLS = "apsara-tooltip";
 const Tooltip = ({
     title = "",
     placement = "right",
@@ -32,7 +33,7 @@ const Tooltip = ({
         <RadixTooltip.Provider delayDuration={delayDuration}>
             <RadixTooltip.Root defaultOpen={defaultOpen} open={open} onOpenChange={onOpenChange}>
                 <RadixTooltip.Trigger asChild>
-                    <span>{children}</span>
+                    <span className={`${PREFIX_CLS}-trigger`}>{children}</span>
                 </RadixTooltip.Trigger>
                 <RadixTooltip.Portal>
                     <TooltipContent
