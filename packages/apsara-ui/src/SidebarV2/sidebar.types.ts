@@ -9,7 +9,7 @@ interface LinkLocation {
 }
 
 export interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
-    to?: string | LinkLocation;
+    to: string | LinkLocation;
 }
 
 export interface NavigationSidebarList {
@@ -34,6 +34,7 @@ export interface SiderMenuProps extends NavigationSidebarList {
 }
 
 export interface collapsedProps {
+    icon?: ReactNode;
     onClick?: (collapsed: boolean) => void;
 }
 

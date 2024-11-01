@@ -7,7 +7,7 @@ interface SidebarContextParams {
     toggleCollapse: () => void;
 }
 
-interface SidebarProviderProps {
+export interface SidebarProviderProps {
     keyLocalStorage?: string;
 }
 

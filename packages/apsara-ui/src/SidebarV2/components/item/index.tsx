@@ -20,6 +20,7 @@ const SidebarMenuItem = (props: SiderMenuProps) => {
                         children: <SidebarContent highlight={highlight} icon={icon} content={content} />,
                         props: {
                             className: `${PREFIX_CLS}-nav-item`,
+                            to: linkProps?.to || "",
                             ...linkProps,
                         },
                     })}

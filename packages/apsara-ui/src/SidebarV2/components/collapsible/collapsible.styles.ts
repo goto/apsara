@@ -25,10 +25,13 @@ export const StyledSidebarCollapse = styled.button`
         color: ${({ theme }) => theme?.sidebar?.trigger};
     }
 
-    & .rotate {
-        transform: rotate(180deg);
+    .${PREFIX_CLS}-collapsible-icon-wrapper {
+        &.rotate {
+            .apsara_icon {
+                transform: rotate(180deg);
+            }
+        }
     }
-
     .${PREFIX_CLS}-collapsible-nav-text {
         ${({ theme }) => textStyles(theme?.fontSizes[0], theme?.sidebar?.trigger, "0.3px")}
         ${ellipsis}
