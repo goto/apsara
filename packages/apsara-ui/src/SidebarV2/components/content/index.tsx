@@ -2,11 +2,12 @@ import React, { ReactNode } from "react";
 import Tooltip from "../../../Tooltip";
 import { PREFIX_CLS } from "../../constants";
 import { useSidebarContext } from "../../context";
+import { SidebarHighlight } from "../../sidebar.types";
 
 interface SidebarContentProps {
     content: ReactNode;
     icon?: ReactNode;
-    highlight?: ReactNode;
+    highlight?: SidebarHighlight;
 }
 
 const SidebarContent = (props: SidebarContentProps) => {
@@ -24,7 +25,11 @@ const SidebarContent = (props: SidebarContentProps) => {
                 <>{icon}</>
             )}
             <div className={`${PREFIX_CLS}-nav-text`}>{content}</div>
-            {highlight && <div className={`${PREFIX_CLS}-highlight`}>{highlight}</div>}
+            {highlight?.children && (
+                <div {...highlight.props} className={`${PREFIX_CLS}-highlight ${highlight.props?.className}`}>
+                    {highlight.children}
+                </div>
+            )}
         </>
     );
 };
