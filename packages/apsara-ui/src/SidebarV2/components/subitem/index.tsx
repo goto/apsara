@@ -8,7 +8,7 @@ import { PREFIX_CLS } from "../../constants";
 import { CollapseWrapper, SidebarMenuSubItem, SidebarMenu } from "../../sidebar.styles";
 
 const SubItem = (props: SiderMenuProps) => {
-    const { activeState, content, state, child, className, defaultOpen, highlight, icon, linkRender } = props;
+    const { activeState, content, state, children, className, defaultOpen, highlight, icon, linkRender } = props;
     const { collapsed, toggleCollapse } = useSidebarContext();
     const collapseRef = useRef<CollapseRef>(null);
 
@@ -40,7 +40,7 @@ const SubItem = (props: SiderMenuProps) => {
                 }
             >
                 <SidebarMenu style={{ paddingLeft: "30px", marginTop: "12px" }}>
-                    {child?.map((item, idx) => (
+                    {children?.map((item, idx) => (
                         <SidebarMenuItem
                             key={idx}
                             className={className}

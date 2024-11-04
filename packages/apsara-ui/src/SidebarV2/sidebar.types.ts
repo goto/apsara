@@ -20,7 +20,7 @@ export interface NavigationSidebarList {
     icon?: ReactNode;
     className?: string;
     highlight?: ReactNode;
-    child?: NavigationSidebarList[];
+    children?: NavigationSidebarList[];
 }
 
 export interface LinkRenderProps {

@@ -75,7 +75,7 @@ export const iconComponent = () => {
             },
             content: "Experimentation",
             icon: <Icon name="catalog" />,
-            child: [
+            children: [
                 {
                     state: "experimentation.facts",
                     linkProps: {
