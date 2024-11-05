@@ -12,6 +12,11 @@ export interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement>
     to: string | LinkLocation;
 }
 
+export interface SidebarHighlight {
+    children: ReactNode;
+    props?: React.HTMLAttributes<HTMLDivElement>;
+}
+
 export interface NavigationSidebarList {
     state: string;
     defaultOpen?: boolean;
@@ -19,8 +24,8 @@ export interface NavigationSidebarList {
     content: ReactNode;
     icon?: ReactNode;
     className?: string;
-    highlight?: ReactNode;
-    child?: NavigationSidebarList[];
+    highlight?: SidebarHighlight;
+    children?: NavigationSidebarList[];
 }
 
 export interface LinkRenderProps {

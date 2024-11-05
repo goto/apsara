@@ -8,11 +8,11 @@ import SubItem from "../subitem";
 import { SidebarMenuItemWrapper } from "../../sidebar.styles";
 
 const SidebarMenuItem = (props: SiderMenuProps) => {
-    const { activeState, highlight, icon, state, linkProps, content, className, linkRender = noop, child } = props;
+    const { activeState, highlight, icon, state, linkProps, content, className, linkRender = noop, children } = props;
 
     return (
         <SidebarMenuItemWrapper className={className} selected={activeState === state}>
-            {child ? (
+            {children ? (
                 <SubItem {...props} />
             ) : (
                 <>

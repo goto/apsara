@@ -58,7 +58,9 @@ export const iconComponent = () => {
             },
             content: "Optimus",
             icon: <Icon name="optimus" />,
-            highlight: "New",
+            highlight: {
+                children: "New",
+            },
         },
         {
             state: "google",
@@ -75,7 +77,7 @@ export const iconComponent = () => {
             },
             content: "Experimentation",
             icon: <Icon name="catalog" />,
-            child: [
+            children: [
                 {
                     state: "experimentation.facts",
                     linkProps: {
