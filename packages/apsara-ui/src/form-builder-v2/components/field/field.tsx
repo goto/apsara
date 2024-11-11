@@ -7,7 +7,7 @@ import withDefaultErrorMessage from "../../utils/default-error-message";
 type ErrorAnimation = "shake";
 
 interface FieldProps extends UseControllerProps {
-    label?: string;
+    label?: ReactNode;
     prefix?: ReactNode;
     suffix?: ReactNode;
     errorAnimation?: ErrorAnimation;
@@ -29,13 +29,15 @@ const Field = (props: FieldProps) => {
 
     return (
         <FieldWrapper error={Boolean(error?.message)} className={`${PREFIX_CLS}-field`}>
-            <div className={`${PREFIX_CLS}-label-wrapper`}>
-                {prefix}
-                <label className={`${PREFIX_CLS}-label`} htmlFor={controllerProps.name}>
-                    {label}
-                </label>
-                {suffix}
-            </div>
+            {label && (
+                <div className={`${PREFIX_CLS}-label-wrapper`}>
+                    {prefix}
+                    <label className={`${PREFIX_CLS}-label`} htmlFor={controllerProps.name}>
+                        {label}
+                    </label>
+                    {suffix}
+                </div>
+            )}
             <Controller
                 control={control}
                 rules={enhancedRules}
