@@ -32,7 +32,8 @@
     "homepage": "https://goto.github.io/apsara/",
     "peerDependencies": {
         "react": "^16.13.1",
-        "react-dom": "^16.13.1"
+        "react-dom": "^16.13.1",
+        "react-hook-form": "7.53.1"
     },
     "dependencies": {
         "@ant-design/icons": "^4.2.2",
@@ -97,7 +98,8 @@
         "rollup-plugin-postcss-webpack-alias-less-loader": "^1.0.0",
         "rollup-plugin-typescript2": "^0.27.2",
         "style-loader": "^1.2.1",
-        "ts-import-plugin": "^1.6.6"
+        "ts-import-plugin": "^1.6.6",
+        "react-hook-form": "7.53.1"
     },
     "bugs": {
         "url": "https://github.com/goto/apsara/issues"

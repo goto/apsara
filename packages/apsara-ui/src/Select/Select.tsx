@@ -16,6 +16,7 @@ import {
     SelectScrollUpButton,
     SelectScrollDownButton,
 } from "./Select.styles";
+import { PREFIX_CLS } from "./constants";
 
 type Item = {
     value: string;
@@ -87,7 +88,12 @@ const Select = ({
             open={open}
             onOpenChange={onOpenChange}
         >
-            <SelectTrigger {...props.triggerProps}>
+            <SelectTrigger
+                className={`${PREFIX_CLS}-trigger ${
+                    props.triggerProps?.className ? props.triggerProps?.className : ""
+                }`}
+                {...props.triggerProps}
+            >
                 <SelectValue />
                 <SelectIcon>
                     <ChevronDownIcon />
