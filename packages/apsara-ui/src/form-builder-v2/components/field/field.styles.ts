@@ -24,6 +24,15 @@ export const FieldWrapper = styled("div")<{ error?: boolean }>`
     flex-direction: column;
     gap: 4px;
     margin-bottom: 12px;
+    .apsara-form-builder-v2-label-wrapper {
+        display: flex;
+        gap: 4px;
+        align-items: center;
+    }
+    .apsara-form-builder-v2-label {
+        font-size: 12px;
+        text-transform: uppercase;
+    }
     ${({ error }) =>
         error
             ? `
