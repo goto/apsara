@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import StyledWrapper, { TextAreaWrapper } from "./Input.styles";
+import { PREFIX_CLS } from "./constants";
 
 export type InputProps = {
     size?: "small" | "middle" | "large";
@@ -31,7 +32,12 @@ const Input = ({
     };
 
     return (
-        <StyledWrapper size={size} disabled={props.disabled} style={props.style} className={props.className}>
+        <StyledWrapper
+            size={size}
+            disabled={props.disabled}
+            style={props.style}
+            className={`${PREFIX_CLS} ${props.className || ""}`}
+        >
             {prefix != "" && prefix != null && <span className="input_suffix_prefix">{prefix}</span>}
             <div className="input_close_icon_wrapper">
                 <input
@@ -66,7 +72,7 @@ const Input = ({
 const TextArea = ({ size = "middle", ...props }: TextAreaProps) => {
     return (
         <TextAreaWrapper size={size}>
-            <textarea {...props} className="input_textarea_main">
+            <textarea {...props} className={`${PREFIX_CLS}-text-area input_textarea_main`}>
                 {props.children}
             </textarea>
         </TextAreaWrapper>
