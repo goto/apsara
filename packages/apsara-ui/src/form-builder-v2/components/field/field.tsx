@@ -1,34 +1,49 @@
-import React, { memo, ReactElement, ReactNode } from "react";
+import React, { ReactElement, ReactNode } from "react";
 import { useFormContext, useFormState, Controller, UseControllerProps } from "react-hook-form";
 import { ErrorMessage, FieldWrapper } from "./field.styles";
 import { PREFIX_CLS } from "../../constants";
 import withDefaultErrorMessage from "../../utils/default-error-message";
+import { ErrorMessage as ErrorMessageWrapper } from "@hookform/error-message";
 
 type ErrorAnimation = "shake";
 
-interface FieldProps extends UseControllerProps {
-    label?: ReactNode;
+export interface FieldProps extends UseControllerProps {
+    label?: string;
     prefix?: ReactNode;
     suffix?: ReactNode;
     errorAnimation?: ErrorAnimation;
     children: ReactElement;
+    className?: string;
+    style?: React.CSSProperties;
 }
 
 const Field = (props: FieldProps) => {
-    const { label, prefix, suffix, children, errorAnimation = "shake", rules, ...controllerProps } = props;
+    const {
+        label,
+        prefix,
+        suffix,
+        children,
+        errorAnimation = "shake",
+        rules,
+        className,
+        style,
+        ...controllerProps
+    } = props;
     const {
         formState: { errors },
         control,
     } = useFormContext();
     const { isSubmitting } = useFormState();
 
-    const enhancedRules = withDefaultErrorMessage(controllerProps.name, rules);
+    const enhancedRules = withDefaultErrorMessage(label || "", rules);
     const error = errors[controllerProps.name];
-    const firstError = Object.keys(errors)[0];
-    const isFirstError = firstError === controllerProps.name;
 
     return (
-        <FieldWrapper error={Boolean(error?.message)} className={`${PREFIX_CLS}-field`}>
+        <FieldWrapper
+            error={Boolean(error?.message)}
+            className={`${PREFIX_CLS}-field ${className ? className : ""}`}
+            style={style}
+        >
             {label && (
                 <div className={`${PREFIX_CLS}-label-wrapper`}>
                     {prefix}
@@ -51,13 +66,23 @@ const Field = (props: FieldProps) => {
                     </>
                 )}
             />
-            {error && !isSubmitting && (
-                <ErrorMessage className={`${PREFIX_CLS}-error-message ${isFirstError ? errorAnimation : ""}`}>
-                    {error.message}
-                </ErrorMessage>
-            )}
+            <ErrorMessageWrapper
+                errors={errors}
+                name={controllerProps.name}
+                render={({ message }) => {
+                    return (
+                        <>
+                            {message && !isSubmitting && (
+                                <ErrorMessage className={`${PREFIX_CLS}-error-message ${errorAnimation}`}>
+                                    {message}
+                                </ErrorMessage>
+                            )}
+                        </>
+                    );
+                }}
+            />
         </FieldWrapper>
     );
 };
 
-export default memo(Field);
+export default Field;

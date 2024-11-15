@@ -23,7 +23,7 @@ export const FieldWrapper = styled("div")<{ error?: boolean }>`
     display: flex;
     flex-direction: column;
     gap: 4px;
-    margin-bottom: 12px;
+    margin-bottom: 20px;
     .apsara-form-builder-v2-label-wrapper {
         display: flex;
         gap: 4px;
