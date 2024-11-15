@@ -5,7 +5,7 @@ import { PREFIX_CLS } from "../../constants";
 import withDefaultErrorMessage from "../../utils/default-error-message";
 import { ErrorMessage as ErrorMessageWrapper } from "@hookform/error-message";
 
-type ErrorAnimation = "shake";
+type ErrorAnimation = "shake" | "none";
 
 export interface FieldProps extends UseControllerProps {
     label?: string;

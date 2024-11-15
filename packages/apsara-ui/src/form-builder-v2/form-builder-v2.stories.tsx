@@ -30,7 +30,7 @@ export const MyForm = () => {
 
     return (
         <FormBuilderV2 form={form} onSubmit={onSubmit}>
-            <FormBuilderV2.Field label="Name" name="name" rules={{ required: true }}>
+            <FormBuilderV2.Field errorAnimation="none" label="Name" name="name" rules={{ required: true }}>
                 <Input placeholder="Your name" />
             </FormBuilderV2.Field>
             <FormBuilderV2.Field
