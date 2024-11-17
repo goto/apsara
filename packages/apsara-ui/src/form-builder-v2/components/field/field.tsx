@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode } from "react";
+import React, { memo, ReactElement, ReactNode } from "react";
 import { useFormContext, useFormState, Controller, UseControllerProps } from "react-hook-form";
 import { ErrorMessage, FieldWrapper } from "./field.styles";
 import { PREFIX_CLS } from "../../constants";
@@ -29,6 +29,7 @@ const Field = (props: FieldProps) => {
         style,
         ...controllerProps
     } = props;
+
     const {
         formState: { errors },
         control,
@@ -37,6 +38,7 @@ const Field = (props: FieldProps) => {
 
     const enhancedRules = withDefaultErrorMessage(label || "", rules);
     const error = errors[controllerProps.name];
+    const isFirstError = [...control._names.mount.values()].find((item) => errors[item]) === controllerProps.name;
 
     return (
         <FieldWrapper
@@ -73,7 +75,9 @@ const Field = (props: FieldProps) => {
                     return (
                         <>
                             {message && !isSubmitting && (
-                                <ErrorMessage className={`${PREFIX_CLS}-error-message ${errorAnimation}`}>
+                                <ErrorMessage
+                                    className={`${PREFIX_CLS}-error-message ${isFirstError ? errorAnimation : ""}`}
+                                >
                                     {message}
                                 </ErrorMessage>
                             )}
@@ -85,4 +89,4 @@ const Field = (props: FieldProps) => {
     );
 };
 
-export default Field;
+export default memo(Field);

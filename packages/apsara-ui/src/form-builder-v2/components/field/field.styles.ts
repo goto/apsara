@@ -36,7 +36,7 @@ export const FieldWrapper = styled("div")<{ error?: boolean }>`
     ${({ error }) =>
         error
             ? `
-                .apsara-input, .apsara-input:focus, .apsara-input:hover, .input_textarea_main, .input_textarea_main:focus, .input_textarea_main:hover, .rc-select-selector, .apsara-picker, .apsara-input-number, .apsara-select-trigger  {
+                .apsara-input, .apsara-input:focus, .apsara-input:hover, .input_textarea_main, .input_textarea_main:focus, .input_textarea_main:hover, .rc-select-selector, .rc-select-selector:hover, .apsara-picker, .apsara-picker:hover, .apsara-input-number, .apsara-select-trigger, .apsara-radio:not(:disabled), .apsara-checkbox  {
                     border: 1px solid ${errorColor};
                 }
             `

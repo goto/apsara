@@ -2609,7 +2609,7 @@
   resolved "https://registry.npmjs.org/@goto-company/icons/-/icons-0.1.0.tgz#11a9d6537d4bc19a432924f7a40c60a4d2dbfbcd"
   integrity sha512-8+gRNfxBQqMK40qwHCnROuc2SE39j0ypoUhkeDULhnWLDBMdg0giAKJRuumJM5Q2EISo54D/9mWc/bAvIFvIqA==
 
-"@hookform/error-message@^2.0.1":
+"@hookform/error-message@2.0.1":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@hookform/error-message/-/error-message-2.0.1.tgz#6a37419106e13664ad6a29c9dae699ae6cd276b8"
   integrity sha512-U410sAr92xgxT1idlu9WWOVjndxLdgPUHEB8Schr27C9eh7/xUnITWpCMF93s+lGiG++D4JnbSnrb5A21AdSNg==

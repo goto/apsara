@@ -1,5 +1,6 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import { StyledSwitch, StyledThumb } from "./Switch.styles";
+import transformCheckedValue from "../helper/transform-checked-value";
 
 type StyleProps = {
     className?: string;
@@ -21,23 +22,25 @@ export type SwitchProps = {
     thumbProps?: StyleProps;
 };
 
-const Switch = ({
-    defaultChecked = false,
-    checked,
-    onChange,
-    disabled = false,
-    required,
-    name,
-    value,
-    color,
-    id,
-    ...props
-}: SwitchProps) => {
+const Switch = forwardRef<HTMLButtonElement, SwitchProps>((props, ref) => {
+    const {
+        defaultChecked = false,
+        checked,
+        onChange,
+        disabled = false,
+        required,
+        name,
+        value,
+        color,
+        id,
+        ...restProps
+    } = props;
+
     return (
         <StyledSwitch
             id={id}
             defaultChecked={defaultChecked}
-            checked={checked}
+            checked={checked || transformCheckedValue(value)}
             onCheckedChange={onChange}
             disabled={disabled}
             required={required}
@@ -46,10 +49,13 @@ const Switch = ({
             style={props.style}
             className={props.className}
             color={color}
+            ref={ref}
         >
-            <StyledThumb {...props.thumbProps} />
+            <StyledThumb {...restProps.thumbProps} />
         </StyledSwitch>
     );
-};
+});
+
+Switch.displayName = "Switch";
 
 export default Switch;

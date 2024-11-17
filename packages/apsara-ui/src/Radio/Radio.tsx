@@ -1,9 +1,10 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import { RadioGroup, StyledRadioItem, StyledIndicator, Label, Flex, StyledRadioButton } from "./Radio.styles";
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
 import { generateRandomId } from "../helper";
+import { PREFIX_CLS } from "./constants";
 
-type RadioItem = {
+export type RadioItem = {
     label?: string;
     value: string;
     disabled?: boolean;
@@ -39,50 +40,44 @@ export type RadioProps = {
     id?: string;
 };
 
-const Radio = ({
-    defaultValue,
-    value,
-    items,
-    onChange,
-    required,
-    orientation,
-    dir,
-    id = generateRandomId(),
-    ...props
-}: RadioProps) => {
-    return (
-        <RadioGroup
-            defaultValue={defaultValue}
-            value={value}
-            onValueChange={onChange}
-            required={required}
-            orientation={orientation}
-            dir={dir}
-            className={props.className}
-            style={props.style}
-            aria-label="View density"
-        >
-            {items &&
-                items.map((item, i) => (
-                    <Flex dir={dir} key={item.value}>
-                        <StyledRadioItem
-                            value={item.value}
-                            disabled={item.disabled}
-                            required={item.required}
-                            {...props.itemStyle}
-                            id={`${id}${item.value}${i}`}
-                        >
-                            <StyledIndicator />
-                        </StyledRadioItem>
-                        <Label dir={dir} htmlFor={`${id}${item.value}${i}`}>
-                            {item.label}
-                        </Label>
-                    </Flex>
-                ))}
-            {!items && props.children}
-        </RadioGroup>
-    );
-};
+const Radio = forwardRef<HTMLInputElement, RadioProps>(
+    ({ defaultValue, value, items, onChange, required, orientation, dir, id = generateRandomId(), ...props }, ref) => {
+        return (
+            <RadioGroup
+                defaultValue={defaultValue}
+                value={value}
+                onValueChange={onChange}
+                required={required}
+                orientation={orientation}
+                dir={dir}
+                className={props.className}
+                style={props.style}
+                aria-label="View density"
+                ref={ref}
+            >
+                {items &&
+                    items.map((item, i) => (
+                        <Flex dir={dir} key={item.value}>
+                            <StyledRadioItem
+                                value={item.value}
+                                disabled={item.disabled}
+                                required={item.required}
+                                {...props.itemStyle}
+                                id={`${id}${item.value}${i}`}
+                                className={`${PREFIX_CLS} ${props.className ? props.className : ""}`}
+                            >
+                                <StyledIndicator />
+                            </StyledRadioItem>
+                            <Label dir={dir} htmlFor={`${id}${item.value}${i}`}>
+                                {item.label}
+                            </Label>
+                        </Flex>
+                    ))}
+                {!items && props.children}
+            </RadioGroup>
+        );
+    },
+);
 
 const RadioButton = ({ label, value, children, ...props }: RadioButtonType) => {
     return (
@@ -95,9 +90,13 @@ const RadioButton = ({ label, value, children, ...props }: RadioButtonType) => {
     );
 };
 
-Radio.Root = RadioGroup;
-Radio.Item = StyledRadioItem;
-Radio.Indicator = StyledIndicator;
-Radio.Button = RadioButton;
+Radio.displayName = "Radio";
 
-export default Radio;
+const CompoundRadio = Object.assign(Radio, {
+    Root: RadioGroup,
+    Item: StyledRadioItem,
+    Indicator: StyledIndicator,
+    Button: RadioButton,
+});
+
+export default CompoundRadio;

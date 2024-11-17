@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { forwardRef, useRef } from "react";
 import Picker from "rc-picker";
 import enUS from "rc-picker/lib/locale/en_US";
 import { CalendarOutlined, ClockCircleOutlined, CloseCircleFilled } from "@ant-design/icons/";
@@ -22,14 +22,15 @@ type DatePickerProps = {
 };
 
 const prefixCls = "apsara-picker";
-const DatePicker = ({
-    className,
-    picker = "date",
-    placeholder = picker == "date" ? "Select date" : "Select time",
-    generateConfig = momentGenerateConfig,
-    width = "100%",
-    ...props
-}: DatePickerProps) => {
+const DatePicker = forwardRef<null, DatePickerProps>((props, ref) => {
+    const {
+        className,
+        picker = "date",
+        placeholder = picker == "date" ? "Select date" : "Select time",
+        generateConfig = momentGenerateConfig,
+        width = "100%",
+        ...restProps
+    } = props;
     const datePickerDropdownWrapperRef = useRef<HTMLDivElement>(null);
 
     return (
@@ -40,7 +41,7 @@ const DatePicker = ({
                     suffixIcon={picker === "time" ? <ClockCircleOutlined /> : <CalendarOutlined />}
                     clearIcon={<CloseCircleFilled />}
                     allowClear
-                    {...props}
+                    {...restProps}
                     className={className}
                     prefixCls={prefixCls}
                     locale={enUS}
@@ -52,11 +53,14 @@ const DatePicker = ({
                     nextIcon={<span className={`${prefixCls}-next-icon`} />}
                     superPrevIcon={<span className={`${prefixCls}-super-prev-icon`} />}
                     superNextIcon={<span className={`${prefixCls}-super-next-icon`} />}
+                    ref={ref}
                 />
             </DatePickerWrapper>
             <PickerDropdownWrapper ref={datePickerDropdownWrapperRef} />
         </>
     );
-};
+});
+
+DatePicker.displayName = "DatePicker";
 
 export default DatePicker;

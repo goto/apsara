@@ -9,6 +9,7 @@ import InputNumber from "../InputNumber";
 import DatePicker from "../DatePicker";
 import Combobox from "../Combobox";
 import Switch from "../Switch";
+import Checkbox from "../Checkbox";
 
 export default {
     title: "Data Display/FormV2",
@@ -30,8 +31,8 @@ export const MyForm = () => {
 
     return (
         <FormBuilderV2 form={form} onSubmit={onSubmit}>
-            <FormBuilderV2.Field errorAnimation="none" label="Name" name="name" rules={{ required: true }}>
-                <Input placeholder="Your name" />
+            <FormBuilderV2.Field label="Name" name="name" rules={{ required: true }}>
+                <Input allowClear placeholder="Your name" />
             </FormBuilderV2.Field>
             <FormBuilderV2.Field
                 label="Age"
@@ -55,7 +56,7 @@ export const MyForm = () => {
                 name="address"
                 rules={{ required: { value: true, message: "address is required" } }}
             >
-                <Input.TextArea placeholder="Your address" />
+                <Input.TextArea rows={5} placeholder="Your address" />
             </FormBuilderV2.Field>
             <FormBuilderV2.Field
                 label="Choose your favorite fruit"
@@ -136,10 +137,16 @@ export const MyForm = () => {
                     showSearch
                 />
             </FormBuilderV2.Field>
-            <FormBuilderV2.Field label="Dark mode" name="dark-mode" defaultValue={true}>
+            <FormBuilderV2.Field label="Dark mode" name="dark-mode" defaultValue={false}>
                 <Switch color="red" />
             </FormBuilderV2.Field>
-            <Button style={{ marginTop: 12 }} htmlType="submit">
+            <FormBuilderV2.Field
+                name="agreement"
+                rules={{ required: { value: true, message: "Agreement T&C is required!" } }}
+            >
+                <Checkbox name="tnc_agreement" label="I agree to the Terms & Conditions." />
+            </FormBuilderV2.Field>
+            <Button style={{ marginTop: 60 }} htmlType="submit">
                 Submit
             </Button>
         </FormBuilderV2>

@@ -2,6 +2,7 @@ import { CheckIcon } from "@radix-ui/react-icons";
 import React, { useEffect, useState } from "react";
 import { CheckboxWrapper, CheckboxGroupWrapper, StyledCheckbox, StyledIndicator } from "./Checkbox.styles";
 import { generateRandomId } from "../helper";
+import transformCheckedValue from "../helper/transform-checked-value";
 
 type CheckboxProps = {
     defaultChecked?: boolean;
@@ -29,6 +30,7 @@ type CheckboxGroupProps = {
     id?: string;
 };
 
+const prefixCls = "apsara-checkbox";
 const Checkbox = ({
     defaultChecked = false,
     checked,
@@ -48,11 +50,11 @@ const Checkbox = ({
     }, [checked]);
 
     return (
-        <CheckboxWrapper className="apsara-checkbox-wrapper">
+        <CheckboxWrapper className={`${prefixCls}-wrapper`}>
             <StyledCheckbox
                 defaultChecked={defaultChecked}
                 id={id}
-                checked={isChecked}
+                checked={isChecked || transformCheckedValue(value)}
                 onCheckedChange={
                     onChange ||
                     function (checked) {
@@ -64,6 +66,7 @@ const Checkbox = ({
                 name={name}
                 value={value}
                 style={style}
+                className={prefixCls}
             >
                 <StyledIndicator>
                     <CheckIcon style={{ width: "13px", height: "13px" }} />
@@ -95,7 +98,7 @@ const CheckboxGroup = ({
     };
 
     return (
-        <CheckboxGroupWrapper orientation={orientation} className="apsara-checkbox-group">
+        <CheckboxGroupWrapper orientation={orientation} className={`${prefixCls}-group`}>
             {options &&
                 options.map((option, index) => (
                     <div className="checkbox_label_wrapper" key={option.value}>
