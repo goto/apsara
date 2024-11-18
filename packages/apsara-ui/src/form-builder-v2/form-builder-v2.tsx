@@ -8,7 +8,7 @@ interface FormBuilderProps<T extends FieldValues> {
     children: ReactNode;
     onSubmit: SubmitHandler<T>;
     onInvalidSubmit?: SubmitErrorHandler<T>;
-    form: UseFormReturn<T, any>;
+    form: UseFormReturn<T>;
 }
 
 const FormBuilderV2 = <T extends FieldValues>({
