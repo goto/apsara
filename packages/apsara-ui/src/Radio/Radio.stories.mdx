@@ -1,16 +1,21 @@
 import { Meta, Preview, Canvas, Story, ArgsTable, IconGallery, IconItem } from "@storybook/addon-docs/blocks";
 import Radio from "./Radio";
+import Tooltip from "../Tooltip";
 
 export const items = [
-    {label: 'Apple',value: 'Apple'},
-    {label: 'Pear',value: 'Pear'},
-    {disabled: true,label: 'Orange',value: 'Orange'}
-]
+    { label: "Apple", value: "Apple" },
+    { label: "Pear", value: "Pear" },
+    {
+        disabled: true,
+        label: "Orange",
+        value: "Orange",
+        wrapper: ({ children }) => <Tooltip title="Will coming soon!">{children}</Tooltip>,
+    },
+];
 
-export const orientationTypes = ['horizontal','vertical',undefined]
+export const orientationTypes = ["horizontal", "vertical", undefined];
 
-export const dirTypes = ['ltr', 'rtl', undefined]
-
+export const dirTypes = ["ltr", "rtl", undefined];
 
 <Meta
     title="General/Radio"
@@ -22,7 +27,7 @@ export const dirTypes = ['ltr', 'rtl', undefined]
                 type: { summary: "{label?: string, value: string, disabled?: boolean, required?: boolean}[]" },
             },
         },
-        defaultValue:{
+        defaultValue: {
             control: { type: "text" },
             description: "Used when value is not controlled",
             table: {
@@ -41,25 +46,25 @@ export const dirTypes = ['ltr', 'rtl', undefined]
             control: { type: "select", options: orientationTypes },
             description: "Set Radio Orientation",
             table: {
-                type: { summary: 'horizontal | vertical | undefined' },
+                type: { summary: "horizontal | vertical | undefined" },
                 defaultValue: { summary: undefined },
             },
         },
-        dir:{
+        dir: {
             control: { type: "select", options: dirTypes },
             description: "Set Radio Items Direction",
             table: {
-                type: { summary: 'ltr | rtl | undefined' },
+                type: { summary: "ltr | rtl | undefined" },
                 defaultValue: { summary: undefined },
             },
         },
         onChange: {
-            action: 'clicked',
+            action: "clicked",
             description: "whenever a radio is clicked the corresponding value is passed into this function.",
-            table:{
-                type: {summary: '(value: string) => void'}
-            }
-        }
+            table: {
+                type: { summary: "(value: string) => void" },
+            },
+        },
     }}
 />
 

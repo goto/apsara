@@ -9,7 +9,7 @@ interface WrapperProps {
 }
 
 export type RadioItem = {
-    label?: string;
+    label?: ReactNode;
     value: string;
     disabled?: boolean;
     required?: boolean;
