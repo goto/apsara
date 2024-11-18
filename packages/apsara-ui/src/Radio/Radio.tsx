@@ -1,14 +1,19 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, ReactNode } from "react";
 import { RadioGroup, StyledRadioItem, StyledIndicator, Label, Flex, StyledRadioButton } from "./Radio.styles";
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
 import { generateRandomId } from "../helper";
 import { PREFIX_CLS } from "./constants";
+
+interface WrapperProps {
+    children: ReactNode;
+}
 
 export type RadioItem = {
     label?: string;
     value: string;
     disabled?: boolean;
     required?: boolean;
+    wrapper?: ({ children }: WrapperProps) => ReactNode;
 };
 
 type RadioButtonType = {
@@ -40,6 +45,10 @@ export type RadioProps = {
     id?: string;
 };
 
+const defaultWrapper = ({ children }: WrapperProps) => {
+    return <>{children}</>;
+};
+
 const Radio = forwardRef<HTMLInputElement, RadioProps>(
     ({ defaultValue, value, items, onChange, required, orientation, dir, id = generateRandomId(), ...props }, ref) => {
         return (
@@ -56,23 +65,33 @@ const Radio = forwardRef<HTMLInputElement, RadioProps>(
                 ref={ref}
             >
                 {items &&
-                    items.map((item, i) => (
-                        <Flex dir={dir} key={item.value}>
-                            <StyledRadioItem
-                                value={item.value}
-                                disabled={item.disabled}
-                                required={item.required}
-                                {...props.itemStyle}
-                                id={`${id}${item.value}${i}`}
-                                className={`${PREFIX_CLS} ${props.className ? props.className : ""}`}
-                            >
-                                <StyledIndicator />
-                            </StyledRadioItem>
-                            <Label dir={dir} htmlFor={`${id}${item.value}${i}`}>
-                                {item.label}
-                            </Label>
-                        </Flex>
-                    ))}
+                    items.map((item, i) => {
+                        const { wrapper = defaultWrapper } = item;
+
+                        return (
+                            <>
+                                {wrapper({
+                                    children: (
+                                        <Flex dir={dir} key={item.value}>
+                                            <StyledRadioItem
+                                                value={item.value}
+                                                disabled={item.disabled}
+                                                required={item.required}
+                                                {...props.itemStyle}
+                                                id={`${id}${item.value}${i}`}
+                                                className={`${PREFIX_CLS} ${props.className ? props.className : ""}`}
+                                            >
+                                                <StyledIndicator />
+                                            </StyledRadioItem>
+                                            <Label dir={dir} htmlFor={`${id}${item.value}${i}`}>
+                                                {item.label}
+                                            </Label>
+                                        </Flex>
+                                    ),
+                                })}
+                            </>
+                        );
+                    })}
                 {!items && props.children}
             </RadioGroup>
         );
