@@ -10,6 +10,7 @@ import Text from "./Text";
 import Tag from "./Tag";
 import States from "./States";
 import FormBuilder, { Form, FormInstance } from "./FormBuilder";
+import FormBuilderV2 from "./form-builder-v2";
 import Learn from "./Learn";
 import Markdown from "./Markdown";
 import ContentLayout from "./ContentLayout";
@@ -72,6 +73,7 @@ export {
     Text,
     Tag,
     FormBuilder,
+    FormBuilderV2,
     FormInstance,
     Form,
     States,
