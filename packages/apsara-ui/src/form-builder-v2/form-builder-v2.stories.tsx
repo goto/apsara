@@ -10,6 +10,7 @@ import DatePicker from "../DatePicker";
 import Combobox from "../Combobox";
 import Switch from "../Switch";
 import Checkbox from "../Checkbox";
+import Tooltip from "../Tooltip";
 
 export default {
     title: "Data Display/FormV2",
@@ -77,6 +78,12 @@ export const MyForm = () => {
                             disabled: true,
                             label: "Orange",
                             value: "Orange",
+                            // eslint-disable-next-line react/display-name
+                            wrapper: ({ children }) => (
+                                <Tooltip sideOffset={-5} title="Will coming soon!" placement="top">
+                                    {children}
+                                </Tooltip>
+                            ),
                         },
                     ]}
                     orientation="horizontal"

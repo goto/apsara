@@ -14,7 +14,8 @@ export type TooltipProps = {
     onOpenChange?: ((open: boolean) => void) | undefined;
     delayDuration?: number;
     avoidCollisions?: boolean;
-} & HTMLAttributes<HTMLDivElement>;
+} & HTMLAttributes<HTMLDivElement> &
+    RadixTooltip.TooltipContentProps;
 
 export const PREFIX_CLS = "apsara-tooltip";
 const Tooltip = ({
