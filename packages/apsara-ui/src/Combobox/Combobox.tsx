@@ -1,5 +1,5 @@
-import React from "react";
-import { SelectProps, OptGroup, Option } from "rc-select";
+import React, { forwardRef } from "react";
+import Select, { SelectProps, OptGroup, Option } from "rc-select";
 import { NotFoundContent, StyledMultiSelect } from "./Combobox.styles";
 import { useState } from "react";
 import Icon from "../Icon";
@@ -20,22 +20,23 @@ const loadingContent = (
     </NotFoundContent>
 );
 
-const Combobox = ({
-    options,
-    mode,
-    value,
-    onChange,
-    onSearch,
-    onSelect,
-    onDeselect,
-    allowClear = true,
-    showSearch = true,
-    showArrow = true,
-    filterOption = true,
-    placeholder,
-    optionFilterProp,
-    ...props
-}: SelectProps) => {
+const Combobox = forwardRef<Select<unknown>, SelectProps>((props, ref) => {
+    const {
+        options,
+        mode,
+        value,
+        onChange,
+        onSearch,
+        onSelect,
+        onDeselect,
+        allowClear = true,
+        showSearch = true,
+        showArrow = true,
+        filterOption = true,
+        placeholder,
+        optionFilterProp,
+        ...restProps
+    } = props;
     const [showInputIcon, setShowInputIcon] = useState(true);
     const [isValue, setIsValue] = useState(false);
     const [inputIcon, setInputIcon] = useState(ArrowIcon);
@@ -73,8 +74,8 @@ const Combobox = ({
 
     return (
         <StyledMultiSelect
-            notFoundContent={props.loading ? loadingContent : notFoundContent}
-            {...props}
+            notFoundContent={restProps.loading ? loadingContent : notFoundContent}
+            {...restProps}
             showInputIcon={showInputIcon || !allowClear}
             showSearch={showSearch}
             mode={mode}
@@ -93,13 +94,15 @@ const Combobox = ({
             filterOption={filterOption}
             optionFilterProp={optionFilterProp || "value"}
             animation="slide"
+            ref={ref}
         >
-            {props.children}
+            {restProps.children}
         </StyledMultiSelect>
     );
-};
+});
 
-Combobox.Option = Option;
-Combobox.OptGroup = OptGroup;
+Combobox.displayName = "Combobox";
 
-export default Combobox;
+const CompoundCombobox = Object.assign(Combobox, { Option, OptGroup });
+
+export default CompoundCombobox;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "@radix-ui/react-icons";
 import {
     SelectRoot,
@@ -16,6 +16,7 @@ import {
     SelectScrollUpButton,
     SelectScrollDownButton,
 } from "./Select.styles";
+import { PREFIX_CLS } from "./constants";
 
 type Item = {
     value: string;
@@ -49,17 +50,18 @@ export type SelectProps = {
     itemProps?: StyleProps;
 };
 
-const Select = ({
-    defaultValue = "",
-    value,
-    name,
-    onChange,
-    groups,
-    defaultOpen = false,
-    open,
-    onOpenChange,
-    ...props
-}: SelectProps) => {
+const Select = forwardRef<HTMLButtonElement, SelectProps>((props, ref) => {
+    const {
+        defaultValue = "",
+        value,
+        name,
+        onChange,
+        groups,
+        defaultOpen = false,
+        open,
+        onOpenChange,
+        ...restProps
+    } = props;
     const lastInd = groups.length - 1;
     const [showDefaultItem, setShowDefaultItem] = useState(true);
 
@@ -87,14 +89,20 @@ const Select = ({
             open={open}
             onOpenChange={onOpenChange}
         >
-            <SelectTrigger {...props.triggerProps}>
+            <SelectTrigger
+                {...restProps.triggerProps}
+                className={`${PREFIX_CLS}-trigger ${
+                    restProps.triggerProps?.className ? restProps.triggerProps?.className : ""
+                }`}
+                ref={ref}
+            >
                 <SelectValue />
                 <SelectIcon>
                     <ChevronDownIcon />
                 </SelectIcon>
             </SelectTrigger>
-            <SelectContent {...props.contentProps}>
-                <SelectScrollUpButton {...props.scrollButtonProps}>
+            <SelectContent {...restProps.contentProps}>
+                <SelectScrollUpButton {...restProps.scrollButtonProps}>
                     <ChevronUpIcon />
                 </SelectScrollUpButton>
                 <SelectViewport>
@@ -116,7 +124,7 @@ const Select = ({
                                         key={item.value}
                                         value={item.value}
                                         disabled={item.disabled}
-                                        {...props.itemProps}
+                                        {...restProps.itemProps}
                                     >
                                         <SelectItemText>{item.displayText}</SelectItemText>
                                         <SelectItemIndicator>
@@ -126,16 +134,18 @@ const Select = ({
                                 ))}
                             </SelectGroup>
 
-                            {i != lastInd && <SelectSeparator {...props.separatorProps} />}
+                            {i != lastInd && <SelectSeparator {...restProps.separatorProps} />}
                         </div>
                     ))}
                 </SelectViewport>
-                <SelectScrollDownButton {...props.scrollButtonProps}>
+                <SelectScrollDownButton {...restProps.scrollButtonProps}>
                     <ChevronDownIcon />
                 </SelectScrollDownButton>
             </SelectContent>
         </SelectRoot>
     );
-};
+});
+
+Select.displayName = "Select";
 
 export default Select;

@@ -116,6 +116,7 @@ const StyledWrapper = styled("div")<{
 `;
 
 export const TextAreaWrapper = styled("div")<{ size?: "small" | "middle" | "large" }>`
+    display: flex;
     .input_textarea_main {
         width: 100%;
         border: 1px solid ${({ theme }) => theme?.input?.border};

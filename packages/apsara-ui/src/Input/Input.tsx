@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { forwardRef, useImperativeHandle, useRef } from "react";
 import StyledWrapper, { TextAreaWrapper } from "./Input.styles";
+import { PREFIX_CLS } from "./constants";
 
 export type InputProps = {
     size?: "small" | "middle" | "large";
@@ -12,44 +13,51 @@ type TextAreaProps = {
     size?: "small" | "middle" | "large";
 } & Omit<React.HTMLProps<HTMLTextAreaElement>, "size">;
 
-const Input = ({
-    suffix,
-    prefix,
-    placeholder = "",
-    allowClear = false,
-    size = "middle",
-    onChange,
-    type,
-    value,
-    ...props
-}: InputProps) => {
-    const [ref, setRef] = useState<HTMLInputElement | null>(null);
-    const renderClearButton = value && allowClear && !props.disabled;
+const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
+    const {
+        suffix,
+        prefix,
+        placeholder = "",
+        allowClear = false,
+        size = "middle",
+        onChange,
+        type,
+        value,
+        ...restProps
+    } = props;
+    const localRef = useRef<HTMLInputElement>(null);
+    const renderClearButton = value && allowClear && !restProps.disabled;
+
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    useImperativeHandle(ref, () => localRef.current!, []);
 
     const onValueChange = (e: any) => {
         onChange && onChange(e);
     };
 
     return (
-        <StyledWrapper size={size} disabled={props.disabled} style={props.style} className={props.className}>
+        <StyledWrapper
+            size={size}
+            disabled={restProps.disabled}
+            style={restProps.style}
+            className={`${PREFIX_CLS} ${restProps.className || ""}`}
+        >
             {prefix != "" && prefix != null && <span className="input_suffix_prefix">{prefix}</span>}
             <div className="input_close_icon_wrapper">
                 <input
-                    ref={(input) => {
-                        setRef(input);
-                    }}
+                    ref={localRef}
                     onChange={onValueChange}
                     value={value}
                     type={type ? type : "text"}
                     placeholder={placeholder}
-                    {...props}
+                    {...restProps}
                     className="input_main"
                 />
                 {renderClearButton && (
                     <span
                         onClick={() => {
                             onValueChange({ target: { value: "" } });
-                            ref?.focus();
+                            localRef.current?.focus();
                         }}
                         className="input_close_icon"
                     >
@@ -58,21 +66,25 @@ const Input = ({
                 )}
             </div>
             {suffix != "" && suffix != null && <span className="input_suffix_prefix input_suffix">{suffix}</span>}
-            {props.children}
+            {restProps.children}
         </StyledWrapper>
     );
-};
+});
 
-const TextArea = ({ size = "middle", ...props }: TextAreaProps) => {
+const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>((props, ref) => {
+    const { size = "middle", ...restProps } = props;
     return (
         <TextAreaWrapper size={size}>
-            <textarea {...props} className="input_textarea_main">
-                {props.children}
+            <textarea {...restProps} ref={ref} className={`${PREFIX_CLS}-text-area input_textarea_main`}>
+                {restProps.children}
             </textarea>
         </TextAreaWrapper>
     );
-};
+});
 
-Input.TextArea = TextArea;
+TextArea.displayName = "TextArea";
+Input.displayName = "Input";
 
-export default Input;
+const CompoundInput = Object.assign(Input, { TextArea });
+
+export default CompoundInput;
