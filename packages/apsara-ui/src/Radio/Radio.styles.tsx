@@ -53,7 +53,6 @@ export const Label = styled("label")`
     color: ${({ theme }) => theme?.radio?.label};
     margin: ${({ dir }) => dir === "rtl" && "8px"};
     font-size: 15px;
-    line-height: 1px;
     user-select: none;
     padding-left: 15px;
 `;
