@@ -69,10 +69,10 @@ const Radio = forwardRef<HTMLInputElement, RadioProps>(
                         const { wrapper = defaultWrapper } = item;
 
                         return (
-                            <>
+                            <React.Fragment key={item.value}>
                                 {wrapper({
                                     children: (
-                                        <Flex dir={dir} key={item.value}>
+                                        <Flex dir={dir}>
                                             <StyledRadioItem
                                                 value={item.value}
                                                 disabled={item.disabled}
@@ -89,7 +89,7 @@ const Radio = forwardRef<HTMLInputElement, RadioProps>(
                                         </Flex>
                                     ),
                                 })}
-                            </>
+                            </React.Fragment>
                         );
                     })}
                 {!items && props.children}
