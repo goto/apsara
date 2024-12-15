@@ -15,6 +15,7 @@ export interface FieldProps extends UseControllerProps {
     children: ReactElement;
     className?: string;
     style?: React.CSSProperties;
+    onChange?: (value: any) => void;
 }
 
 const Field = (props: FieldProps) => {
@@ -59,14 +60,20 @@ const Field = (props: FieldProps) => {
                 control={control}
                 rules={enhancedRules}
                 {...controllerProps}
-                render={({ field }) => (
-                    <>
-                        {React.cloneElement(children, {
-                            ...field,
-                            id: controllerProps.name,
-                        })}
-                    </>
-                )}
+                render={({ field }) => {
+                    const handleChange = (value: any) => {
+                        field.onChange(value);
+                        if (controllerProps.onChange) {
+                            controllerProps.onChange(value);
+                        }
+                    };
+
+                    return React.cloneElement(children, {
+                        ...field,
+                        id: controllerProps.name,
+                        onChange: handleChange,
+                    });
+                }}
             />
             <ErrorMessageWrapper
                 errors={errors}
