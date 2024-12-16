@@ -1,5 +1,5 @@
 import { CheckIcon } from "@radix-ui/react-icons";
-import React, { useEffect, useState } from "react";
+import React, { forwardRef, Ref, useEffect, useState } from "react";
 import { CheckboxWrapper, CheckboxGroupWrapper, StyledCheckbox, StyledIndicator } from "./Checkbox.styles";
 import { generateRandomId } from "../helper";
 import transformCheckedValue from "../helper/transform-checked-value";
@@ -16,6 +16,7 @@ type CheckboxProps = {
     className?: string;
     style?: React.CSSProperties;
     id?: string;
+    ref?: Ref<HTMLButtonElement>;
 };
 
 type CheckboxGroupProps = {
@@ -31,51 +32,57 @@ type CheckboxGroupProps = {
 };
 
 const prefixCls = "apsara-checkbox";
-const Checkbox = ({
-    defaultChecked = false,
-    checked,
-    onChange,
-    disabled,
-    required,
-    name,
-    value,
-    label,
-    style,
-    id = generateRandomId(),
-}: CheckboxProps) => {
-    const [isChecked, setIsChecked] = useState<boolean | "indeterminate">(checked || defaultChecked || false);
+const Checkbox = forwardRef<HTMLButtonElement, CheckboxProps>(
+    (
+        {
+            defaultChecked = false,
+            checked,
+            onChange,
+            disabled,
+            required,
+            name,
+            value,
+            label,
+            style,
+            id = generateRandomId(),
+        },
+        ref,
+    ) => {
+        const [isChecked, setIsChecked] = useState<boolean | "indeterminate">(checked || defaultChecked || false);
 
-    useEffect(() => {
-        setIsChecked(checked || false);
-    }, [checked]);
+        useEffect(() => {
+            setIsChecked(checked || false);
+        }, [checked]);
 
-    return (
-        <CheckboxWrapper className={`${prefixCls}-wrapper`}>
-            <StyledCheckbox
-                defaultChecked={defaultChecked}
-                id={id}
-                checked={isChecked || transformCheckedValue(value)}
-                onCheckedChange={
-                    onChange ||
-                    function (checked) {
-                        setIsChecked(checked);
+        return (
+            <CheckboxWrapper className={`${prefixCls}-wrapper`}>
+                <StyledCheckbox
+                    ref={ref}
+                    defaultChecked={defaultChecked}
+                    id={id}
+                    checked={isChecked || transformCheckedValue(value)}
+                    onCheckedChange={
+                        onChange ||
+                        function (checked) {
+                            setIsChecked(checked);
+                        }
                     }
-                }
-                disabled={disabled}
-                required={required}
-                name={name}
-                value={value}
-                style={style}
-                className={prefixCls}
-            >
-                <StyledIndicator>
-                    <CheckIcon style={{ width: "13px", height: "13px" }} />
-                </StyledIndicator>
-            </StyledCheckbox>
-            {label && <label htmlFor={id}>{label}</label>}
-        </CheckboxWrapper>
-    );
-};
+                    disabled={disabled}
+                    required={required}
+                    name={name}
+                    value={value}
+                    style={style}
+                    className={prefixCls}
+                >
+                    <StyledIndicator>
+                        <CheckIcon style={{ width: "13px", height: "13px" }} />
+                    </StyledIndicator>
+                </StyledCheckbox>
+                {label && <label htmlFor={id}>{label}</label>}
+            </CheckboxWrapper>
+        );
+    },
+);
 
 const CheckboxGroup = ({
     defaultValue,
@@ -111,6 +118,7 @@ const CheckboxGroup = ({
                             id={`${id}${option.value}${index}`}
                             checked={selectedValues.includes(option.value || "")}
                             value={option.value}
+                            ref={option.ref}
                             {...props}
                         />
                         <label className="checkbox_label" htmlFor={`${id}${option.value}${index}`}>
@@ -122,6 +130,8 @@ const CheckboxGroup = ({
     );
 };
 
-Checkbox.Group = CheckboxGroup;
+Checkbox.displayName = "Checkbox";
 
-export default Checkbox;
+const CompoundCheckbox = Object.assign(Checkbox, { CheckboxGroup });
+
+export default CompoundCheckbox;
