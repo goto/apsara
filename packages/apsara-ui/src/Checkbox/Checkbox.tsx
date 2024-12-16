@@ -132,6 +132,6 @@ const CheckboxGroup = ({
 
 Checkbox.displayName = "Checkbox";
 
-const CompoundCheckbox = Object.assign(Checkbox, { CheckboxGroup });
+const CompoundCheckbox = Object.assign(Checkbox, { Group: CheckboxGroup });
 
 export default CompoundCheckbox;
