@@ -24,6 +24,7 @@ export interface Notifier {
     showNotification: (notification: Notification) => void;
     showSuccess: (title: string, content?: string) => void;
     showError: (title: string, content?: string) => void;
+    showWarning: (title: string, content?: string) => void;
 }
 
 export const useNotification = () => {
@@ -70,11 +71,27 @@ export const NotificationProvider = ({ children }: any) => {
         [setNotifications],
     );
 
+    const showWarning = useCallback(
+        (title: string, content?: string) => {
+            setNotifications((prevNotifications) => [
+                ...prevNotifications,
+                {
+                    title: title,
+                    content: content,
+                    id: uuid(),
+                    icon: <Icon name="error" color="orange" size={32} />,
+                },
+            ]);
+        },
+        [setNotifications],
+    );
+
     const contextValue = useMemo(
         () => ({
             showNotification,
             showSuccess,
             showError,
+            showWarning,
         }),
         [showNotification, showSuccess, showError],
     );
@@ -120,6 +137,7 @@ const NotificationContext = createContext<Notifier>({
     showNotification: (_notification: Notification) => {},
     showSuccess: (_title: string, _content?: string) => {},
     showError: (_title: string, _content?: string) => {},
+    showWarning: (_title: string, _content?: string) => {},
 });
 
 const uuid = () => {

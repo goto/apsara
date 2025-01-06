@@ -17,7 +17,7 @@ export const notifications = () => {
 };
 
 const _Notifications = () => {
-    const { showError, showNotification, showSuccess } = useNotification();
+    const { showError, showNotification, showSuccess, showWarning } = useNotification();
 
     return (
         <div style={{ display: "flex" }}>
@@ -34,6 +34,13 @@ const _Notifications = () => {
                 }}
             >
                 show Error
+            </Button>
+            <Button
+                onClick={() => {
+                    showWarning("warning", "this is a test warning");
+                }}
+            >
+                show Warning
             </Button>
             <Button
                 onClick={() => {
