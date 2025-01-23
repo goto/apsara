@@ -26,7 +26,7 @@ type CustomTagRenderProps = CustomTagProps &
         isError?: boolean;
     };
 
-export const customTagRender = (props: CustomTagRenderProps) => {
+export const CustomTagRender = (props: CustomTagRenderProps) => {
     const { label, closable, onClose, isError, className = "", ...restProps } = props;
 
     return (

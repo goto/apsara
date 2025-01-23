@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { SelectProps } from "rc-select";
 
-import Combobox, { customTagRender } from "./Combobox";
+import Combobox, { CustomTagRender } from "./Combobox";
 
 export default {
     title: "General/Combobox",
@@ -25,7 +25,14 @@ const options: SelectOptionType = [
 ];
 
 const Template = (args: SelectProps) => (
-    <Combobox tagRender={(props) => customTagRender({ ...props, className: "testing" })} {...args} />
+    <Combobox
+        tagRender={(props) => (
+            <div>
+                <CustomTagRender {...props} isError className="testing" />{" "}
+            </div>
+        )}
+        {...args}
+    />
 );
 
 export const MultiSelectWithSearch = Template.bind({});
