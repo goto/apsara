@@ -1,8 +1,9 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, HTMLAttributes } from "react";
 import Select, { SelectProps, OptGroup, Option } from "rc-select";
 import { NotFoundContent, StyledMultiSelect } from "./Combobox.styles";
 import { useState } from "react";
 import Icon from "../Icon";
+import { CustomTagProps } from "rc-select/lib/interface/generator";
 
 const SearchIcon = <Icon name="search" size={20} color="#aaa" />;
 const ArrowIcon = <Icon name="chevronright" color="#aaa" />;
@@ -19,6 +20,32 @@ const loadingContent = (
         <div style={{ fontSize: 15 }}>Loading</div>
     </NotFoundContent>
 );
+
+type CustomTagRenderProps = CustomTagProps &
+    HTMLAttributes<HTMLSpanElement> & {
+        isError?: boolean;
+    };
+
+export const customTagRender = (props: CustomTagRenderProps) => {
+    const { label, closable, onClose, isError, className = "", ...restProps } = props;
+
+    return (
+        <span className={`rc-select-selection-item ${className} ${isError ? "error" : ""}`} {...restProps}>
+            <span className="rc-select-selection-item-content">{label}</span>
+            {closable && (
+                <span
+                    className="rc-select-selection-item-remove"
+                    unselectable="on"
+                    aria-hidden="true"
+                    style={{ userSelect: "none" }}
+                    onClick={onClose}
+                >
+                    <span className="rc-select-selection-item-remove-icon">×</span>
+                </span>
+            )}
+        </span>
+    );
+};
 
 const Combobox = forwardRef<Select<unknown>, SelectProps>((props, ref) => {
     const {

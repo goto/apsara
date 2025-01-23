@@ -244,6 +244,10 @@ export const StyledMultiSelect = styled(Select)<{ showInputIcon?: boolean }>`
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        &.error {
+            border: 1px solid #ff4d4f !important;
+            color: #ff4d4f !important;
+        }
 
         ${({ mode, theme }) =>
             mode == "multiple" || mode == "tags"
