@@ -1,4 +1,4 @@
-import Combobox, { customTagRender } from "./Combobox";
+import Combobox, { CustomTagRender } from "./Combobox";
 
-export { customTagRender };
+export { CustomTagRender };
 export default Combobox;
