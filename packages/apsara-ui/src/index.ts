@@ -34,7 +34,7 @@ import Input from "./Input";
 import Radio from "./Radio";
 import Checkbox from "./Checkbox";
 import Image from "./Image";
-import Combobox from "./Combobox";
+import Combobox, { CustomTagRender } from "./Combobox";
 import Select from "./Select";
 import Tile from "./Tile";
 import Switch from "./Switch";
@@ -104,6 +104,7 @@ export {
     Image,
     Select,
     Combobox,
+    CustomTagRender,
     Tile,
     Switch,
     Slider,
