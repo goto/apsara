@@ -7,6 +7,12 @@ import postcss from "rollup-plugin-postcss";
 import svgr from "@svgr/rollup";
 import json from "@rollup/plugin-json";
 import url from "@rollup/plugin-url";
+import dotenv from "dotenv";
+import terser from "@rollup/plugin-terser";
+
+dotenv.config();
+
+const plugins = process.env.NODE_ENV === "production" ? [terser()] : [];
 
 export default {
     input: ["src/**/*.ts", "src/**/*.tsx", "!src/**/*.stories.[tj]s[x]", "!src/**/*.test.[tj]s[x]"],
@@ -22,12 +28,12 @@ export default {
         {
             dir: "lib/cjs",
             format: "cjs",
-            sourcemap: true,
+            plugins,
         },
         {
             dir: "lib/esm",
             format: "esm",
-            sourcemap: true,
+            plugins,
         },
     ],
     plugins: [

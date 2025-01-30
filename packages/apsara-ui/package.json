@@ -1,6 +1,6 @@
 {
     "name": "@goto-company/apsara",
-    "version": "0.11.5",
+    "version": "0.11.6-alpha.0",
     "description": "A list of base components for apsara",
     "author": "Praveen Yadav <praveen.yadav@go-jek.com>",
     "license": "Apache-2.0",
@@ -15,7 +15,7 @@
         "assets"
     ],
     "scripts": {
-        "build": "rollup -c",
+        "build": "NODE_ENV=production rollup -c",
         "dev": "tsc --watch",
         "prepare": "yarn run build",
         "test": "jest --passWithNoTests",
@@ -81,6 +81,7 @@
         "react-hook-form": "7.43.1"
     },
     "devDependencies": {
+        "@rollup/plugin-terser": "0.4.4",
         "@rollup/plugin-json": "^4.1.0",
         "@rollup/plugin-url": "^5.0.1",
         "@svgr/rollup": "^5.4.0",
