@@ -1,6 +1,6 @@
 {
     "name": "@goto-company/icons",
-    "version": "0.11.6-alpha.3",
+    "version": "0.11.6",
     "description": "Apsara icons",
     "scripts": {
         "build": "node scripts/build.js",
