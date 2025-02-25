@@ -52,6 +52,7 @@ const Collapse = forwardRef<CollapseRef, CollapseProps>((props, ref) => {
                     onClick={handleToggleCollapse}
                     data-state={open ? "open" : "closed"}
                     style={headerStyle}
+                    type="button"
                 >
                     <span style={{ paddingRight: "10px" }} className={`${prefixCls}-content`}>
                         {header}
