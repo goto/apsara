@@ -7,5 +7,5 @@ export default {
     component: DatePicker,
 };
 
-export const datePicker = () => <DatePicker showToday width="10%" />;
+export const datePicker = () => <DatePicker showTime showToday width="10%" />;
 export const rangePicker = () => <RangePicker width="20%" />;
