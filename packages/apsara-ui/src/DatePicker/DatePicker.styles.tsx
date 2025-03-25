@@ -356,6 +356,17 @@ export const PickerDropdownWrapper = styled.div`
                 .apsara-picker-ok {
                     float: right;
                     margin-left: 8px;
+                    button {
+                        cursor: pointer;
+                        border: none;
+                        background: #1890ff;
+                        padding-left: 12px;
+                        padding-right: 12px;
+                        color: white;
+                        border-radius: 4px;
+                        font-size: 12px;
+                        line-height: 28px;
+                    }
                 }
                 .apsara-picker-now {
                     text-align: left;
@@ -433,6 +444,13 @@ export const PickerDropdownWrapper = styled.div`
                 > li {
                     margin: 0;
                     padding: 0;
+
+                    &.apsara-picker-time-panel-cell-selected {
+                        & > div {
+                            background: rgb(230, 230, 230);
+                            color: rgb(44, 44, 44);
+                        }
+                    }
 
                     &.apsara-picker-time-panel-cell .apsara-picker-time-panel-cell-inner {
                         display: block;
