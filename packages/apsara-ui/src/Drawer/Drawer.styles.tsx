@@ -31,4 +31,20 @@ export const Body = styled.div<{ position: "left" | "right" }>`
         top: 20px;
         right: 32px;
     }
+    @media (max-width: 1280px) {
+        left: ${({ position }) => (position === "left" ? "0" : "40%")};
+        right: ${({ position }) => (position === "left" ? "40%" : "0")};
+    }
+    @media (max-width: 1024px) {
+        left: ${({ position }) => (position === "left" ? "0" : "30%")};
+        right: ${({ position }) => (position === "left" ? "30%" : "0")};
+    }
+    @media (max-width: 768px) {
+        left: ${({ position }) => (position === "left" ? "0" : "20%")};
+        right: ${({ position }) => (position === "left" ? "20%" : "0")};
+    }
+    @media (max-width: 640px) {
+        left: ${({ position }) => (position === "left" ? "0" : "0")};
+        right: ${({ position }) => (position === "left" ? "0" : "0")};
+    }
 `;

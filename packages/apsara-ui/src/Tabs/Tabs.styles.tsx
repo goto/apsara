@@ -21,6 +21,7 @@ const StyledList = styled(TabsPrimitive.List)<{ size: "xs" | "md" | "lg" }>`
     justify-content: flex-start;
     width: 100%;
     border-bottom: 1px solid ${mauve.mauve6};
+    overflow-x: auto;
     ${({ size }) =>
         size === "xs"
             ? css`
@@ -47,6 +48,7 @@ const StyledList = styled(TabsPrimitive.List)<{ size: "xs" | "md" | "lg" }>`
 const StyledTrigger = styled(TabsPrimitive.Trigger)<{
     typ: "primary" | "secondary" | "thin";
 }>`
+    flex-shrink: 0 !important;
     all: unset;
     font-family: inherit;
     background-color: white;
