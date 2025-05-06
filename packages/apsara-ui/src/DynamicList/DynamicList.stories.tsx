@@ -23,6 +23,9 @@ export const Form: FC = () => {
 
     const meta = {
         name: ["policies"],
+        disabled: (index: number) => {
+            return index === 0 || index === 2;
+        },
         fields: [
             {
                 key: "account_type",
@@ -34,12 +37,18 @@ export const Form: FC = () => {
                 },
                 required: true,
                 initialValue: "user",
+                dynamicProps: ({ index }) => {
+                    return {
+                        disabled: form.getFieldValue(["policies", index, "account_id"]) === "sample1",
+                    };
+                },
             },
             {
                 key: "sample_id",
                 label: "Sample field",
                 name: ["sample_id"],
                 required: true,
+                disabled: false,
             },
             {
                 key: "account_id",
@@ -92,9 +101,11 @@ export const Form: FC = () => {
         });
     };
 
+    const forceUpdate = FormBuilder.useForceUpdate();
+
     return (
         <div>
-            <FormBuilder name="form" form={form} onFinish={handleSubmit} layout="vertical">
+            <FormBuilder onValuesChange={forceUpdate} name="form" form={form} onFinish={handleSubmit} layout="vertical">
                 <FormBuilder.Items form={form} meta={formConfig as any} />
                 <Button type="primary" htmlType="submit">
                     Submit

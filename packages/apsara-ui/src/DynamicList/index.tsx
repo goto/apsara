@@ -34,17 +34,23 @@ const FormItemDynamicList = ({ form, add, meta, remove, formListfields, addBtnTe
 
     return (
         <DynamicListContainer>
-            {formListfields.map((field: Field) => {
-                const fields = getFormListItemFields(field.name, meta);
+            {formListfields.map((field: Field, index: number) => {
+                const isDisabled = meta?.disabled?.(index) ?? false;
+
+                const fields = getFormListItemFields(field.name, meta).map((item: any) =>
+                    isDisabled ? { ...item, disabled: true } : item,
+                );
 
                 return (
                     <div key={field.key} className="form-dynamic-list__item">
-                        <FormBuilder.Items form={form} meta={{ ...meta, fields }} />
+                        <FormBuilder.Items index={index} form={form} meta={{ ...meta, fields }} />
                         <Icon
                             className="form-dynamic-list__btn-remove"
                             name="remove"
                             active
-                            onClick={() => remove(field.name)}
+                            color="#dc3545"
+                            disabled={isDisabled}
+                            onClick={() => !isDisabled && remove(field.name)}
                         />
                     </div>
                 );
