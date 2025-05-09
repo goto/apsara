@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import DynamicList from "./index";
 import FormBuilder from "../FormBuilder";
 import Button from "../Button";
@@ -72,10 +72,23 @@ export const Form: FC = () => {
         ],
     };
 
+    const [updateDisable, setUpdateDisable] = React.useState(false);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setUpdateDisable(true);
+        }, 3000);
+    }, []);
+
     const DynamicListContent = ({ form, meta }: any) => {
         return (
             <div>
-                <DynamicList form={form} meta={meta} addBtnText="Add another role" />
+                <DynamicList
+                    form={form}
+                    meta={meta}
+                    addBtnProps={{ disabled: updateDisable }}
+                    addBtnText="Add another role"
+                />
             </div>
         );
     };
