@@ -17,8 +17,14 @@ export const DynamicListContainer = styled.div`
     }
 
     .form-dynamic-list__btn-add {
+        background: none;
+        border: none;
+        padding: 0;
         display: inline-flex;
         ${baseButtonStyles}
+        :disabled {
+            opacity: 0.6;
+        }
     }
 
     .form-dynamic-list__btn-remove {
