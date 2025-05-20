@@ -76,11 +76,18 @@ const shouldShow = (config: any, dependenciesFieldValue: any) => {
 
 type CommonProps = SelectProps | SwitchProps | RadioProps | ComboboxProps;
 
+export interface DynamicPropsParams {
+    index: number;
+    config: FormMetaFields;
+    meta: FormBuilderItemsProps["meta"];
+}
+
 export interface FormMetaFields {
     formItemLayout?: {
         labelCol: ColProps;
         wrapperCol: ColProps;
     };
+    dynamicProps?: (params: DynamicPropsParams) => Record<string, unknown>;
     readOnly?: boolean;
     rules?: Rule[];
     required?: boolean;
@@ -107,6 +114,7 @@ export interface FormMetaFields {
 
 export interface FormBuilderItemsProps {
     form?: FormInstance;
+    index?: number;
     meta: {
         fields?: FormMetaFields[];
         readOnly?: boolean;
@@ -118,7 +126,7 @@ export interface FormBuilderItemsProps {
 }
 
 const FormBuilderItems = (props: FormBuilderItemsProps) => {
-    const { form = null, meta } = props;
+    const { form = null, meta, index } = props;
     if (!meta) return null;
 
     const { fields = [] } = meta;
@@ -246,6 +254,7 @@ const FormBuilderItems = (props: FormBuilderItemsProps) => {
                     ),
                     disabled: isDisabled,
                     ...config.fieldProps,
+                    ...(config?.dynamicProps ? config.dynamicProps({ index, config, meta }) : {}),
                 };
                 const uniqeKey = Array.isArray(config.name) ? config.name.join(".") : config.name;
 

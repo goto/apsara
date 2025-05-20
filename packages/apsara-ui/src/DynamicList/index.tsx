@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { ButtonHTMLAttributes, useEffect } from "react";
 import Icon from "../Icon";
 import FormBuilder from "../FormBuilder";
 import * as R from "ramda";
@@ -6,7 +6,32 @@ import { List } from "rc-field-form";
 import { Field, getFormListItemFields } from "./helper";
 import { DynamicListContainer } from "./DynamicList.styles";
 
-const FormItemDynamicList = ({ form, add, meta, remove, formListfields, addBtnText }: any) => {
+interface FormItemDynamicListProps {
+    form: any;
+    meta: any;
+    formListfields: any;
+    remove: (name: any) => void;
+    add: () => void;
+    addBtnText: string;
+    addBtnProps?: ButtonHTMLAttributes<HTMLButtonElement>;
+}
+
+interface DynamicListProps {
+    form: any;
+    meta: any;
+    addBtnText?: string;
+    addBtnProps?: ButtonHTMLAttributes<HTMLButtonElement>;
+}
+
+const FormItemDynamicList = ({
+    form,
+    add,
+    meta,
+    remove,
+    formListfields,
+    addBtnText,
+    addBtnProps,
+}: FormItemDynamicListProps) => {
     // ? We need to do this because we can't set value and initialValue for form.list items from config
     useEffect(() => {
         const metaFieldsWithValue = meta.fields.filter((metaField: { value: string }) => metaField.value);
@@ -34,36 +59,44 @@ const FormItemDynamicList = ({ form, add, meta, remove, formListfields, addBtnTe
 
     return (
         <DynamicListContainer>
-            {formListfields.map((field: Field) => {
-                const fields = getFormListItemFields(field.name, meta);
+            {formListfields.map((field: Field, index: number) => {
+                const isDisabled = meta?.disabled?.(index) ?? false;
+
+                const fields = getFormListItemFields(field.name, meta).map((item: any) =>
+                    isDisabled ? { ...item, disabled: true } : item,
+                );
 
                 return (
                     <div key={field.key} className="form-dynamic-list__item">
-                        <FormBuilder.Items form={form} meta={{ ...meta, fields }} />
+                        <FormBuilder.Items index={index} form={form} meta={{ ...meta, fields }} />
                         <Icon
                             className="form-dynamic-list__btn-remove"
                             name="remove"
                             active
-                            onClick={() => remove(field.name)}
+                            color="#dc3545"
+                            disabled={isDisabled}
+                            onClick={() => !isDisabled && remove(field.name)}
                         />
                     </div>
                 );
             })}
-            <span
+            <button
+                type="button"
                 role="presentation"
                 onClick={() => {
                     add();
                 }}
                 className="form-dynamic-list__btn-add"
+                {...addBtnProps}
             >
-                <Icon name="add" active />
+                <Icon name="add" active={!addBtnProps?.disabled} />
                 {addBtnText}
-            </span>
+            </button>
         </DynamicListContainer>
     );
 };
 
-export const DynamicList = ({ form, meta, addBtnText = "Add" }: any) => {
+export const DynamicList = ({ form, meta, addBtnText = "Add", addBtnProps }: DynamicListProps) => {
     return (
         <List name={meta.name}>
             {(formListfields, { add, remove }) => (
@@ -74,6 +107,7 @@ export const DynamicList = ({ form, meta, addBtnText = "Add" }: any) => {
                     remove={remove}
                     formListfields={formListfields}
                     addBtnText={addBtnText}
+                    addBtnProps={addBtnProps}
                 />
             )}
         </List>
