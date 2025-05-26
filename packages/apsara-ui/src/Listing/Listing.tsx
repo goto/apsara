@@ -5,6 +5,7 @@ import VirtualisedTable from "../TableV2/VirtualisedTable";
 import useSearchFilter from "./hooks/useSearchFilter";
 import { ListingProps } from "./Listing.types";
 import { ListingSearch, ListingWrapper } from "./Listing.styles";
+import { prefixCls } from "./constants";
 
 function Listing<T>({
     className = "",
@@ -59,7 +60,7 @@ function Listing<T>({
                     />
                 )}
                 {renderExtraFilters}
-                {renderExtraItems}
+                {renderExtraItems && <div className={`${prefixCls}-extra-actions`}>{renderExtraItems}</div>}
             </ListingSearch>
         );
     }
