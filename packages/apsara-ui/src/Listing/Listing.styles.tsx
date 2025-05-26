@@ -16,6 +16,9 @@ export const ListingSearch: React.FC<SearchProps> = styled(Search)`
     .apsara-listing-extra-actions {
         display: flex;
         align-items: center;
+        min-width: 400px;
+        display: flex;
+        justify-content: flex-end;
     }
 
     @media (max-width: 768px) {
