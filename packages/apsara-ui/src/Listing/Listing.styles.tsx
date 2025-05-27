@@ -19,6 +19,9 @@ export const ListingSearch: React.FC<SearchProps> = styled(Search)`
         width: 30%;
         display: flex;
         justify-content: flex-end;
+        @media (max-width: 768px) {
+            width: 64%;
+        }
     }
 
     @media (max-width: 768px) {
