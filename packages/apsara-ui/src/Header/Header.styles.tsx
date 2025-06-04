@@ -62,6 +62,12 @@ export const Wrapper = styled.div`
     background-color: ${({ theme }) => theme?.header?.menuBg};
     border-bottom: solid 1px ${({ theme }) => theme?.colors?.black[3]};
     line-height: 64px;
+    @media (max-width: 768px) {
+        padding: 0 24px;
+    }
+    @media (max-width: 480px) {
+        padding: 0 16px;
+    }
 `;
 
 export const RightBar = styled.div`

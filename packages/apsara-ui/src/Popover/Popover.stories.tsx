@@ -32,6 +32,7 @@ export const popoverContent = () => {
                     text: "Cancel",
                     style: { marginLeft: "10px" },
                 }}
+                popperContentProps={{ alignOffset: -80 }}
             >
                 <Button>Default Button</Button>
             </Popover>

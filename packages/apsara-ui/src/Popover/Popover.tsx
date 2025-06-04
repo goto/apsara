@@ -68,6 +68,7 @@ export const PopoverContent = ({
 
 interface ButtonConfirmationPopover extends ButtonPopoverContentProps {
     children?: React.ReactNode;
+    popperContentProps?: PopoverPrimitive.PopperContentProps;
 }
 
 function ConfirmationPopover({
@@ -81,6 +82,7 @@ function ConfirmationPopover({
     okBtnProps,
     cancelBtnProps,
     children,
+    popperContentProps = {},
 }: ButtonConfirmationPopover) {
     const [internalOpen, setInternalOpen] = useState(false);
     const controlled = typeof open !== "boolean";
@@ -123,7 +125,7 @@ function ConfirmationPopover({
                 <span aria-label="Update dimensions">{children}</span>
             </PopoverTrigger>
             <PopoverPrimitive.Portal>
-                <StyledContent className="apsara-popover-content" side="bottom" align="end">
+                <StyledContent className="apsara-popover-content" side="bottom" align="end" {...popperContentProps}>
                     <PopoverContent
                         title={title}
                         message={message}

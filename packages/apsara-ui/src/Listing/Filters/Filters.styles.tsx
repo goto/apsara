@@ -18,10 +18,12 @@ export const FilterPopup = styled.div`
 export const FilterBody = styled.div`
     display: flex;
     flex-direction: row;
+    overflow-x: auto;
 `;
 
 export const FilterColumn = styled.div`
-    min-width: 162px;
+    width: max-content;
+    flex-shrink: 0;
     padding: 16px 24px 2px 24px;
 
     &:not(:last-child) {

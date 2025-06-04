@@ -11,7 +11,41 @@ export const ListingWrapper = styled.div`
 export const ListingSearch: React.FC<SearchProps> = styled(Search)`
     margin-bottom: 20px;
     .search_input {
-        margin-right: 10px !important;
+        margin-right: 1%;
+    }
+    .apsara-listing-extra-actions {
+        display: flex;
+        align-items: center;
+        width: 30%;
+        display: flex;
+        justify-content: flex-end;
+        @media (max-width: 768px) {
+            width: 64%;
+        }
+    }
+
+    @media (max-width: 768px) {
+        &:has(.apsara-listing-extra-actions) {
+            flex-wrap: wrap;
+            .apsara-input {
+                width: 80%;
+            }
+            .popover-trigger {
+                width: 19%;
+                button {
+                    width: 100%;
+                }
+            }
+            .apsara-listing-extra-actions {
+                padding: 0;
+                order: -1;
+                margin-bottom: 8px;
+                margin-left: auto;
+                width: 100%;
+                display: flex;
+                justify-content: flex-end;
+            }
+        }
     }
 `;
 

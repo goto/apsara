@@ -39,6 +39,8 @@ export const Footer = styled.div`
 `;
 
 export const StyledContent = styled(PopoverPrimitive.Content)`
+    max-width: 90vw;
+    overflow: hidden;
     border-radius: 4px;
     padding: 20px;
     width: max-content;
