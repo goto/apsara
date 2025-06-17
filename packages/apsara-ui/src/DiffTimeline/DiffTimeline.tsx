@@ -80,6 +80,7 @@ const DiffTable = ({ diff }: any) => {
 
 const DiffTimelineBlock = ({ timelineBlockData }: any) => {
     const [isActive, setIsActive] = useState(false);
+    const { withTag = true } = timelineBlockData;
     return (
         <li className="apsara-timeline-item diff-timeline__block" color="black">
             <div className="apsara-timeline-item-tail"></div>
@@ -95,7 +96,9 @@ const DiffTimelineBlock = ({ timelineBlockData }: any) => {
                     {timelineBlockData.user && (
                         <React.Fragment>
                             <span className="diff-timeline__details-dot" />
-                            <span className="diff-timeline__details-text">{`by @${timelineBlockData.user}`}</span>
+                            <span className="diff-timeline__details-text">{`by ${withTag ? "@" : ""}${
+                                timelineBlockData.user
+                            }`}</span>
                         </React.Fragment>
                     )}
                 </div>
@@ -108,11 +111,11 @@ const DiffTimelineBlock = ({ timelineBlockData }: any) => {
                             </span>
                         </CollapsibleHeader>
                         <CollapsibleContent>
-                            {timelineBlockData.renderDiff ?
+                            {timelineBlockData.renderDiff ? (
                                 timelineBlockData.renderDiff()
-                                :
-                                <DiffTable diff={timelineBlockData.diff} />}
-                            
+                            ) : (
+                                <DiffTable diff={timelineBlockData.diff} />
+                            )}
                         </CollapsibleContent>
                     </Collapsible.Root>
                 )}
