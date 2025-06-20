@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyledTable, PaginationWrapper, TableWrapper, EmptyHeader, EmptyText } from "./Table.styles";
 import {
     createColumnHelper,
@@ -76,6 +76,10 @@ function Table({
         pageIndex: initialPageIndex,
         pageSize: initialPageSize,
     });
+
+    useEffect(() => {
+        setPagination({ pageIndex: initialPageIndex, pageSize: initialPageSize });
+    }, [initialPageIndex, initialPageSize]);
 
     const fetchDataOptions = {
         pageIndex,
