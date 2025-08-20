@@ -28,8 +28,15 @@ export const DynamicListContainer = styled.div`
     }
 
     .form-dynamic-list__btn-remove {
+        background: none;
+        border: none;
+        padding: 0;
+        display: inline-flex;
         color: red;
         margin-left: 20px;
         ${baseButtonStyles}
+        :disabled {
+            opacity: 0.6;
+        }
     }
 `;
