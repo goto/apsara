@@ -11,8 +11,8 @@ type DrawerProps = {
     className?: string;
     position?: "left" | "right";
     children?: React.ReactNode;
-    drawerStyle?: React.CSSProperties;
-    drawerClassName?: string;
+    ContainerStyle?: React.CSSProperties;
+    ContainerClassName?: string;
 };
 
 const Drawer = ({
@@ -23,14 +23,14 @@ const Drawer = ({
     children,
     className = "",
     position = "right",
-    drawerStyle = {},
-    drawerClassName = "",
+    ContainerStyle = {},
+    ContainerClassName = "",
 }: DrawerProps) => {
     const theme = useContext(ThemeContext);
 
     if (!open) return null;
     return (
-        <Wrapper className={drawerClassName} style={drawerStyle}>
+        <Wrapper className={ContainerClassName} style={ContainerStyle}>
             <Overlay
                 onClick={() => {
                     if (!disableCloseOnOverlayClick) onClose();
