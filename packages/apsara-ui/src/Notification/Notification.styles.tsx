@@ -13,8 +13,8 @@ const StyledViewport = styled(ToastPrimitive.Viewport)`
     flex-direction: column;
     padding: VIEWPORT_PADDING;
     gap: 10px;
-    width: 390px;
-    max-width: 100vw;
+    width: max-content;
+    max-width: 450px;
     margin: 0;
     list-style: none;
     z-index: 2147483647;
@@ -82,10 +82,12 @@ const StyledToast = styled(ToastPrimitive.Root)`
 const StyledTitle = styled(ToastPrimitive.Title)`
     grid-area: title;
     margin-bottom: 5px;
-    margin-left: 8px;
     font-weight: 600;
     color: ${slate.slate12};
     font-size: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 `;
 
 const StyledDescription = styled(ToastPrimitive.Description)`
@@ -108,12 +110,46 @@ export const DescriptionWrapper = styled("div")`
     padding-left: 15px;
     gap: 10px;
     margin-bottom: 5px;
+    user-select: text;
+    word-break: break-word;
+    a {
+        text-decoration: underline;
+    }
 `;
 
 export const IconTitleWrapper = styled("div")`
     display: flex;
     gap: 10px;
     align-items: center;
+`;
+
+export const CopyButton = styled.button`
+    border: 1px solid #e1e1e1;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    cursor: pointer;
+    padding: 0.5px 4px;
+    padding-right: 6px;
+    border-radius: 2px;
+    font-size: 12px;
+    font-weight: 500;
+    color: ${slate.slate11};
+    transition: color 0.15s ease, background-color 0.15s ease;
+    white-space: nowrap;
+    line-height: 1;
+    flex-shrink: 0;
+
+    &:hover {
+        background-color: ${slate.slate3};
+        color: ${slate.slate12};
+    }
+
+    &:active {
+        background-color: ${slate.slate4};
+    }
 `;
 // Exports
 export const ToastProvider = ToastPrimitive.Provider;
